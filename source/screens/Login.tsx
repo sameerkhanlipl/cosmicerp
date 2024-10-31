@@ -64,6 +64,7 @@ export default memo(Login);
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: colors.color_22534F,
   },
   scrollRoot: {
     flexGrow: 1,

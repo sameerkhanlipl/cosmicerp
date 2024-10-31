@@ -5,6 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../assets/images';
 import {Font400, Font500, Font600} from '../components/fonts/Fonts';
 import {colors} from '../constants/colors';
+import Button from '../components/styles/Button';
 
 type SelectRoleProps = NativeStackScreenProps<AuthStackParamList, 'SelectRole'>;
 
@@ -56,6 +57,7 @@ const SelectRole: FC<SelectRoleProps> = ({navigation}: SelectRoleProps) => {
             </Pressable>
           ))}
         </View>
+        <Button buttonContainerStyle={styles.button}>{'Continua'}</Button>
       </ScrollView>
     </View>
   );
@@ -107,5 +109,8 @@ const styles = StyleSheet.create({
   },
   selectedRole: {
     color: colors.white,
+  },
+  button: {
+    marginTop: 28,
   },
 });
