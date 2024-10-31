@@ -5,7 +5,7 @@ import {RootState} from '../store/store';
 import AppStack from './AppStack';
 
 const AppRoot = () => {
-  const user = useSelector((state: RootState) => state.user?.user);
+  const user = useSelector((state: RootState) => state?.app?.user);
 
   return user ? <AppStack /> : <AuthStack />;
 };

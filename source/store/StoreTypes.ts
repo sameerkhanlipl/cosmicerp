@@ -1,3 +1,10 @@
 export type UserState = {
-    user: null;
-}
+  name?: string;
+  role?: string;
+  phone_number?: string;
+  mail?: string;
+};
+
+export type AppState = {
+  user: null | UserState;
+};

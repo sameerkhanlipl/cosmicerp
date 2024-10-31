@@ -11,8 +11,6 @@ import {colors} from '../constants/colors';
 type LoginProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
-  // const dispatch = useDispatch<AppDispatch>();
-
   const phone_number = useRef<InputRef>(null);
 
   const {top} = useSafeAreaInsets();

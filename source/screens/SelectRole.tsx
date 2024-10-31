@@ -1,11 +1,14 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, memo, useState} from 'react';
+import React, {FC, memo, useCallback, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../assets/images';
 import {Font400, Font500, Font600} from '../components/fonts/Fonts';
 import {colors} from '../constants/colors';
 import Button from '../components/styles/Button';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../store/store';
+import {login} from '../store/appSlice';
 
 type SelectRoleProps = NativeStackScreenProps<AuthStackParamList, 'SelectRole'>;
 
@@ -22,6 +25,19 @@ const SelectRole: FC<SelectRoleProps> = ({navigation}: SelectRoleProps) => {
   const {top} = useSafeAreaInsets();
 
   const [selectedRole, setSelectedRole] = useState('');
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onSelectRoleHandler = useCallback(() => {
+    if (selectedRole)
+      dispatch(
+        login({
+          role: selectedRole,
+          mail: 'aaftabshekhdeveloper@gmail.com',
+          name: 'Aaftab Shekh',
+        }),
+      );
+  }, []);
 
   return (
     <View style={[styles.root, {paddingTop: top}]}>
@@ -57,7 +73,11 @@ const SelectRole: FC<SelectRoleProps> = ({navigation}: SelectRoleProps) => {
             </Pressable>
           ))}
         </View>
-        <Button buttonContainerStyle={styles.button}>{'Continua'}</Button>
+        <Button
+          onPress={onSelectRoleHandler}
+          buttonContainerStyle={styles.button}>
+          {'Continua'}
+        </Button>
       </ScrollView>
     </View>
   );
