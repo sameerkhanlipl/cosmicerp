@@ -1,28 +1,56 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, memo, useCallback, useRef} from 'react';
+import React, {FC, memo, useCallback, useRef, useState} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../assets/images';
-import {Font400, Font600} from '../components/fonts/Fonts';
-import Button from '../components/styles/Button';
-import Input, {InputRef} from '../components/styles/Input';
-import {colors} from '../constants/colors';
+import {AuthStackParamList} from '../../stacks/StackTypes';
+import Input, {InputRef} from '../../components/styles/Input';
+import {ShowToast} from '../../utils/ErrorHandler';
+import {login_body} from '../../api/BodyTypes';
+import {Font400, Font600} from '../../components/fonts/Fonts';
+import Button from '../../components/styles/Button';
+import {colors} from '../../constants/colors';
+import {images} from '../../assets/images';
 
 type LoginProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
+  const [loader, serLoader] = useState<boolean>(false);
   const phone_number = useRef<InputRef>(null);
 
   const {top} = useSafeAreaInsets();
 
-  const onNavigateOtpVerification = useCallback(
-    () =>
-      navigation.navigate('OtpVerification', {
-        phone_number: '738377096',
-        country_code: '91',
-      }),
-    [],
-  );
+  const onNavigateOtpVerification = useCallback(async () => {
+    phone_number?.current?.set('7896541236');
+    // try {
+    //   console.log('phone_number?.current?.get()', phone_number?.current?.get());
+    if (
+      !phone_number?.current?.get() ||
+      phone_number?.current?.get()?.length === 0
+    ) {
+      ShowToast('Enter Valid Phone Number');
+      return;
+    }
+
+    const data: login_body = {
+      mobile: phone_number?.current?.get(),
+      device_token: '777',
+    };
+    //   serLoader(true);
+    //   const response: any = await login_api(data);
+    //   console.log('response?.data', response?.data);
+    //   serLoader(false);
+    navigation.navigate('OtpVerification', {
+      phone_number: '738377096',
+      country_code: '91',
+    });
+    // } catch (err: login_response | any) {
+    //   console.log('err', err)
+    //   error(err);
+    //   serLoader(false);
+    // } finally {
+    //   serLoader(false);
+    // }
+  }, []);
 
   return (
     <View style={[styles.root, {paddingTop: top}]}>
@@ -44,9 +72,13 @@ const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
           <Input
             ref={phone_number}
             label="Phone Number"
-            config={{keyboardType: 'number-pad'}}
+            config={{
+              keyboardType: 'number-pad',
+              placeholder: 'Enter Your Registered Phone Number',
+            }}
           />
           <Button
+            loader={loader}
             onPress={onNavigateOtpVerification}
             buttonContainerStyle={styles.button}>
             {'Login'}

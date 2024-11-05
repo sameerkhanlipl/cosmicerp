@@ -1,22 +1,13 @@
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC, memo, useCallback} from 'react';
+import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {colors} from '../constants/colors';
-import OtpInput from '../components/styles/OtpInput';
-import {images} from '../assets/images';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-import {Font400, Font500, Font600} from '../components/fonts/Fonts';
-import Button from '../components/styles/Button';
+import {Font400, Font600} from '../../components/fonts/Fonts';
+import Button from '../../components/styles/Button';
+import {AuthStackParamList} from '../../stacks/StackTypes';
+import {images} from '../../assets/images';
+import OtpInput from '../../components/styles/OtpInput';
+import {colors} from '../../constants/colors';
 
 type OtpVerificationProps = NativeStackScreenProps<
   AuthStackParamList,

@@ -1,10 +1,11 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {memo} from 'react';
-import Login from '../screens/Login';
-import OtpVerification from '../screens/OtpVerification';
-import SelectRole from '../screens/SelectRole';
 import {colors} from '../constants/colors';
+import Login from '../screens/Auth/Login';
+import OtpVerification from '../screens/Auth/OtpVerification';
+import SelectRole from '../screens/Auth/SelectRole';
+import {AuthStackParamList} from './StackTypes';
 
 const NativeStack = createNativeStackNavigator<AuthStackParamList>();
 

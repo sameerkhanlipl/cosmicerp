@@ -1,4 +1,6 @@
-type AuthStackParamList = {
+import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
+
+export type AuthStackParamList = {
   Login: undefined;
   OtpVerification: {
     phone_number: number | string;
@@ -6,3 +8,17 @@ type AuthStackParamList = {
   };
   SelectRole: undefined;
 };
+
+export type MainParamList = {
+  Extruder: undefined;
+  Packing: undefined;
+  Silai: undefined;
+  Rewinding: undefined;
+  Lamination: undefined;
+};
+
+export type AppStackParamList = {
+  MainStack: NavigatorScreenParams<MainParamList>;
+};
+
+export type AppNavigationProp = NavigationProp<AppStackParamList>;

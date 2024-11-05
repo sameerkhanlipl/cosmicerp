@@ -2,13 +2,14 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC, memo, useCallback, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../assets/images';
-import {Font400, Font500, Font600} from '../components/fonts/Fonts';
-import {colors} from '../constants/colors';
-import Button from '../components/styles/Button';
+import {AuthStackParamList} from '../../stacks/StackTypes';
+import {AppDispatch} from '../../store/store';
 import {useDispatch} from 'react-redux';
-import {AppDispatch} from '../store/store';
-import {login} from '../store/appSlice';
+import {login} from '../../store/appSlice';
+import {Font400, Font500, Font600} from '../../components/fonts/Fonts';
+import {images} from '../../assets/images';
+import Button from '../../components/styles/Button';
+import {colors} from '../../constants/colors';
 
 type SelectRoleProps = NativeStackScreenProps<AuthStackParamList, 'SelectRole'>;
 
@@ -30,14 +31,8 @@ const SelectRole: FC<SelectRoleProps> = ({navigation}: SelectRoleProps) => {
 
   const onSelectRoleHandler = useCallback(() => {
     if (selectedRole)
-      dispatch(
-        login({
-          role: selectedRole,
-          mail: 'aaftabshekhdeveloper@gmail.com',
-          name: 'Aaftab Shekh',
-        }),
-      );
-  }, []);
+      dispatch(login({mobile: '7896541236', name: 'Aaftab Shekh', id: 1}));
+  }, [selectedRole]);
 
   return (
     <View style={[styles.root, {paddingTop: top}]}>

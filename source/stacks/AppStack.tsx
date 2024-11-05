@@ -1,14 +1,22 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {memo} from 'react';
+import {StyleSheet} from 'react-native';
+import MainStack from './MainStack';
+import {AppStackParamList} from './StackTypes';
+
+const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
 const AppStack = () => {
   return (
-    <View>
-      <Text>AppStack</Text>
-    </View>
+    <NavigationContainer>
+      <NativeStack.Navigator screenOptions={{headerShown: false}}>
+        <NativeStack.Screen component={MainStack} name="MainStack" />
+      </NativeStack.Navigator>
+    </NavigationContainer>
   );
 };
 
-export default AppStack;
+export default memo(AppStack);
 
 const styles = StyleSheet.create({});
