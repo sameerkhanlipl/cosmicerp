@@ -4,6 +4,7 @@ export enum colors {
   error = '#B82222',
   white = '#FFFFFF',
   transparent_white_8 = 'rgba(255, 255, 255, 0.8)',
+  transparent_white_6 = 'rgba(255, 255, 255, 0.6)',
   off_white = '#E9FBf9',
   black = '#000000',
   transparent_black = 'rgba(0, 0, 0, 0.5)',
@@ -23,6 +24,7 @@ export enum colors {
   color_F3FAF9 = '#F3FAF9',
   color_777777 = '#777777',
   color_0B2624 = '#0B2624',
+  color_EBECEC = '#EBECEC',
 }
 
 export const setOpacity = (rgbaColor: ColorValue, opacity: number) => {

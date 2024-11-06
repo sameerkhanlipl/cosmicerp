@@ -20,7 +20,6 @@ const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
   const {top} = useSafeAreaInsets();
 
   const onNavigateOtpVerification = useCallback(async () => {
-    phone_number?.current?.set('7896541236');
     // try {
     //   console.log('phone_number?.current?.get()', phone_number?.current?.get());
     if (

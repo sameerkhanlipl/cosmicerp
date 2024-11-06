@@ -19,6 +19,9 @@ export type MainParamList = {
 
 export type AppStackParamList = {
   MainStack: NavigatorScreenParams<MainParamList>;
+  ProfileDetail: undefined;
+  ExtruderOrderHistory: undefined;
+  ExtruderAddCompletedOrder: undefined;
 };
 
 export type AppNavigationProp = NavigationProp<AppStackParamList>;

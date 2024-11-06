@@ -1,9 +1,11 @@
-import React, {FC} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import React, {FC, useCallback} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets/images';
 import {colors} from '../../constants/colors';
 import {Font500} from '../fonts/Fonts';
+import {useNavigation} from '@react-navigation/native';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 
 type HeaderProps = {
   title: string;
@@ -11,6 +13,11 @@ type HeaderProps = {
 
 const Header: FC<HeaderProps> = ({title}) => {
   const {top} = useSafeAreaInsets();
+  const {navigate} = useNavigation<AppNavigationProp>();
+
+  const onNavigateProfileDetail = useCallback(() => {
+    navigate('ProfileDetail');
+  }, []);
 
   return (
     <View
@@ -20,7 +27,9 @@ const Header: FC<HeaderProps> = ({title}) => {
           paddingTop: 12 + top,
         },
       ]}>
-      <View style={styles.userImageContainer}>
+      <Pressable
+        onPress={onNavigateProfileDetail}
+        style={styles.userImageContainer}>
         <Image
           source={{
             uri: 'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg',
@@ -28,7 +37,7 @@ const Header: FC<HeaderProps> = ({title}) => {
           style={styles.userImage}
           resizeMode="contain"
         />
-      </View>
+      </Pressable>
       <Font500 style={styles.title}>{title}</Font500>
       <Image
         source={images.search}
