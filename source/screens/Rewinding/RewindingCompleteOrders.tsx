@@ -1,6 +1,8 @@
 import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import RewindingItems, {RewindingItemType} from './RewindingItems';
+import {AppNavigationProp} from '../../stacks/StackTypes';
+import {useNavigation} from '@react-navigation/native';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
@@ -77,8 +79,19 @@ const RewindingCompleteOrders = () => {
     },
   ]);
 
+  const {navigate} = useNavigation<AppNavigationProp>();
+
+  const onNavigateRewindingOrderHistory = useCallback(
+    (data: RewindingItemType) => {
+      navigate('RewindingOrderHistory', {data: data});
+    },
+    [],
+  );
+
   const renderItemHandler = useCallback(({item}: {item: RewindingItemType}) => {
-    return <RewindingItems data={item} />;
+    return (
+      <RewindingItems onPress={onNavigateRewindingOrderHistory} data={item} />
+    );
   }, []);
 
   return (

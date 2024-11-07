@@ -15,15 +15,16 @@ import {colors} from '../../constants/colors';
 import Button from '../../components/styles/Button';
 import {images} from '../../assets/images';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AppStackParamList} from '../../stacks/StackTypes';
+import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
-type ExtruderProps = NativeStackScreenProps<AppStackParamList, 'MainStack'>;
-
-const Extruder: FC<ExtruderProps> = ({navigation}: ExtruderProps) => {
+const Extruder = () => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
+
+  const {navigate} = useNavigation<AppNavigationProp>();
 
   const switchTab = (tabIndex: number) => {
     setActiveTab(tabIndex);
@@ -36,7 +37,7 @@ const Extruder: FC<ExtruderProps> = ({navigation}: ExtruderProps) => {
   };
 
   const onNavigateExtruderMaterialOut = useCallback(() => {
-    navigation.navigate('ExtruderMaterialOut');
+    navigate('ExtruderMaterialOut');
   }, []);
 
   return (

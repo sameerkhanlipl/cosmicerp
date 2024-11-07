@@ -1,5 +1,6 @@
 import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
 import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
+import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -23,6 +24,8 @@ export type AppStackParamList = {
   ExtruderMaterialOut: undefined;
   ExtruderOrderHistory: {data: ExtrudersItemType};
   ExtruderAddCompletedOrder: {data: ExtrudersItemType};
+  RewindingOrderHistory: {data: RewindingItemType};
+  RewindingAddCompletedOrder: {data: ExtrudersItemType};
 };
 
 export type AppNavigationProp = NavigationProp<AppStackParamList>;

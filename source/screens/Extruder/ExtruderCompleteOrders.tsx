@@ -1,8 +1,8 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {memo, useCallback, useState} from 'react';
-import ExtrudersItems, {ExtrudersItemType} from './ExtrudersItems';
 import {useNavigation} from '@react-navigation/native';
+import React, {memo, useCallback, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {AppNavigationProp} from '../../stacks/StackTypes';
+import ExtrudersItems, {ExtrudersItemType} from './ExtrudersItems';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 

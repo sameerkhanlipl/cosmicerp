@@ -1,5 +1,5 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, memo, useCallback, useState} from 'react';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import CommonHeader from '../../components/styles/CommonHeader';
 import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
@@ -7,20 +7,18 @@ import ExtruderOrderHistoryItems, {
   ExtruderOrderHistoryItemType,
 } from './ExtruderOrderHistoryItems';
 import ExtrudersItems, {ExtrudersItemType} from './ExtrudersItems';
-import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
 
-type ExtruderOrderHistoryProps = NativeStackScreenProps<
+const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
+
+type ExtruderOrderHistoryRouteProps = RouteProp<
   AppStackParamList,
   'ExtruderOrderHistory'
 >;
 
-const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
-
-const ExtruderOrderHistory: FC<ExtruderOrderHistoryProps> = ({
-  route,
-}: ExtruderOrderHistoryProps) => {
+const ExtruderOrderHistory = () => {
   const {navigate} = useNavigation<AppNavigationProp>();
+
+  const route = useRoute<ExtruderOrderHistoryRouteProps>();
 
   const [list] = useState<ExtruderOrderHistoryItemType[]>([
     {

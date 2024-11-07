@@ -1,25 +1,26 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {FC, memo} from 'react';
-import {Font500, Font700} from '../../components/fonts/Fonts';
 import moment from 'moment';
+import React, {FC, memo} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
-export type ExtruderOrderHistoryItemType = {
+export type RewindingOrderHistoryItemType = {
   date: string;
-  machine: string | number;
-  shift: string;
-  qty: string | number;
-  size: string | number;
+  contractor: string;
+  rolls: string;
+  color: string;
+  size: {length: string | number; width: string | number};
+  remark: string;
 };
 
-type ExtruderOrderHistoryItemsProps = {
-  data: ExtruderOrderHistoryItemType;
+type RewindingOrderHistoryItemsProps = {
+  data: RewindingOrderHistoryItemType;
 };
 
-const ExtruderOrderHistoryItems: FC<ExtruderOrderHistoryItemsProps> = ({
+const RewindingOrderHistoryItems: FC<RewindingOrderHistoryItemsProps> = ({
   data,
 }) => {
-  const {date, machine, shift, qty, size} = data;
+  const {date, contractor, rolls, color, size, remark} = data;
 
   return (
     <View style={styles.item}>
@@ -27,30 +28,39 @@ const ExtruderOrderHistoryItems: FC<ExtruderOrderHistoryItemsProps> = ({
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Machine : '}</Font500>
-          <Font700 style={styles.value}>{machine}</Font700>
+          <Font500 style={styles.label}>{'Contractor : '}</Font500>
+          <Font700 style={styles.value}>{contractor}</Font700>
         </View>
         <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Shift : '}</Font500>
-          <Font700 style={styles.value}>{shift}</Font700>
+          <Font500 style={styles.label}>{'Rolls : '}</Font500>
+          <Font700 style={styles.value}>{rolls}</Font700>
         </View>
       </View>
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Qty : '}</Font500>
-          <Font700 style={styles.value}>{qty + 'KG'}</Font700>
+          <Font500 style={styles.label}>{'Colors : '}</Font500>
+          <Font700 style={styles.value}>{color}</Font700>
         </View>
         <View style={styles.subContainer}>
           <Font500 style={styles.label}>{'Size : '}</Font500>
-          <Font700 style={styles.value}>{size + '"'}</Font700>
+          <Font700 style={styles.value}>
+            {size?.length + ' X ' + size?.width}
+          </Font700>
+        </View>
+      </View>
+      <View style={styles.line} />
+      <View style={styles.container}>
+        <View style={[styles.subContainer, {flexDirection: 'column'}]}>
+          <Font500 style={styles.label}>{'Remark'}</Font500>
+          <Font700 style={styles.value}>{remark}</Font700>
         </View>
       </View>
     </View>
   );
 };
 
-export default memo(ExtruderOrderHistoryItems);
+export default memo(RewindingOrderHistoryItems);
 
 const styles = StyleSheet.create({
   item: {
@@ -72,16 +82,12 @@ const styles = StyleSheet.create({
     marginVertical: 9,
   },
   container: {
-    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   subContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
   },
   label: {fontSize: 14, color: colors.color_777777},
-  value: {fontSize: 14},
+  value: {flex: 1, fontSize: 14},
 });

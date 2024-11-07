@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {FC, memo} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
@@ -31,9 +31,10 @@ export type RewindingItemType = {
 
 type RewindingItemProps = {
   data: RewindingItemType;
+  onPress: (value: RewindingItemType) => void;
 };
 
-const RewindingItems: FC<RewindingItemProps> = ({data}) => {
+const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
   const {
     order_id,
     product_name,
@@ -44,8 +45,12 @@ const RewindingItems: FC<RewindingItemProps> = ({data}) => {
     pending_bundle_qty,
   } = data;
 
+  const onPressHandler = useCallback(() => {
+    onPress(data);
+  }, []);
+
   return (
-    <Pressable style={styles.item}>
+    <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
         <Font400 style={styles.order_id}>{order_id}</Font400>
         <Image

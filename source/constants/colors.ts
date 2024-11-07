@@ -26,6 +26,7 @@ export enum colors {
   color_0B2624 = '#0B2624',
   color_0B2624_5 = 'rgba(11, 38, 36, 5)',
   color_EBECEC = '#EBECEC',
+  color_E8DBDF = '#E8DBDF',
   color_42958F = '#42958F',
 }
 

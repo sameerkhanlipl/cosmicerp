@@ -8,11 +8,12 @@ import CommonHeader from '../../components/styles/CommonHeader';
 import Input from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {AppStackParamList} from '../../stacks/StackTypes';
 
-type ExtruderAddCompletedOrderProps = NativeStackScreenProps<
+type ExtruderAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
-  'ExtruderAddCompletedOrder'
+  'ExtruderOrderHistory'
 >;
 
 enum Sift {
@@ -20,10 +21,10 @@ enum Sift {
   NIGHT = 'Night',
 }
 
-const ExtruderAddCompletedOrder: FC<ExtruderAddCompletedOrderProps> = ({
-  route,
-}: ExtruderAddCompletedOrderProps) => {
+const ExtruderAddCompletedOrder = () => {
   const [selectedSift, setSelectedSift] = useState<Sift>(Sift.DAY);
+
+  const route = useRoute<ExtruderAddCompletedOrderRouteProp>();
 
   const ItemData = route?.params?.data;
   return (
@@ -37,21 +38,22 @@ const ExtruderAddCompletedOrder: FC<ExtruderAddCompletedOrderProps> = ({
           <View style={styles.detail}>
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Gauge'}</Font500>
+                <Font500 style={styles.label}>{'Gauge : '}</Font500>
                 <Font700 style={styles.value}>{ItemData?.length}</Font700>
               </View>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Size'}</Font500>
+                <Font500 style={styles.label}>{'Size : '}</Font500>
                 <Font700 style={styles.value}>{ItemData?.width + '"'}</Font700>
               </View>
             </View>
+            <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Colors'}</Font500>
+                <Font500 style={styles.label}>{'Colors : '}</Font500>
                 <Font700 style={styles.value}>{ItemData?.color}</Font700>
               </View>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Qty'}</Font500>
+                <Font500 style={styles.label}>{'Qty : '}</Font500>
                 <Font700 style={styles.value}>
                   {ItemData?.production_qty + 'KG'}
                 </Font700>
@@ -181,24 +183,29 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   detail: {
-    marginTop: 23,
-    borderRadius: 12,
-    paddingVertical: 9,
-    paddingHorizontal: 11,
-    flexDirection: 'row',
     backgroundColor: colors.white,
+    borderRadius: 12,
+    paddingVertical: 3,
+    marginTop: 23,
   },
   detailContainer: {
-    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 13,
+    paddingVertical: 10,
   },
   detailSubContainer: {
-    marginVertical: 9,
+    flex: 1,
     flexDirection: 'row',
   },
   label: {
-    flex: 1,
+    fontSize: 14,
+    color: colors.color_777777,
   },
-  value: {flex: 1},
+  value: {fontSize: 14, color: colors.color_0B2624},
+  line: {
+    height: 1,
+    backgroundColor: colors.color_E8DBDF,
+  },
   recipeContainer: {
     marginTop: 25,
     borderRadius: 12,
