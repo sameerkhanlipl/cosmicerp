@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import {StatusBar} from 'react-native';
-import {RootSiblingParent} from 'react-native-root-siblings';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import {colors} from './source/constants/colors';
@@ -17,9 +16,7 @@ const App = () => {
           translucent={true}
           hidden={true}
         />
-        <RootSiblingParent>
-          <AppRoot />
-        </RootSiblingParent>
+        <AppRoot />
       </PersistGate>
     </Provider>
   );

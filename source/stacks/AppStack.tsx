@@ -8,6 +8,7 @@ import ExtruderOrderHistory from '../screens/Extruder/ExtruderOrderHistory';
 import ExtruderAddCompletedOrder from '../screens/Extruder/ExtruderAddCompletedOrder';
 import ProfileDetail from '../screens/User/ProfileDetail';
 import {colors} from '../constants/colors';
+import ExtruderMaterialOut from '../screens/Extruder/ExtruderMaterialOut';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -29,6 +30,7 @@ const AppStack = () => {
           name="ExtruderAddCompletedOrder"
         />
         <NativeStack.Screen component={ProfileDetail} name="ProfileDetail" />
+        <NativeStack.Screen component={ExtruderMaterialOut} name="ExtruderMaterialOut" />
       </NativeStack.Navigator>
     </NavigationContainer>
   );

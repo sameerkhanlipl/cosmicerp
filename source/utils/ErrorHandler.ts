@@ -1,26 +1,12 @@
-import Toast from 'react-native-root-toast';
+import Toast from 'react-native-simple-toast';
+import {logout} from '../store/appSlice';
+import {store} from '../store/store';
 
 export const ShowToast = (tostMessage: string) => {
   console.log('tostMessage', tostMessage);
-  Toast.show(tostMessage, {
-    duration: 3000,
-    position: Toast.positions.BOTTOM,
-    shadow: false,
-    animation: true,
-    hideOnPress: true,
-    delay: 0,
-    textColor: colors.white,
-    backgroundColor: colors.black,
-    textStyle: {
-      fontFamily: fontFamily.Font500,
-    },
-  });
-};
 
-import {logout} from '../store/appSlice';
-import {store} from '../store/store';
-import {colors} from '../constants/colors';
-import {fontFamily} from '../constants/fontFamily';
+  Toast.show(tostMessage, 0.5);
+};
 
 export const firebaseErrorCodes = {
   'auth/claims-too-large': 'Claims too large',

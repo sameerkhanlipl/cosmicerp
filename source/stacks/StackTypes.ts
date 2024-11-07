@@ -20,6 +20,7 @@ export type MainParamList = {
 export type AppStackParamList = {
   MainStack: NavigatorScreenParams<MainParamList>;
   ProfileDetail: undefined;
+  ExtruderMaterialOut: undefined;
   ExtruderOrderHistory: {data: ExtrudersItemType};
   ExtruderAddCompletedOrder: {data: ExtrudersItemType};
 };

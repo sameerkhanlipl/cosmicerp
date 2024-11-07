@@ -23,7 +23,7 @@ const ExtruderOrderHistoryItems: FC<ExtruderOrderHistoryItemsProps> = ({
 
   return (
     <View style={styles.item}>
-      <Font500 style={styles.date}>{moment(date).format('dd/mm/yyyy')}</Font500>
+      <Font500 style={styles.date}>{moment(date).format('DD/MM/yyyy')}</Font500>
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>

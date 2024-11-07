@@ -24,28 +24,28 @@ const ExtruderOrderHistory: FC<ExtruderOrderHistoryProps> = ({
 
   const [list] = useState<ExtruderOrderHistoryItemType[]>([
     {
-      date: moment()?.toString(),
+      date: new Date().toString(),
       machine: 1,
       shift: 'day',
       qty: '100',
       size: '28',
     },
     {
-      date: moment()?.toString(),
+      date: new Date().toString(),
       machine: 1,
       shift: 'day',
       qty: '100',
       size: '28',
     },
     {
-      date: moment()?.toString(),
+      date: new Date().toString(),
       machine: 1,
       shift: 'day',
       qty: '100',
       size: '28',
     },
     {
-      date: moment()?.toString(),
+      date: new Date().toString(),
       machine: 1,
       shift: 'day',
       qty: '100',

@@ -1,11 +1,9 @@
-import React, {FC, useCallback} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
-import {images} from '../../assets/images';
-import {colors} from '../../constants/colors';
 import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
-import {AppNavigationProp} from '../../stacks/StackTypes';
+import React, {FC, useCallback} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {images} from '../../assets/images';
+import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
+import {colors} from '../../constants/colors';
 
 export type ExtrudersItemType = {
   extruder_production_order_id?: number;

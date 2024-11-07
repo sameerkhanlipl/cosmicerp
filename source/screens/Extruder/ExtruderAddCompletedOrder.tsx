@@ -148,6 +148,8 @@ const ExtruderAddCompletedOrder: FC<ExtruderAddCompletedOrderProps> = ({
           </View>
         </View>
         <Button
+          icon={images.complete}
+          iconStyle={{height: 28, width: 28}}
           buttonTextStyle={styles.buttonText}
           buttonContainerStyle={styles.button}>
           {'Make it Complete'}
@@ -281,6 +283,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   buttonText: {
+    fontSize: 16,
+    paddingHorizontal: 6,
     fontFamily: fontFamily.Font500,
   },
 });

@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {FC, memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -12,23 +12,32 @@ import ExtruderCompleteOrders from './ExtruderCompleteOrders';
 import ExtruderPendingOrders from './ExtruderPendingOrders';
 import {fontFamily} from '../../constants/fontFamily';
 import {colors} from '../../constants/colors';
+import Button from '../../components/styles/Button';
+import {images} from '../../assets/images';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AppStackParamList} from '../../stacks/StackTypes';
 
 const {width} = Dimensions.get('window');
 
-const Extruder = () => {
+type ExtruderProps = NativeStackScreenProps<AppStackParamList, 'MainStack'>;
+
+const Extruder: FC<ExtruderProps> = ({navigation}: ExtruderProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
 
   const switchTab = (tabIndex: number) => {
     setActiveTab(tabIndex);
 
-    // Animate the indicator and screen translation
     Animated.timing(translateX, {
-      toValue: tabIndex * width, // Move indicator and screens by screen width
+      toValue: tabIndex * width,
       duration: 300,
       useNativeDriver: true,
     }).start();
   };
+
+  const onNavigateExtruderMaterialOut = useCallback(() => {
+    navigation.navigate('ExtruderMaterialOut');
+  }, []);
 
   return (
     <View style={styles.root}>
@@ -42,7 +51,7 @@ const Extruder = () => {
                 {
                   translateX: translateX.interpolate({
                     inputRange: [0, width],
-                    outputRange: [0, width / 2], // Width of each tab is half the screen width
+                    outputRange: [0, width / 2],
                   }),
                 },
               ],
@@ -63,12 +72,20 @@ const Extruder = () => {
         </Pressable>
       </View>
 
-      {/* Tab Screens */}
+      <Button
+        onPress={onNavigateExtruderMaterialOut}
+        icon={images.material_out}
+        buttonContainerStyle={styles.button}
+        iconStyle={styles.iconStyle}
+        buttonTextStyle={styles.buttonText}>
+        {'Material Out'}
+      </Button>
+
       <Animated.View
         style={[
           styles.screenContainer,
           {
-            transform: [{translateX: Animated.multiply(translateX, -1)}], // Inverse the translateX to slide screens
+            transform: [{translateX: Animated.multiply(translateX, -1)}],
           },
         ]}>
         <ExtruderPendingOrders />
@@ -121,12 +138,36 @@ const styles = StyleSheet.create({
   },
   screenContainer: {
     flexDirection: 'row',
-    width: width * 2, // Container width is twice the screen width
+    width: width * 2,
   },
   screen: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
+  },
+  button: {
+    zIndex: 1,
+    right: 22,
+    bottom: 17,
+    height: 42,
+    elevation: 4,
+    shadowRadius: 4,
+    borderRadius: 29,
+    shadowOpacity: 0.2,
+    position: 'absolute',
+    paddingHorizontal: 20,
+    shadowColor: colors.black,
+    shadowOffset: {height: 2, width: 0},
+    backgroundColor: colors.color_42958F,
+  },
+  iconStyle: {
+    height: 22,
+    width: 22,
+  },
+  buttonText: {
+    fontSize: 14,
+    paddingLeft: 6,
+    fontFamily: fontFamily.Font500,
   },
 });
