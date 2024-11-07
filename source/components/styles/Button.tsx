@@ -1,7 +1,15 @@
 import React, {FC, ReactNode} from 'react';
-import {Pressable, StyleSheet, TextStyle, ViewStyle} from 'react-native';
-import {Font600} from '../fonts/Fonts';
+import {
+  Image,
+  ImageRequireSource,
+  ImageStyle,
+  Pressable,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import {colors} from '../../constants/colors';
+import {Font600} from '../fonts/Fonts';
 
 export type ButtonProps = {
   loader?: boolean;
@@ -9,6 +17,8 @@ export type ButtonProps = {
   buttonContainerStyle?: ViewStyle | ViewStyle[];
   buttonTextStyle?: TextStyle;
   children: ReactNode;
+  iconStyle?: ImageStyle;
+  icon?: ImageRequireSource;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -17,6 +27,8 @@ const Button: FC<ButtonProps> = ({
   buttonContainerStyle,
   buttonTextStyle = {},
   children,
+  iconStyle,
+  icon,
 }) => {
   return (
     <Pressable
@@ -27,6 +39,7 @@ const Button: FC<ButtonProps> = ({
         buttonContainerStyle,
         {opacity: pressed || loader ? 0.8 : 1},
       ]}>
+      <Image source={icon} resizeMode="contain" style={iconStyle} />
       <Font600 style={[styles.buttonText, buttonTextStyle]}>
         {loader ? 'Processing...' : children}
       </Font600>

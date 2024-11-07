@@ -1,6 +1,8 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import ExtrudersItems, {ExtrudersItemType} from './ExtrudersItems';
+import {useNavigation} from '@react-navigation/native';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
@@ -77,8 +79,19 @@ const ExtruderCompleteOrders = () => {
     },
   ]);
 
+  const {navigate} = useNavigation<AppNavigationProp>();
+
+  const onNavigateExtruderOrderHistory = useCallback(
+    (data: ExtrudersItemType) => {
+      navigate('ExtruderOrderHistory', {data: data});
+    },
+    [],
+  );
+
   const renderItemHandler = useCallback(({item}: {item: ExtrudersItemType}) => {
-    return <ExtrudersItems data={item} />;
+    return (
+      <ExtrudersItems onPress={onNavigateExtruderOrderHistory} data={item} />
+    );
   }, []);
 
   return (

@@ -1,7 +1,10 @@
 import {ImageRequireSource} from 'react-native';
 
 export const images: {[key: string]: ImageRequireSource} = {
+  day: require('./day.png'),
+  night: require('./night.png'),
   logo: require('./logo.png'),
+  info: require('./info.png'),
   back: require('./back.png'),
   date: require('./date.png'),
   mail: require('./mail.png'),

@@ -4,7 +4,6 @@ import React, {memo} from 'react';
 import {colors} from '../constants/colors';
 import Login from '../screens/Auth/Login';
 import OtpVerification from '../screens/Auth/OtpVerification';
-import SelectRole from '../screens/Auth/SelectRole';
 import {AuthStackParamList} from './StackTypes';
 
 const NativeStack = createNativeStackNavigator<AuthStackParamList>();
@@ -24,7 +23,6 @@ const AuthStack = () => {
           component={OtpVerification}
           name="OtpVerification"
         />
-        <NativeStack.Screen component={SelectRole} name="SelectRole" />
       </NativeStack.Navigator>
     </NavigationContainer>
   );

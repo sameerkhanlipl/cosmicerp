@@ -1,9 +1,11 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {images} from '../../assets/images';
 import {colors} from '../../constants/colors';
 import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 
 export type ExtrudersItemType = {
   extruder_production_order_id?: number;
@@ -31,9 +33,10 @@ export type ExtrudersItemType = {
 
 type ExtrudersItemsProps = {
   data: ExtrudersItemType;
+  onPress: (value: ExtrudersItemType) => void;
 };
 
-const ExtrudersItems: FC<ExtrudersItemsProps> = ({data}) => {
+const ExtrudersItems: FC<ExtrudersItemsProps> = ({data, onPress}) => {
   const {
     order_id,
     product_name,
@@ -44,8 +47,12 @@ const ExtrudersItems: FC<ExtrudersItemsProps> = ({data}) => {
     pending_bundle_qty,
   } = data;
 
+  const onPressHandler = useCallback(() => {
+    onPress(data);
+  }, []);
+
   return (
-    <Pressable style={styles.item}>
+    <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
         <Font400 style={styles.order_id}>{order_id}</Font400>
         <Image

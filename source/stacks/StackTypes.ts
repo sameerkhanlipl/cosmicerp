@@ -1,4 +1,5 @@
 import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
+import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -6,7 +7,6 @@ export type AuthStackParamList = {
     phone_number: number | string;
     country_code: number | string;
   };
-  SelectRole: undefined;
 };
 
 export type MainParamList = {
@@ -20,8 +20,8 @@ export type MainParamList = {
 export type AppStackParamList = {
   MainStack: NavigatorScreenParams<MainParamList>;
   ProfileDetail: undefined;
-  ExtruderOrderHistory: undefined;
-  ExtruderAddCompletedOrder: undefined;
+  ExtruderOrderHistory: {data: ExtrudersItemType};
+  ExtruderAddCompletedOrder: {data: ExtrudersItemType};
 };
 
 export type AppNavigationProp = NavigationProp<AppStackParamList>;

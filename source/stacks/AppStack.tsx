@@ -7,13 +7,18 @@ import {AppStackParamList} from './StackTypes';
 import ExtruderOrderHistory from '../screens/Extruder/ExtruderOrderHistory';
 import ExtruderAddCompletedOrder from '../screens/Extruder/ExtruderAddCompletedOrder';
 import ProfileDetail from '../screens/User/ProfileDetail';
+import {colors} from '../constants/colors';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
 const AppStack = () => {
   return (
     <NavigationContainer>
-      <NativeStack.Navigator screenOptions={{headerShown: false}}>
+      <NativeStack.Navigator
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {backgroundColor: colors.white},
+        }}>
         <NativeStack.Screen component={MainStack} name="MainStack" />
         <NativeStack.Screen
           component={ExtruderOrderHistory}
