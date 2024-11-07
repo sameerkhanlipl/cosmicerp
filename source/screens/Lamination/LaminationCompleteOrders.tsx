@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import LaminationItems, {LaminationItemType} from './LaminationItems';
 
@@ -98,7 +98,7 @@ const LaminationCompleteOrders = () => {
   );
 };
 
-export default LaminationCompleteOrders;
+export default memo(LaminationCompleteOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

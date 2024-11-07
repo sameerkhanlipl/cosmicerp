@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 import moment from 'moment';
@@ -53,7 +53,7 @@ const ExtruderMaterialOutItems: FC<ExtruderMaterialOutItemsProps> = ({
   );
 };
 
-export default ExtruderMaterialOutItems;
+export default memo(ExtruderMaterialOutItems);
 
 const styles = StyleSheet.create({
   item: {

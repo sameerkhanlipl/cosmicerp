@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {FC, useCallback} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
@@ -92,7 +92,7 @@ const ExtrudersItems: FC<ExtrudersItemsProps> = ({data, onPress}) => {
   );
 };
 
-export default ExtrudersItems;
+export default memo(ExtrudersItems);
 
 const styles = StyleSheet.create({
   item: {

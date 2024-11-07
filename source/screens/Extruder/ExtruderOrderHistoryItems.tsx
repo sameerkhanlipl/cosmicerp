@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import moment from 'moment';
 import {colors} from '../../constants/colors';
@@ -49,7 +49,7 @@ const ExtruderOrderHistoryItems: FC<ExtruderOrderHistoryItemsProps> = ({
   );
 };
 
-export default ExtruderOrderHistoryItems;
+export default memo(ExtruderOrderHistoryItems);
 
 const styles = StyleSheet.create({
   item: {

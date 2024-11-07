@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, useState} from 'react';
+import React, {FC, memo, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
@@ -159,7 +159,7 @@ const ExtruderAddCompletedOrder: FC<ExtruderAddCompletedOrderProps> = ({
   );
 };
 
-export default ExtruderAddCompletedOrder;
+export default memo(ExtruderAddCompletedOrder);
 
 const styles = StyleSheet.create({
   root: {

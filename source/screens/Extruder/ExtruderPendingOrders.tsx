@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import ExtrudersItems, {ExtrudersItemType} from './ExtrudersItems';
 import {useNavigation} from '@react-navigation/native';
@@ -108,7 +108,7 @@ const ExtruderPendingOrders = () => {
   );
 };
 
-export default ExtruderPendingOrders;
+export default memo(ExtruderPendingOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

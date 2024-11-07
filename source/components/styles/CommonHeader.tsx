@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets/images';
@@ -31,7 +31,7 @@ const CommonHeader: FC<CommonHeaderProps> = ({title}) => {
   );
 };
 
-export default CommonHeader;
+export default memo(CommonHeader);
 
 const styles = StyleSheet.create({
   root: {

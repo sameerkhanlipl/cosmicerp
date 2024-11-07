@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import SilaiItems, {SilaiItemType} from './SilaiItems';
 
@@ -95,7 +95,7 @@ const SilaiPendingOrders = () => {
   );
 };
 
-export default SilaiPendingOrders;
+export default memo(SilaiPendingOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

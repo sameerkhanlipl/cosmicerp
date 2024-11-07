@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {images} from '../../assets/images';
@@ -99,7 +99,7 @@ const PackingItems: FC<PackingItemsProps> = ({data}) => {
   );
 };
 
-export default PackingItems;
+export default memo(PackingItems);
 
 const styles = StyleSheet.create({
   item: {

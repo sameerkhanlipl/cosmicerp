@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
@@ -98,7 +98,7 @@ const RewindingItems: FC<RewindingItemProps> = ({data}) => {
   );
 };
 
-export default RewindingItems;
+export default memo(RewindingItems);
 
 const styles = StyleSheet.create({
   item: {

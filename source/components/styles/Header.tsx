@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets/images';
@@ -48,7 +48,7 @@ const Header: FC<HeaderProps> = ({title}) => {
   );
 };
 
-export default Header;
+export default memo(Header);
 
 const styles = StyleSheet.create({
   header: {

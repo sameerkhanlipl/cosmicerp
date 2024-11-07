@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {images} from '../../assets/images';
@@ -97,7 +97,7 @@ const SilaiItems: FC<SilaiItemProps> = ({data}) => {
   );
 };
 
-export default SilaiItems;
+export default memo(SilaiItems);
 
 const styles = StyleSheet.create({
   item: {

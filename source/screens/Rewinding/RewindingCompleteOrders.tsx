@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import RewindingItems, {RewindingItemType} from './RewindingItems';
 
@@ -95,7 +95,7 @@ const RewindingCompleteOrders = () => {
   );
 };
 
-export default RewindingCompleteOrders;
+export default memo(RewindingCompleteOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

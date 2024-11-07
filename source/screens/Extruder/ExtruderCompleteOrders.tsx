@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import ExtrudersItems, {ExtrudersItemType} from './ExtrudersItems';
 import {useNavigation} from '@react-navigation/native';
 import {AppNavigationProp} from '../../stacks/StackTypes';
@@ -108,7 +108,7 @@ const ExtruderCompleteOrders = () => {
   );
 };
 
-export default ExtruderCompleteOrders;
+export default memo(ExtruderCompleteOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

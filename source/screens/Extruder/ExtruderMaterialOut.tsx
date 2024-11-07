@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import CommonHeader from '../../components/styles/CommonHeader';
 import Input from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
@@ -113,7 +113,7 @@ const ExtruderMaterialOut = () => {
   );
 };
 
-export default ExtruderMaterialOut;
+export default memo(ExtruderMaterialOut);
 
 const styles = StyleSheet.create({
   root: {

@@ -1,4 +1,4 @@
-import React, {FC, ReactNode} from 'react';
+import React, {FC, memo, ReactNode} from 'react';
 import {
   Image,
   ImageRequireSource,
@@ -47,7 +47,7 @@ const Button: FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default memo(Button);
 
 const styles = StyleSheet.create({
   buttonContainer: {

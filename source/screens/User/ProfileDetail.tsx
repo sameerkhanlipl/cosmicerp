@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {memo, useCallback, useRef} from 'react';
 import {
   Dimensions,
   Image,
@@ -135,7 +135,7 @@ const ProfileDetail = () => {
   );
 };
 
-export default ProfileDetail;
+export default memo(ProfileDetail);
 
 const styles = StyleSheet.create({
   root: {flex: 1, backgroundColor: colors.color_22534F},

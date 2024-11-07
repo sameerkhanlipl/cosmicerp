@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import CommonHeader from '../../components/styles/CommonHeader';
 import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
@@ -93,7 +93,7 @@ const ExtruderOrderHistory: FC<ExtruderOrderHistoryProps> = ({
   );
 };
 
-export default ExtruderOrderHistory;
+export default memo(ExtruderOrderHistory);
 
 const styles = StyleSheet.create({
   root: {flex: 1},
