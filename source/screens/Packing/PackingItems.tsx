@@ -1,4 +1,4 @@
-import React, {FC, memo} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {images} from '../../assets/images';
@@ -6,34 +6,35 @@ import {colors} from '../../constants/colors';
 import moment from 'moment';
 
 export type PackingItemType = {
-  extruder_production_order_id?: number;
-  customer_id?: string;
-  customer_order_id?: number;
-  order_id?: string;
-  product_name?: string;
-  date?: string;
-  gage?: string;
-  color?: string;
-  production_order_id?: number;
-  production_qty?: string;
-  pending_bundle_qty?: number;
-  lamination_id?: string;
-  alias_sku?: string;
-  length?: string;
-  width?: string;
-  bags_per_bdl?: string;
-  material_name?: null | string;
-  pipe_size?: string;
-  machine?: string;
-  status?: string;
-  total_order_qty?: string;
+  packing_production_order_id: number;
+  customer_id: string;
+  customer_order_id: number;
+  order_id: string;
+  product_name: string;
+  date: string;
+  color: string;
+  length: string;
+  width: string;
+  pipe_size: string;
+  packing_name: string;
+  total_order_qty: string;
+  bags_per_bdl: string;
+  gage: string;
+  pending_bundle_qty: string;
+  production_order_id: number;
+  production_qty: number;
+  stitching_id: string;
+  alias_sku: string;
+  material_name: string | null;
+  status: string;
 };
 
 type PackingItemsProps = {
   data: PackingItemType;
+  onPress: (value: PackingItemType) => void;
 };
 
-const PackingItems: FC<PackingItemsProps> = ({data}) => {
+const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
   const {
     order_id,
     product_name,
@@ -43,10 +44,15 @@ const PackingItems: FC<PackingItemsProps> = ({data}) => {
     width,
     pending_bundle_qty,
     pipe_size,
+    material_name,
   } = data;
 
+  const onPressHandler = useCallback(() => {
+    onPress(data);
+  }, []);
+
   return (
-    <Pressable style={styles.item}>
+    <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
         <Font400 style={styles.order_id}>{order_id}</Font400>
         <Image
@@ -91,7 +97,14 @@ const PackingItems: FC<PackingItemsProps> = ({data}) => {
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'pipe : '}</Font500>
-            <Font700 style={styles.value}>{12}</Font700>
+            <Font700 style={styles.value}>{pipe_size}</Font700>
+          </View>
+        </View>
+        <View style={styles.line} />
+        <View style={styles.subContainer}>
+          <View style={styles.detail}>
+            <Font500 style={styles.label}>{'Packing Marital Name : '}</Font500>
+            <Font700 style={styles.value}>{material_name}</Font700>
           </View>
         </View>
       </View>

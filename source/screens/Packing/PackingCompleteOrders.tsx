@@ -1,84 +1,46 @@
 import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import PackingItems, {PackingItemType} from './PackingItems';
+import {AppNavigationProp} from '../../stacks/StackTypes';
+import {useNavigation} from '@react-navigation/native';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 const PackingCompleteOrders = () => {
   const [list] = useState<PackingItemType[]>([
     {
-      extruder_production_order_id: 4,
-      customer_id: '68',
-      customer_order_id: 48,
-      order_id: '47-23Oct',
-      product_name: 'S. ANDHRA PEARL 26*42 1200',
-      date: '2024-10-23 14:12:22',
-      gage: '0',
-      color: 'Pink',
-      production_order_id: 20,
-      production_qty: '1',
-      pending_bundle_qty: 100,
-      lamination_id: '',
-      alias_sku: '40226*42 1200',
-      length: '42.00',
-      width: '26.00',
-      bags_per_bdl: '12',
-      material_name: null,
-      pipe_size: '',
-      machine: '',
-      status: 'pending',
-      total_order_qty: '200',
-    },
-    {
-      extruder_production_order_id: 6,
-      customer_id: '70',
-      customer_order_id: 50,
-      order_id: '49-23Oct',
-      product_name: 'S. ANDHRA PEARL 26*42 1200',
-      date: '2024-10-23 14:22:56',
-      gage: '0',
-      color: 'yellow',
-      production_order_id: 22,
-      production_qty: '100',
-      pending_bundle_qty: 100,
-      lamination_id: '',
-      alias_sku: '40226*42 1200',
-      length: '42.00',
-      width: '26.00',
-      bags_per_bdl: '12',
-      material_name: null,
-      pipe_size: '',
-      machine: '',
-      status: 'pending',
-      total_order_qty: '200',
-    },
-    {
-      extruder_production_order_id: 5,
-      customer_id: '69',
-      customer_order_id: 49,
-      order_id: '48-23Oct',
-      product_name: "SYN. COSMIC GOLD+ TRANSPARENT 14'' 3MTR-432",
-      date: '2024-10-23 14:21:09',
-      gage: '100',
+      packing_production_order_id: 2,
+      customer_id: '85',
+      customer_order_id: 56,
+      order_id: 'COS-55',
+      product_name: 'Jumbo White Easel Drawing Paper Roll (44cm x 50meter)',
+      date: '2024-11-05 11:41:45',
       color: 'Orange',
-      production_order_id: 21,
-      production_qty: '325',
-      pending_bundle_qty: 800,
-      lamination_id: '',
-      alias_sku: 'GOLDPLUSTRAN3',
-      length: '7.30',
-      width: '14.00',
-      bags_per_bdl: '25',
+      length: '50',
+      width: '1970',
+      pipe_size: '0',
+      packing_name: 'HMD',
+      total_order_qty: '2583',
+      bags_per_bdl: '12',
+      gage: '0',
+      pending_bundle_qty: '120',
+      production_order_id: 25,
+      production_qty: 21,
+      stitching_id: '2',
+      alias_sku: 'B08D24YTPS',
       material_name: null,
-      pipe_size: '550',
-      machine: '',
-      status: 'pending',
-      total_order_qty: '1125',
+      status: 'completed',
     },
   ]);
 
+  const {navigate} = useNavigation<AppNavigationProp>();
+
+  const onNavigatePackingOrderHistory = useCallback((data: PackingItemType) => {
+    navigate('PackingOrderHistory', {data: data});
+  }, []);
+
   const renderItemHandler = useCallback(({item}: {item: PackingItemType}) => {
-    return <PackingItems data={item} />;
+    return <PackingItems onPress={onNavigatePackingOrderHistory} data={item} />;
   }, []);
 
   return (

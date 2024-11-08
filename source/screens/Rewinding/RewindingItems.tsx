@@ -6,27 +6,28 @@ import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
 export type RewindingItemType = {
-  extruder_production_order_id?: number;
-  customer_id?: string;
-  customer_order_id?: number;
-  order_id?: string;
-  product_name?: string;
-  date?: string;
-  gage?: string;
-  color?: string;
-  production_order_id?: number;
-  production_qty?: string;
-  pending_bundle_qty?: number;
-  lamination_id?: string;
-  alias_sku?: string;
-  length?: string;
-  width?: string;
-  bags_per_bdl?: string;
-  material_name?: null | string;
-  pipe_size?: string;
-  machine?: string;
-  status?: string;
-  total_order_qty?: string;
+  rewinding_production_order_id: number;
+  customer_id: string;
+  customer_order_id: number;
+  order_id: string;
+  product_name: string;
+  date: string;
+  gage: string;
+  color: string;
+  pending_bundle_qty: string;
+  rewinding_pipe: string;
+  rewinding_sticker: string;
+  production_order_id: number;
+  production_qty: number;
+  extruder_id: string;
+  alias_sku: string;
+  length: string;
+  width: string;
+  bags_per_bdl: string;
+  material_name: string | null;
+  pipe_size: string;
+  status: string;
+  total_order_qty: string;
 };
 
 type RewindingItemProps = {
@@ -43,6 +44,7 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
     length,
     width,
     pending_bundle_qty,
+    pipe_size,
   } = data;
 
   const onPressHandler = useCallback(() => {
@@ -91,7 +93,9 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
         <View style={styles.subContainer}>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Pipe : '}</Font500>
-            <Font700 style={styles.value}>{12}</Font700>
+            <Font700 style={styles.value}>
+              {pipe_size ? pipe_size + ' MM' : ''}
+            </Font700>
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Stickers : '}</Font500>

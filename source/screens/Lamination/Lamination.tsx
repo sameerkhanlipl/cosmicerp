@@ -22,9 +22,8 @@ const Extruder = () => {
   const switchTab = (tabIndex: number) => {
     setActiveTab(tabIndex);
 
-    // Animate the indicator and screen translation
     Animated.timing(translateX, {
-      toValue: tabIndex * width, // Move indicator and screens by screen width
+      toValue: tabIndex * width,
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -42,7 +41,7 @@ const Extruder = () => {
                 {
                   translateX: translateX.interpolate({
                     inputRange: [0, width],
-                    outputRange: [0, width / 2], // Width of each tab is half the screen width
+                    outputRange: [0, width / 2],
                   }),
                 },
               ],
@@ -68,7 +67,7 @@ const Extruder = () => {
         style={[
           styles.screenContainer,
           {
-            transform: [{translateX: Animated.multiply(translateX, -1)}], // Inverse the translateX to slide screens
+            transform: [{translateX: Animated.multiply(translateX, -1)}],
           },
         ]}>
         <LaminationPendingOrders />
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
   },
   screenContainer: {
     flexDirection: 'row',
-    width: width * 2, // Container width is twice the screen width
+    width: width * 2,
   },
   screen: {
     flex: 1,

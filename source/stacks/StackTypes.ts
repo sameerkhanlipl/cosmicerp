@@ -1,6 +1,7 @@
 import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
 import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
+import {PackingItemType} from '../screens/Packing/PackingItems';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -24,6 +25,8 @@ export type AppStackParamList = {
   ExtruderMaterialOut: undefined;
   ExtruderOrderHistory: {data: ExtrudersItemType};
   ExtruderAddCompletedOrder: {data: ExtrudersItemType};
+  PackingOrderHistory: {data: PackingItemType};
+  PackingAddCompletedOrder: {data: PackingItemType};
   RewindingOrderHistory: {data: RewindingItemType};
   RewindingAddCompletedOrder: {data: ExtrudersItemType};
 };
