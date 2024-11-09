@@ -116,6 +116,7 @@ const Input = forwardRef<InputRef, InputProps>(
             style={[styles.input, inputStyle]}
             cursorColor={colors.transparent_black_4}
             selectionColor={colors.transparent_black_4}
+            placeholderTextColor={colors.transparent_black_2}
             {...config}
           />
           {rightIcon ? (

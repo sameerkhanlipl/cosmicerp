@@ -10,12 +10,12 @@ import {
 import Header from '../../components/styles/Header';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import SilaiCompleteOrders from './SilaiCompleteOrders';
-import SilaiPendingOrders from './SilaiPendingOrders';
+import SilaiCompleteOrders from './StitchingiCompleteOrders';
+import SilaiPendingOrders from './StitchingPendingOrders';
 
 const {width} = Dimensions.get('window');
 
-const Extruder = () => {
+const Stitching = () => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
 
@@ -77,7 +77,7 @@ const Extruder = () => {
   );
 };
 
-export default memo(Extruder);
+export default memo(Stitching);
 
 const styles = StyleSheet.create({
   root: {

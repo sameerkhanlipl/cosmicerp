@@ -2,54 +2,68 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC, memo, useCallback, useRef, useState} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {AuthStackParamList} from '../../stacks/StackTypes';
-import Input, {InputRef} from '../../components/styles/Input';
-import {ShowToast} from '../../utils/ErrorHandler';
+import {login} from '../../api/apis';
 import {login_body} from '../../api/BodyTypes';
+import {images} from '../../assets/images';
 import {Font400, Font600} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
+import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
-import {images} from '../../assets/images';
+import {AuthStackParamList} from '../../stacks/StackTypes';
+import {checkInput} from '../../utils/CheckInput';
+import {error, ShowToast} from '../../utils/ErrorHandler';
+import {login_response} from '../../api/ResponseTypes';
 
 type LoginProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
-  const [loader, serLoader] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
   const phone_number = useRef<InputRef>(null);
 
   const {top} = useSafeAreaInsets();
 
   const onNavigateOtpVerification = useCallback(async () => {
-    // try {
-    //   console.log('phone_number?.current?.get()', phone_number?.current?.get());
+    phone_number?.current?.set('7896541236');
     if (
-      !phone_number?.current?.get() ||
-      phone_number?.current?.get()?.length === 0
+      checkInput(phone_number?.current?.get(), 'Phone Number Require for Login')
     ) {
-      ShowToast('Enter Valid Phone Number');
+      return;
+    }
+    if (
+      checkInput(
+        phone_number?.current?.get(),
+        'Enter Valid Phone Number',
+        'MobileNumber',
+      )
+    ) {
       return;
     }
 
-    const data: login_body = {
-      mobile: phone_number?.current?.get(),
-      device_token: '777',
-    };
-    //   serLoader(true);
-    //   const response: any = await login_api(data);
-    //   console.log('response?.data', response?.data);
-    //   serLoader(false);
-    navigation.navigate('OtpVerification', {
-      phone_number: '738377096',
-      country_code: '91',
-    });
-    // } catch (err: login_response | any) {
-    //   console.log('err', err)
-    //   error(err);
-    //   serLoader(false);
-    // } finally {
-    //   serLoader(false);
-    // }
-  }, []);
+    try {
+      setLoader(true);
+      const data: login_body = {
+        mobile: phone_number?.current?.get(),
+        device_token: '777',
+      };
+
+      const response: {data: login_response} = await login(data);
+
+      navigation.navigate('OtpVerification', {
+        phone_number: phone_number?.current?.get(),
+        verification_code: response?.data?.verification_code,
+      });
+
+      ShowToast('Your Otp is ' + response?.data?.verification_code);
+
+      setLoader(false);
+    } catch (err: any) {
+      console.log('err', err);
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [navigation]);
 
   return (
     <View style={[styles.root, {paddingTop: top}]}>
@@ -72,6 +86,7 @@ const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
             ref={phone_number}
             label="Phone Number"
             config={{
+              maxLength: 10,
               keyboardType: 'number-pad',
               placeholder: 'Enter Your Registered Phone Number',
             }}

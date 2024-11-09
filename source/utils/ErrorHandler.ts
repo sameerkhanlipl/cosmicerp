@@ -5,7 +5,7 @@ import {store} from '../store/store';
 export const ShowToast = (tostMessage: string) => {
   console.log('tostMessage', tostMessage);
 
-  Toast.show(tostMessage, 0.5);
+  Toast.show(tostMessage, 0.4);
 };
 
 export const firebaseErrorCodes = {

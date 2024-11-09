@@ -1,11 +1,11 @@
-import React, {FC, memo} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
-import {images} from '../../assets/images';
-import {colors} from '../../constants/colors';
 import moment from 'moment';
+import React, {FC, memo} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {images} from '../../assets/images';
+import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
+import {colors} from '../../constants/colors';
 
-export type SilaiItemType = {
+export type StitchingItemType = {
   extruder_production_order_id?: number;
   customer_id?: string;
   customer_order_id?: number;
@@ -29,11 +29,11 @@ export type SilaiItemType = {
   total_order_qty?: string;
 };
 
-type SilaiItemProps = {
-  data: SilaiItemType;
+type StitchingItemProps = {
+  data: StitchingItemType;
 };
 
-const SilaiItems: FC<SilaiItemProps> = ({data}) => {
+const StitchingItems: FC<StitchingItemProps> = ({data}) => {
   const {
     order_id,
     product_name,
@@ -97,7 +97,7 @@ const SilaiItems: FC<SilaiItemProps> = ({data}) => {
   );
 };
 
-export default memo(SilaiItems);
+export default memo(StitchingItems);
 
 const styles = StyleSheet.create({
   item: {

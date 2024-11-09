@@ -1,10 +1,10 @@
 export type login_body = {
-  mobile: string;
+  mobile: string | undefined;
   device_token: string;
 };
 
 export type otp_verification_body = {
-  mobile: number;
-  code: number;
-  device_token: number;
+  mobile: string | undefined;
+  code: string | undefined;
+  device_token: string;
 };

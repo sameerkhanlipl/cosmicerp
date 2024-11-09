@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {FC, memo, ReactNode} from 'react';
 import {Image, StyleSheet} from 'react-native';
@@ -8,7 +9,7 @@ import Extruder from '../screens/Extruder/Extruder';
 import Lamination from '../screens/Lamination/Lamination';
 import Packing from '../screens/Packing/Packing';
 import Rewinding from '../screens/Rewinding/Rewinding';
-import Silai from '../screens/Silai/Silai';
+import Stitching from '../screens/Silai/Stitching';
 import {MainParamList} from './StackTypes';
 
 const BottomStack = createBottomTabNavigator<MainParamList>();
@@ -34,40 +35,36 @@ const MainStack = () => {
         headerShown: false,
         tabBarInactiveTintColor: colors.transparent_black_4,
         tabBarActiveTintColor: colors.color_22534F,
+        tabBarStyle: {
+          height: 70,
+          paddingBottom: 18,
+          paddingHorizontal: 14,
+        },
         tabBarItemStyle: {
           borderTopWidth: 1,
           borderTopColor: colors.lightGray,
         },
-        headerTitleStyle: {
+        tabBarLabelStyle: {
           fontFamily: fontFamily.Font600,
           fontSize: 12,
         },
       }}
       sceneContainerStyle={{backgroundColor: colors.color_F3FAF9}}>
       <BottomStack.Screen
+        component={Lamination}
+        name="Lamination"
+        options={{
+          tabBarIcon: ({color}): ReactNode => (
+            <TabIcon color={color} icon={images.lamination} />
+          ),
+        }}
+      />
+      <BottomStack.Screen
         component={Extruder}
         name="Extruder"
         options={{
           tabBarIcon: ({color}): ReactNode => (
             <TabIcon color={color} icon={images.extruder} />
-          ),
-        }}
-      />
-      <BottomStack.Screen
-        component={Packing}
-        name="Packing"
-        options={{
-          tabBarIcon: ({color}): ReactNode => (
-            <TabIcon color={color} icon={images.packing} />
-          ),
-        }}
-      />
-      <BottomStack.Screen
-        component={Silai}
-        name="Silai"
-        options={{
-          tabBarIcon: ({color}): ReactNode => (
-            <TabIcon color={color} icon={images.silai} />
           ),
         }}
       />
@@ -81,11 +78,20 @@ const MainStack = () => {
         }}
       />
       <BottomStack.Screen
-        component={Lamination}
-        name="Lamination"
+        component={Stitching}
+        name="Stitching"
         options={{
           tabBarIcon: ({color}): ReactNode => (
-            <TabIcon color={color} icon={images.lamination} />
+            <TabIcon color={color} icon={images.silai} />
+          ),
+        }}
+      />
+      <BottomStack.Screen
+        component={Packing}
+        name="Packing"
+        options={{
+          tabBarIcon: ({color}): ReactNode => (
+            <TabIcon color={color} icon={images.packing} />
           ),
         }}
       />

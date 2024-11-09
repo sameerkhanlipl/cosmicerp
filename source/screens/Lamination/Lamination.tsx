@@ -15,7 +15,7 @@ import LaminationCompleteOrders from './LaminationCompleteOrders';
 
 const {width} = Dimensions.get('window');
 
-const Extruder = () => {
+const Lamination = () => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
 
@@ -77,7 +77,7 @@ const Extruder = () => {
   );
 };
 
-export default memo(Extruder);
+export default memo(Lamination);
 
 const styles = StyleSheet.create({
   root: {

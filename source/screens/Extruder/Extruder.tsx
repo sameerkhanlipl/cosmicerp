@@ -1,4 +1,5 @@
-import React, {FC, memo, useCallback, useRef, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -7,16 +8,14 @@ import {
   Text,
   View,
 } from 'react-native';
+import {images} from '../../assets/images';
+import Button from '../../components/styles/Button';
 import Header from '../../components/styles/Header';
+import {colors} from '../../constants/colors';
+import {fontFamily} from '../../constants/fontFamily';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 import ExtruderCompleteOrders from './ExtruderCompleteOrders';
 import ExtruderPendingOrders from './ExtruderPendingOrders';
-import {fontFamily} from '../../constants/fontFamily';
-import {colors} from '../../constants/colors';
-import Button from '../../components/styles/Button';
-import {images} from '../../assets/images';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
-import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
@@ -38,7 +37,7 @@ const Extruder = () => {
 
   const onNavigateExtruderMaterialOut = useCallback(() => {
     navigate('ExtruderMaterialOut');
-  }, []);
+  }, [navigate]);
 
   return (
     <View style={styles.root}>

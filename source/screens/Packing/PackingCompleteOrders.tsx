@@ -1,47 +1,55 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import PackingItems, {PackingItemType} from './PackingItems';
 import {AppNavigationProp} from '../../stacks/StackTypes';
 import {useNavigation} from '@react-navigation/native';
+import EmptyList from '../../components/styles/EmptyList';
+import {packing_order_listing_response} from '../../api/ResponseTypes';
+import {packing_complete_orders} from '../../api/apis';
+import {error} from '../../utils/ErrorHandler';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 const PackingCompleteOrders = () => {
-  const [list] = useState<PackingItemType[]>([
-    {
-      packing_production_order_id: 2,
-      customer_id: '85',
-      customer_order_id: 56,
-      order_id: 'COS-55',
-      product_name: 'Jumbo White Easel Drawing Paper Roll (44cm x 50meter)',
-      date: '2024-11-05 11:41:45',
-      color: 'Orange',
-      length: '50',
-      width: '1970',
-      pipe_size: '0',
-      packing_name: 'HMD',
-      total_order_qty: '2583',
-      bags_per_bdl: '12',
-      gage: '0',
-      pending_bundle_qty: '120',
-      production_order_id: 25,
-      production_qty: 21,
-      stitching_id: '2',
-      alias_sku: 'B08D24YTPS',
-      material_name: null,
-      status: 'completed',
-    },
-  ]);
+  const [list, setList] = useState<PackingItemType[]>([]);
+  const [loader, setLoader] = useState(false);
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
-  const onNavigatePackingOrderHistory = useCallback((data: PackingItemType) => {
-    navigate('PackingOrderHistory', {data: data});
+  const getList = useCallback(async () => {
+    try {
+      setLoader(true);
+      const response: {data: packing_order_listing_response} =
+        await packing_complete_orders();
+      setList(response?.data?.data);
+      setLoader(false);
+    } catch (err: any) {
+      error(err);
+      setLoader(false);
+    } finally {
+      setLoader(false);
+    }
   }, []);
 
-  const renderItemHandler = useCallback(({item}: {item: PackingItemType}) => {
-    return <PackingItems onPress={onNavigatePackingOrderHistory} data={item} />;
-  }, []);
+  useEffect(() => {
+    getList();
+  }, [getList]);
+
+  const onNavigatePackingOrderHistory = useCallback(
+    (data: PackingItemType) => {
+      // navigate('PackingOrderHistory', {data: data});
+    },
+    [navigate],
+  );
+
+  const renderItemHandler = useCallback(
+    ({item}: {item: PackingItemType}) => {
+      return (
+        <PackingItems onPress={onNavigatePackingOrderHistory} data={item} />
+      );
+    },
+    [onNavigatePackingOrderHistory],
+  );
 
   return (
     <View style={styles.root}>
@@ -52,6 +60,9 @@ const PackingCompleteOrders = () => {
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={ItemSeparatorComponent}
         keyExtractor={(_, index: number): string => index?.toString()}
+        ListEmptyComponent={
+          <EmptyList loader={loader} message="Not have any completed Orders!" />
+        }
       />
     </View>
   );

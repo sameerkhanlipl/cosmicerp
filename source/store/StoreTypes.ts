@@ -1,10 +1,10 @@
 export type UserState = {
-  id: number;
-  name: string;
-  mobile: string;
+  name?: string | undefined;
+  id?: number | undefined;
+  mobile?: string | undefined;
+  token?: string | null;
 };
 
 export type AppState = {
-  user: null | UserState;
-  token: string | null;
+  user?: null | UserState;
 };

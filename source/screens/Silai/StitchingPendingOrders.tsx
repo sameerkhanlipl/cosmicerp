@@ -1,22 +1,22 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {lamination_order_listing_response} from '../../api/ResponseTypes';
-import {lamination_complete_orders} from '../../api/apis';
-import {error} from '../../utils/ErrorHandler';
-import LaminationItems, {LaminationItemType} from './LaminationItems';
+import {stitching_order_listing_response} from '../../api/ResponseTypes';
+import {stitching_pending_orders} from '../../api/apis';
 import EmptyList from '../../components/styles/EmptyList';
+import {error} from '../../utils/ErrorHandler';
+import StitchingItems, {StitchingItemType} from './StitchingItems';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
-const LaminationCompleteOrders = () => {
-  const [list, setList] = useState<LaminationItemType[]>([]);
+const StitchingPendingOrders = () => {
+  const [list, setList] = useState<StitchingItemType[]>([]);
   const [loader, setLoader] = useState(false);
 
   const getList = useCallback(async () => {
     try {
       setLoader(true);
-      const response: {data: lamination_order_listing_response} =
-        await lamination_complete_orders();
+      const response: {data: stitching_order_listing_response} =
+        await stitching_pending_orders();
       setList(response?.data?.data);
       setLoader(false);
     } catch (err: any) {
@@ -31,12 +31,9 @@ const LaminationCompleteOrders = () => {
     getList();
   }, [getList]);
 
-  const renderItemHandler = useCallback(
-    ({item}: {item: LaminationItemType}) => {
-      return <LaminationItems data={item} />;
-    },
-    [],
-  );
+  const renderItemHandler = useCallback(({item}: {item: StitchingItemType}) => {
+    return <StitchingItems data={item} />;
+  }, []);
 
   return (
     <View style={styles.root}>
@@ -48,14 +45,14 @@ const LaminationCompleteOrders = () => {
         ItemSeparatorComponent={ItemSeparatorComponent}
         keyExtractor={(_, index: number): string => index?.toString()}
         ListEmptyComponent={
-          <EmptyList loader={loader} message="Not have any completed Orders!" />
+          <EmptyList loader={loader} message="Not have any pending Orders!" />
         }
       />
     </View>
   );
 };
 
-export default memo(LaminationCompleteOrders);
+export default memo(StitchingPendingOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

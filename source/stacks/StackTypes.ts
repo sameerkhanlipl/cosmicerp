@@ -6,15 +6,15 @@ import {PackingItemType} from '../screens/Packing/PackingItems';
 export type AuthStackParamList = {
   Login: undefined;
   OtpVerification: {
-    phone_number: number | string;
-    country_code: number | string;
+    phone_number: number | string | undefined;
+    verification_code: number | string | undefined;
   };
 };
 
 export type MainParamList = {
   Extruder: undefined;
   Packing: undefined;
-  Silai: undefined;
+  Stitching: undefined;
   Rewinding: undefined;
   Lamination: undefined;
 };

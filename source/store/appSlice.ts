@@ -4,7 +4,6 @@ import {AppState, UserState} from './StoreTypes';
 
 const initialState: AppState = {
   user: null,
-  token: null,
 };
 
 const appSlice = createSlice({
@@ -16,7 +15,6 @@ const appSlice = createSlice({
     },
     logout: (state: AppState) => {
       state.user = null;
-      state.token = null;
     },
   },
 });

@@ -10,6 +10,7 @@ export const images: {[key: string]: ImageRequireSource} = {
   night: require('./night.png'),
   print: require('./print.png'),
   silai: require('./silai.png'),
+  empty: require('./empty.png'),
   search: require('./search.png'),
   logout: require('./logout.png'),
   packing: require('./packing.png'),
