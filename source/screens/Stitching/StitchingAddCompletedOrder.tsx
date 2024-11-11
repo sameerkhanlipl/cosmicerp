@@ -10,18 +10,18 @@ import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import {AppStackParamList} from '../../stacks/StackTypes';
 
-type RewindingAddCompletedOrderRouteProp = RouteProp<
+type StitchingAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
-  'RewindingAddCompletedOrder'
+  'StitchingAddCompletedOrder'
 >;
 
-const RewindingAddCompletedOrder = () => {
-  const route = useRoute<RewindingAddCompletedOrderRouteProp>();
+const StitchingAddCompletedOrder = () => {
+  const route = useRoute<StitchingAddCompletedOrderRouteProp>();
 
   const ItemData = route?.params?.data;
   return (
     <View style={styles.root}>
-      <CommonHeader title="Rewinding Orders" />
+      <CommonHeader title="Stitching Orders" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollRoot}>
@@ -30,69 +30,59 @@ const RewindingAddCompletedOrder = () => {
           <View style={styles.detail}>
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Gauge : '}</Font500>
-                <Font700 style={styles.value}>{ItemData?.length}</Font700>
-              </View>
-              <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Size : '}</Font500>
-                <Font700 style={styles.value}>{ItemData?.width + '"'}</Font700>
+                <Font500 style={styles.label}>{'Product Name : '}</Font500>
+                <Font700 style={styles.value}>{ItemData?.product_name}</Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
+              <View style={styles.detailSubContainer}>
+                <Font500 style={styles.label}>{'Bharti : '}</Font500>
+                <Font700 style={styles.value}>{'100 Rolls'}</Font700>
+              </View>
               <View style={styles.detailSubContainer}>
                 <Font500 style={styles.label}>{'Colors : '}</Font500>
-                <Font700 style={styles.value}>{ItemData?.color}</Font700>
-              </View>
-              <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Qty : '}</Font500>
-                <Font700 style={styles.value}>
-                  {ItemData?.production_qty + ' Rolls'}
-                </Font700>
+                <Font700 style={styles.value}>{'Red'}</Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Pipe : '}</Font500>
-                <Font700 style={styles.value}>
-                  {ItemData?.pipe_size + 'MM'}
-                </Font700>
+                <Font500 style={styles.label}>{'Qty Per Bdl : '}</Font500>
+                <Font700 style={styles.value}>{'2'}</Font700>
               </View>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Sticker : '}</Font500>
-                <Font700 style={styles.value}>{'Yes'}</Font700>
-              </View>
-            </View>
-            <View style={styles.line} />
-            <View style={styles.detailContainer}>
-              <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Length : '}</Font500>
-                <Font700 style={styles.value}>
-                  {ItemData?.length + ' MM'}
-                </Font700>
+                <Font500 style={styles.label}>{'Bundle : '}</Font500>
+                <Font700 style={styles.value}>{'10'}</Font700>
               </View>
             </View>
           </View>
           <Input
-            config={{placeholder: 'Contractor'}}
+            config={{placeholder: 'Labour Name'}}
             rootStyle={styles.inputContainer}
-            label="Contractor"
+            label="Labour Name"
           />
           <Input
             config={{placeholder: '09/05/2024'}}
             rootStyle={styles.inputContainer}
             label="Date"
           />
+          <View style={styles.unitContainer}>
+            <Input
+              config={{placeholder: '100 KG'}}
+              rootStyle={[styles.unitInput]}
+              label="Bundle Qty"
+            />
+            <Input
+              config={{placeholder: '28”'}}
+              rootStyle={[styles.unitInput]}
+              label="Qty Per Bdl"
+            />
+          </View>
           <Input
-            config={{placeholder: '2'}}
+            config={{placeholder: 'Remark'}}
             rootStyle={styles.inputContainer}
-            label="Rolls"
-          />
-          <Input
-            config={{placeholder: 'Remarks'}}
-            rootStyle={styles.inputContainer}
-            label="Remarks"
+            label="Remark"
           />
         </View>
         <Button
@@ -107,7 +97,7 @@ const RewindingAddCompletedOrder = () => {
   );
 };
 
-export default memo(RewindingAddCompletedOrder);
+export default memo(StitchingAddCompletedOrder);
 
 const styles = StyleSheet.create({
   root: {
@@ -147,7 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.color_777777,
   },
-  value: {fontSize: 14, color: colors.color_0B2624},
+  value: {flex: 1, fontSize: 14, color: colors.color_0B2624},
   line: {
     height: 1,
     backgroundColor: colors.color_E8DBDF,

@@ -1,22 +1,26 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {stitching_order_listing_response} from '../../api/ResponseTypes';
-import {stitching_pending_orders} from '../../api/apis';
+import {stitching_complete_orders} from '../../api/apis';
 import EmptyList from '../../components/styles/EmptyList';
 import {error} from '../../utils/ErrorHandler';
 import StitchingItems, {StitchingItemType} from './StitchingItems';
+import {useNavigation} from '@react-navigation/native';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
-const StitchingPendingOrders = () => {
+const StitchingCompleteOrders = () => {
   const [list, setList] = useState<StitchingItemType[]>([]);
   const [loader, setLoader] = useState(false);
+
+  const {navigate} = useNavigation<AppNavigationProp>();
 
   const getList = useCallback(async () => {
     try {
       setLoader(true);
       const response: {data: stitching_order_listing_response} =
-        await stitching_pending_orders();
+        await stitching_complete_orders();
       setList(response?.data?.data);
       setLoader(false);
     } catch (err: any) {
@@ -31,9 +35,21 @@ const StitchingPendingOrders = () => {
     getList();
   }, [getList]);
 
-  const renderItemHandler = useCallback(({item}: {item: StitchingItemType}) => {
-    return <StitchingItems data={item} />;
-  }, []);
+  const onNavigateStitchingOrderHistory = useCallback(
+    (data: StitchingItemType) => {
+      navigate('StitchingOrderHistory', {data: data});
+    },
+    [navigate],
+  );
+
+  const renderItemHandler = useCallback(
+    ({item}: {item: StitchingItemType}) => {
+      return (
+        <StitchingItems onPress={onNavigateStitchingOrderHistory} data={item} />
+      );
+    },
+    [onNavigateStitchingOrderHistory],
+  );
 
   return (
     <View style={styles.root}>
@@ -45,14 +61,14 @@ const StitchingPendingOrders = () => {
         ItemSeparatorComponent={ItemSeparatorComponent}
         keyExtractor={(_, index: number): string => index?.toString()}
         ListEmptyComponent={
-          <EmptyList loader={loader} message="Not have any pending Orders!" />
+          <EmptyList loader={loader} message="Not have any completed Orders!" />
         }
       />
     </View>
   );
 };
 
-export default memo(StitchingPendingOrders);
+export default memo(StitchingCompleteOrders);
 
 const styles = StyleSheet.create({
   root: {flex: 1, paddingTop: 4},

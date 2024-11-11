@@ -2,7 +2,7 @@ import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 import {LaminationItemType} from '../screens/Lamination/LaminationItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
-import {StitchingItemType} from '../screens/Silai/StitchingItems';
+import {StitchingItemType} from '../screens/Stitching/StitchingItems';
 
 export type login_response = {
   requestCode: number;

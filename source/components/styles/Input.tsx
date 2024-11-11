@@ -1,15 +1,8 @@
-import React, {
-  forwardRef,
-  memo,
-  useCallback,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import React, {forwardRef, memo, useImperativeHandle, useState} from 'react';
 import {
   Image,
   ImageRequireSource,
   ImageStyle,
-  KeyboardTypeOptions,
   Pressable,
   StyleSheet,
   TextInput,
@@ -18,10 +11,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {Font500, Font600} from '../fonts/Fonts';
 import {colors} from '../../constants/colors';
-import {images} from '../../assets/images';
 import {fontFamily} from '../../constants/fontFamily';
+import {Font500} from '../fonts/Fonts';
 // import KeyboardManager from 'react-native-keyboard-manager';
 
 // if (Platform.OS === 'ios') {
@@ -147,6 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: colors.white,
     borderColor: colors.color_D5E4E3,
+    flexDirection: 'row',
   },
   input: {
     flex: 1,

@@ -7,9 +7,9 @@ import CommonHeader from '../../components/styles/CommonHeader';
 import Input from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import ExtruderMaterialOutItems, {
-  ExtruderMaterialOutItemType,
-} from './ExtruderMaterialOutItems';
+import LaminationMaterialOutItems, {
+  LaminationMaterialOutItemType,
+} from './LaminationMaterialOutItems';
 
 const ListHeaderComponent = () => (
   <Font500 style={styles.listHeaderTitle}>{'List of Material Out'}</Font500>
@@ -17,8 +17,8 @@ const ListHeaderComponent = () => (
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
-const ExtruderMaterialOut = () => {
-  const [list] = useState<ExtruderMaterialOutItemType[]>([
+const LaminationMaterialOut = () => {
+  const [list] = useState<LaminationMaterialOutItemType[]>([
     {
       date: new Date()?.toString(),
       category: 'HM',
@@ -52,15 +52,15 @@ const ExtruderMaterialOut = () => {
   ]);
 
   const renderItemHandler = useCallback(
-    ({item}: {item: ExtruderMaterialOutItemType}) => (
-      <ExtruderMaterialOutItems data={item} />
+    ({item}: {item: LaminationMaterialOutItemType}) => (
+      <LaminationMaterialOutItems data={item} />
     ),
     [],
   );
 
   return (
     <View style={styles.root}>
-      <CommonHeader title={'Extruder - Material Type'} />
+      <CommonHeader title={'Lamination - Material Type'} />
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Input label="Date" rootStyle={styles.input} />
@@ -85,7 +85,7 @@ const ExtruderMaterialOut = () => {
           </View>
           <Button
             icon={images.complete}
-            iconStyle={styles.buttonIcon}
+            iconStyle={{height: 28, width: 28}}
             buttonTextStyle={styles.buttonText}
             buttonContainerStyle={styles.button}>
             {'Make it Complete'}
@@ -106,7 +106,7 @@ const ExtruderMaterialOut = () => {
   );
 };
 
-export default memo(ExtruderMaterialOut);
+export default memo(LaminationMaterialOut);
 
 const styles = StyleSheet.create({
   root: {
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  buttonIcon: {height: 28, width: 28},
   button: {
     marginTop: 36,
   },

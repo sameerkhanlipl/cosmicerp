@@ -5,12 +5,16 @@ import {lamination_complete_orders} from '../../api/apis';
 import {error} from '../../utils/ErrorHandler';
 import LaminationItems, {LaminationItemType} from './LaminationItems';
 import EmptyList from '../../components/styles/EmptyList';
+import {useNavigation} from '@react-navigation/native';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 const LaminationCompleteOrders = () => {
   const [list, setList] = useState<LaminationItemType[]>([]);
   const [loader, setLoader] = useState(false);
+
+  const {navigate} = useNavigation<AppNavigationProp>();
 
   const getList = useCallback(async () => {
     try {
@@ -31,11 +35,23 @@ const LaminationCompleteOrders = () => {
     getList();
   }, [getList]);
 
+  const onNavigateLaminationOrderHistory = useCallback(
+    (data: LaminationItemType) => {
+      navigate('LaminationOrderHistory', {data: data});
+    },
+    [navigate],
+  );
+
   const renderItemHandler = useCallback(
     ({item}: {item: LaminationItemType}) => {
-      return <LaminationItems data={item} />;
+      return (
+        <LaminationItems
+          onPress={onNavigateLaminationOrderHistory}
+          data={item}
+        />
+      );
     },
-    [],
+    [onNavigateLaminationOrderHistory],
   );
 
   return (

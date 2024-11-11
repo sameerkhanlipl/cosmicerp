@@ -1,18 +1,22 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {memo} from 'react';
-import {StyleSheet} from 'react-native';
+import {colors} from '../constants/colors';
+import ExtruderAddCompletedOrder from '../screens/Extruder/ExtruderAddCompletedOrder';
+import ExtruderMaterialOut from '../screens/Extruder/ExtruderMaterialOut';
+import ExtruderOrderHistory from '../screens/Extruder/ExtruderOrderHistory';
+import LaminationMaterialOut from '../screens/Lamination/LaminationMaterialOut';
+import PackingAddCompletedOrder from '../screens/Packing/PackingAddCompletedOrder';
+import PackingOrderHistory from '../screens/Packing/PackingOrderHistory';
+import RewindingAddCompletedOrder from '../screens/Rewinding/RewindingAddCompletedOrder';
+import RewindingOrderHistory from '../screens/Rewinding/RewindingOrderHistory';
+import ProfileDetail from '../screens/User/ProfileDetail';
 import MainStack from './MainStack';
 import {AppStackParamList} from './StackTypes';
-import ExtruderOrderHistory from '../screens/Extruder/ExtruderOrderHistory';
-import ExtruderAddCompletedOrder from '../screens/Extruder/ExtruderAddCompletedOrder';
-import ProfileDetail from '../screens/User/ProfileDetail';
-import {colors} from '../constants/colors';
-import ExtruderMaterialOut from '../screens/Extruder/ExtruderMaterialOut';
-import RewindingOrderHistory from '../screens/Rewinding/RewindingOrderHistory';
-import RewindingAddCompletedOrder from '../screens/Rewinding/RewindingAddCompletedOrder';
-import PackingOrderHistory from '../screens/Packing/PackingOrderHistory';
-import PackingAddCompletedOrder from '../screens/Packing/PackingAddCompletedOrder';
+import LaminationOrderHistory from '../screens/Lamination/LaminationOrderHistory';
+import LaminationAddCompletedOrder from '../screens/Lamination/LaminationAddCompletedOrder';
+import StitchingOrderHistory from '../screens/Stitching/StitchingOrderHistory';
+import StitchingAddCompletedOrder from '../screens/Stitching/StitchingAddCompletedOrder';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -25,6 +29,18 @@ const AppStack = () => {
           contentStyle: {backgroundColor: colors.white},
         }}>
         <NativeStack.Screen component={MainStack} name="MainStack" />
+        <NativeStack.Screen
+          component={LaminationMaterialOut}
+          name="LaminationMaterialOut"
+        />
+        <NativeStack.Screen
+          component={LaminationOrderHistory}
+          name="LaminationOrderHistory"
+        />
+        <NativeStack.Screen
+          component={LaminationAddCompletedOrder}
+          name="LaminationAddCompletedOrder"
+        />
         <NativeStack.Screen
           component={ExtruderOrderHistory}
           name="ExtruderOrderHistory"
@@ -54,11 +70,17 @@ const AppStack = () => {
           component={RewindingAddCompletedOrder}
           name="RewindingAddCompletedOrder"
         />
+        <NativeStack.Screen
+          component={StitchingOrderHistory}
+          name="StitchingOrderHistory"
+        />
+        <NativeStack.Screen
+          component={StitchingAddCompletedOrder}
+          name="StitchingAddCompletedOrder"
+        />
       </NativeStack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default memo(AppStack);
-
-const styles = StyleSheet.create({});

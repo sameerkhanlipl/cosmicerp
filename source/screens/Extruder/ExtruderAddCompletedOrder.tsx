@@ -1,5 +1,5 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, memo, useState} from 'react';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import React, {memo, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
@@ -8,7 +8,6 @@ import CommonHeader from '../../components/styles/CommonHeader';
 import Input from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import {RouteProp, useRoute} from '@react-navigation/native';
 import {AppStackParamList} from '../../stacks/StackTypes';
 
 type ExtruderAddCompletedOrderRouteProp = RouteProp<
@@ -139,19 +138,19 @@ const ExtruderAddCompletedOrder = () => {
           <View style={styles.unitContainer}>
             <Input
               config={{placeholder: '100 KG'}}
-              rootStyle={[styles.unitInput, {marginRight: 9}]}
+              rootStyle={[styles.unitInput]}
               label="Qty"
             />
             <Input
               config={{placeholder: '28”'}}
-              rootStyle={[styles.unitInput, {marginLeft: 9}]}
+              rootStyle={[styles.unitInput]}
               label="Size"
             />
           </View>
         </View>
         <Button
           icon={images.complete}
-          iconStyle={{height: 28, width: 28}}
+          iconStyle={styles.buttonIcon}
           buttonTextStyle={styles.buttonText}
           buttonContainerStyle={styles.button}>
           {'Make it Complete'}
@@ -284,11 +283,13 @@ const styles = StyleSheet.create({
   },
   unitInput: {
     flex: 1,
+    marginRight: 9,
   },
   button: {
     marginVertical: 46,
     marginHorizontal: 24,
   },
+  buttonIcon: {height: 28, width: 28},
   buttonText: {
     fontSize: 16,
     paddingHorizontal: 6,

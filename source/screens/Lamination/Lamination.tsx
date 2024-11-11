@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -12,12 +12,18 @@ import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import LaminationPendingOrders from './LaminationPendingOrders';
 import LaminationCompleteOrders from './LaminationCompleteOrders';
+import Button from '../../components/styles/Button';
+import {useNavigation} from '@react-navigation/native';
+import {AppNavigationProp} from '../../stacks/StackTypes';
+import {images} from '../../assets/images';
 
 const {width} = Dimensions.get('window');
 
 const Lamination = () => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
+
+  const {navigate} = useNavigation<AppNavigationProp>();
 
   const switchTab = (tabIndex: number) => {
     setActiveTab(tabIndex);
@@ -28,6 +34,10 @@ const Lamination = () => {
       useNativeDriver: true,
     }).start();
   };
+
+  const onNavigateLaminationMaterialOut = useCallback(() => {
+    navigate('LaminationMaterialOut');
+  }, [navigate]);
 
   return (
     <View style={styles.root}>
@@ -62,7 +72,15 @@ const Lamination = () => {
         </Pressable>
       </View>
 
-      {/* Tab Screens */}
+      <Button
+        onPress={onNavigateLaminationMaterialOut}
+        icon={images.material_out}
+        buttonContainerStyle={styles.button}
+        iconStyle={styles.iconStyle}
+        buttonTextStyle={styles.buttonText}>
+        {'Material Out'}
+      </Button>
+
       <Animated.View
         style={[
           styles.screenContainer,
@@ -127,5 +145,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
+  },
+  button: {
+    zIndex: 1,
+    right: 22,
+    bottom: 17,
+    height: 42,
+    elevation: 4,
+    shadowRadius: 4,
+    borderRadius: 29,
+    shadowOpacity: 0.2,
+    position: 'absolute',
+    paddingHorizontal: 20,
+    shadowColor: colors.black,
+    shadowOffset: {height: 2, width: 0},
+    backgroundColor: colors.color_42958F,
+  },
+  iconStyle: {
+    height: 22,
+    width: 22,
+  },
+  buttonText: {
+    fontSize: 14,
+    paddingLeft: 6,
+    fontFamily: fontFamily.Font500,
   },
 });

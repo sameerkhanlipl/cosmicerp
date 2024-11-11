@@ -38,7 +38,7 @@ const PackingPendingOrders = () => {
 
   const onNavigatePackingOrderHistory = useCallback(
     (data: PackingItemType) => {
-      // navigate('PackingOrderHistory', {data: data});
+      navigate('PackingOrderHistory', {data: data});
     },
     [navigate],
   );

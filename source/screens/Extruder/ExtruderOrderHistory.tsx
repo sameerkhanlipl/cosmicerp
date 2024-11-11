@@ -57,7 +57,7 @@ const ExtruderOrderHistory = () => {
     (data: ExtrudersItemType) => {
       navigate('ExtruderAddCompletedOrder', {data: data});
     },
-    [],
+    [navigate],
   );
 
   const renderItemHandler = useCallback(
@@ -76,7 +76,7 @@ const ExtruderOrderHistory = () => {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index: number) => index?.toString()}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={
           <>
             <ExtrudersItems
               onPress={onNavigateExtruderAddCompletedOrder}
@@ -84,7 +84,7 @@ const ExtruderOrderHistory = () => {
             />
             <ItemSeparatorComponent />
           </>
-        )}
+        }
         ItemSeparatorComponent={ItemSeparatorComponent}
       />
     </View>

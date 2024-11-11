@@ -37,7 +37,7 @@ const RewindingCompleteOrders = () => {
 
   const onNavigateRewindingOrderHistory = useCallback(
     (data: RewindingItemType) => {
-      // navigate('RewindingOrderHistory', {data: data});
+      navigate('RewindingOrderHistory', {data: data});
     },
     [navigate],
   );

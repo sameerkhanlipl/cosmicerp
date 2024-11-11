@@ -3,24 +3,24 @@ import React, {memo, useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import CommonHeader from '../../components/styles/CommonHeader';
 import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
-import RewindingItems, {RewindingItemType} from './RewindingItems';
-import RewindingOrderHistoryItems, {
-  RewindingOrderHistoryItemType,
-} from './RewindingOrderHistoryItems';
+import LaminationItems, {LaminationItemType} from './LaminationItems';
+import LaminationOrderHistoryItems, {
+  LaminationOrderHistoryItemType,
+} from './LaminationOrderHistoryItems';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
-type RewindingOrderHistoryRouteProps = RouteProp<
+type LaminationOrderHistoryRouteProps = RouteProp<
   AppStackParamList,
-  'RewindingOrderHistory'
+  'LaminationOrderHistory'
 >;
 
-const RewindingOrderHistory = () => {
+const LaminationOrderHistory = () => {
   const {navigate} = useNavigation<AppNavigationProp>();
 
-  const route = useRoute<RewindingOrderHistoryRouteProps>();
+  const route = useRoute<LaminationOrderHistoryRouteProps>();
 
-  const [list] = useState<RewindingOrderHistoryItemType[]>([
+  const [list] = useState<LaminationOrderHistoryItemType[]>([
     {
       date: new Date()?.toString(),
       contractor: 'Ramesh',
@@ -65,16 +65,16 @@ const RewindingOrderHistory = () => {
 
   const ItemData = route?.params?.data;
 
-  const onNavigateRewindingAddCompletedOrder = useCallback(
-    (data: RewindingItemType) => {
-      navigate('RewindingAddCompletedOrder', {data: data});
+  const onNavigateLaminationAddCompletedOrder = useCallback(
+    (data: LaminationItemType) => {
+      navigate('LaminationAddCompletedOrder', {data: data});
     },
     [navigate],
   );
 
   const renderItemHandler = useCallback(
-    ({item}: {item: RewindingOrderHistoryItemType}) => {
-      return <RewindingOrderHistoryItems data={item} />;
+    ({item}: {item: LaminationOrderHistoryItemType}) => {
+      return <LaminationOrderHistoryItems data={item} />;
     },
     [],
   );
@@ -88,22 +88,22 @@ const RewindingOrderHistory = () => {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index: number) => index?.toString()}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={
           <>
-            <RewindingItems
-              onPress={onNavigateRewindingAddCompletedOrder}
+            <LaminationItems
+              onPress={onNavigateLaminationAddCompletedOrder}
               data={ItemData}
             />
             <ItemSeparatorComponent />
           </>
-        )}
+        }
         ItemSeparatorComponent={ItemSeparatorComponent}
       />
     </View>
   );
 };
 
-export default memo(RewindingOrderHistory);
+export default memo(LaminationOrderHistory);
 
 const styles = StyleSheet.create({
   root: {flex: 1},

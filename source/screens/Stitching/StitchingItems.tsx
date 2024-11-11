@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {FC, memo} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
@@ -31,9 +31,10 @@ export type StitchingItemType = {
 
 type StitchingItemProps = {
   data: StitchingItemType;
+  onPress: (value: StitchingItemType) => void;
 };
 
-const StitchingItems: FC<StitchingItemProps> = ({data}) => {
+const StitchingItems: FC<StitchingItemProps> = ({data, onPress}) => {
   const {
     order_id,
     product_name,
@@ -46,8 +47,12 @@ const StitchingItems: FC<StitchingItemProps> = ({data}) => {
     bags_per_bdl,
   } = data;
 
+  const onPressHandler = useCallback(() => {
+    onPress(data);
+  }, [onPress, data]);
+
   return (
-    <Pressable style={styles.item}>
+    <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
         <Font400 style={styles.order_id}>{order_id}</Font400>
         <Image

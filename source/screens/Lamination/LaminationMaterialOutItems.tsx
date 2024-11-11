@@ -4,20 +4,20 @@ import {StyleSheet, View} from 'react-native';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
-export type ExtruderMaterialOutItemType = {
+export type LaminationMaterialOutItemType = {
   date: string;
   category: string;
   product: string;
   bags: number;
 };
 
-type ExtruderMaterialOutItemsProps = {
-  data: ExtruderMaterialOutItemType;
+type LaminationMaterialOutItemsProps = {
+  data: LaminationMaterialOutItemType;
 };
 
-const ExtruderMaterialOutItems: FC<ExtruderMaterialOutItemsProps> = ({
+const LaminationMaterialOutItems: FC<LaminationMaterialOutItemsProps> = ({
   data,
-}: ExtruderMaterialOutItemsProps) => {
+}: LaminationMaterialOutItemsProps) => {
   const {date, category, product, bags} = data;
 
   return (
@@ -53,7 +53,7 @@ const ExtruderMaterialOutItems: FC<ExtruderMaterialOutItemsProps> = ({
   );
 };
 
-export default memo(ExtruderMaterialOutItems);
+export default memo(LaminationMaterialOutItems);
 
 const styles = StyleSheet.create({
   item: {

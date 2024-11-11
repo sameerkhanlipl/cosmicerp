@@ -2,6 +2,8 @@ import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
 import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
+import {LaminationItemType} from '../screens/Lamination/LaminationItems';
+import {StitchingItemType} from '../screens/Stitching/StitchingItems';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -22,13 +24,18 @@ export type MainParamList = {
 export type AppStackParamList = {
   MainStack: NavigatorScreenParams<MainParamList>;
   ProfileDetail: undefined;
+  LaminationMaterialOut: undefined;
+  LaminationOrderHistory: {data: LaminationItemType};
+  LaminationAddCompletedOrder: {data: LaminationItemType};
   ExtruderMaterialOut: undefined;
   ExtruderOrderHistory: {data: ExtrudersItemType};
   ExtruderAddCompletedOrder: {data: ExtrudersItemType};
   PackingOrderHistory: {data: PackingItemType};
   PackingAddCompletedOrder: {data: PackingItemType};
   RewindingOrderHistory: {data: RewindingItemType};
-  RewindingAddCompletedOrder: {data: ExtrudersItemType};
+  RewindingAddCompletedOrder: {data: RewindingItemType};
+  StitchingOrderHistory: {data: StitchingItemType};
+  StitchingAddCompletedOrder: {data: StitchingItemType};
 };
 
 export type AppNavigationProp = NavigationProp<AppStackParamList>;

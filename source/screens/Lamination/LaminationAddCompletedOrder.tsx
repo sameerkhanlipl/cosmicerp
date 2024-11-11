@@ -10,18 +10,18 @@ import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import {AppStackParamList} from '../../stacks/StackTypes';
 
-type RewindingAddCompletedOrderRouteProp = RouteProp<
+type LaminationAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
-  'RewindingAddCompletedOrder'
+  'LaminationAddCompletedOrder'
 >;
 
-const RewindingAddCompletedOrder = () => {
-  const route = useRoute<RewindingAddCompletedOrderRouteProp>();
+const LaminationAddCompletedOrder = () => {
+  const route = useRoute<LaminationAddCompletedOrderRouteProp>();
 
   const ItemData = route?.params?.data;
   return (
     <View style={styles.root}>
-      <CommonHeader title="Rewinding Orders" />
+      <CommonHeader title="Lamination Orders" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollRoot}>
@@ -30,54 +30,44 @@ const RewindingAddCompletedOrder = () => {
           <View style={styles.detail}>
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Gauge : '}</Font500>
-                <Font700 style={styles.value}>{ItemData?.length}</Font700>
-              </View>
-              <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Size : '}</Font500>
-                <Font700 style={styles.value}>{ItemData?.width + '"'}</Font700>
+                <Font500 style={styles.label}>{'Lamination Type : '}</Font500>
+                <Font700 style={styles.value}>{'Cutter'}</Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Colors : '}</Font500>
-                <Font700 style={styles.value}>{ItemData?.color}</Font700>
-              </View>
-              <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Qty : '}</Font500>
-                <Font700 style={styles.value}>
-                  {ItemData?.production_qty + ' Rolls'}
-                </Font700>
+                <Font500 style={styles.label}>{'Paper Mill : '}</Font500>
+                <Font700 style={styles.value}>{'2'}</Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Pipe : '}</Font500>
-                <Font700 style={styles.value}>
-                  {ItemData?.pipe_size + 'MM'}
-                </Font700>
+                <Font500 style={styles.label}>{'GSM : '}</Font500>
+                <Font700 style={styles.value}>{'2'}</Font700>
               </View>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Sticker : '}</Font500>
-                <Font700 style={styles.value}>{'Yes'}</Font700>
+                <Font500 style={styles.label}>{'Reel Size : '}</Font500>
+                <Font700 style={styles.value}>{'2'}</Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Length : '}</Font500>
-                <Font700 style={styles.value}>
-                  {ItemData?.length + ' MM'}
-                </Font700>
+                <Font500 style={styles.label}>{'Meter : '}</Font500>
+                <Font700 style={styles.value}>{'2'}</Font700>
+              </View>
+              <View style={styles.detailSubContainer}>
+                <Font500 style={styles.label}>{'KG : '}</Font500>
+                <Font700 style={styles.value}>{'2'}</Font700>
               </View>
             </View>
           </View>
           <Input
-            config={{placeholder: 'Contractor'}}
+            config={{placeholder: 'Machine 1'}}
             rootStyle={styles.inputContainer}
-            label="Contractor"
+            label="Machine"
           />
           <Input
             config={{placeholder: '09/05/2024'}}
@@ -90,9 +80,9 @@ const RewindingAddCompletedOrder = () => {
             label="Rolls"
           />
           <Input
-            config={{placeholder: 'Remarks'}}
+            config={{placeholder: '100 KG'}}
             rootStyle={styles.inputContainer}
-            label="Remarks"
+            label="Meter"
           />
         </View>
         <Button
@@ -107,7 +97,7 @@ const RewindingAddCompletedOrder = () => {
   );
 };
 
-export default memo(RewindingAddCompletedOrder);
+export default memo(LaminationAddCompletedOrder);
 
 const styles = StyleSheet.create({
   root: {

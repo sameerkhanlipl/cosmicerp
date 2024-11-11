@@ -9,7 +9,7 @@ import Extruder from '../screens/Extruder/Extruder';
 import Lamination from '../screens/Lamination/Lamination';
 import Packing from '../screens/Packing/Packing';
 import Rewinding from '../screens/Rewinding/Rewinding';
-import Stitching from '../screens/Silai/Stitching';
+import Stitching from '../screens/Stitching/Stitching';
 import {MainParamList} from './StackTypes';
 
 const BottomStack = createBottomTabNavigator<MainParamList>();

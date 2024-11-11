@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {FC, memo} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
@@ -31,13 +31,18 @@ export type LaminationItemType = {
 
 type LaminationItemsProps = {
   data: LaminationItemType;
+  onPress: (data: LaminationItemType) => void;
 };
 
-const LaminationItems: FC<LaminationItemsProps> = ({data}) => {
-  const {order_id, product_name, date, color, pending_bundle_qty} = data;
+const LaminationItems: FC<LaminationItemsProps> = ({data, onPress}) => {
+  const {order_id, product_name, date} = data;
+
+  const onPressHandler = useCallback(() => {
+    onPress(data);
+  }, [data, onPress]);
 
   return (
-    <Pressable style={styles.item}>
+    <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
         <Font400 style={styles.order_id}>{order_id}</Font400>
         <Image
