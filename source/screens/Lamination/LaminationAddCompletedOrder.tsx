@@ -1,24 +1,73 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {memo} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
 import CommonHeader from '../../components/styles/CommonHeader';
-import Input from '../../components/styles/Input';
+import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import {AppStackParamList} from '../../stacks/StackTypes';
+import moment from 'moment';
+import DropDown, {
+  DropDownRef,
+  DropDownType,
+} from '../../components/styles/DropDown';
+import {checkInput} from '../../utils/CheckInput';
+import {lamination_set_order_complete_body} from '../../api/BodyTypes';
+import {lamination_set_order_complete} from '../../api/apis';
+import {error} from '../../utils/ErrorHandler';
 
 type LaminationAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
   'LaminationAddCompletedOrder'
 >;
 
+const machineListing: DropDownType[] = [
+  {title: 'Machine 1', value: 'machine_1'},
+  {title: 'Machine 2', value: 'machine_2'},
+  {title: 'Machine 3', value: 'machine_3'},
+  {title: 'Machine 4', value: 'machine_4'},
+  {title: 'Machine 5', value: 'machine_5'},
+];
+
 const LaminationAddCompletedOrder = () => {
   const route = useRoute<LaminationAddCompletedOrderRouteProp>();
 
   const ItemData = route?.params?.data;
+
+  const [loader, setLoader] = useState<boolean>(false);
+
+  const machine = useRef<DropDownRef>(null);
+  const date = useRef<InputRef>(null);
+  const meter = useRef<InputRef>(null);
+
+  const onCompleteOrderHandler = useCallback(async () => {
+    if (checkInput(meter?.current?.get(), 'Meter Require for complete order')) {
+      return;
+    }
+
+    const body: lamination_set_order_complete_body = {
+      date: date?.current?.get(),
+      lamination_production_order_id: ItemData?.lamination_id,
+      machine: machine?.current?.get()?.value,
+      meter: meter?.current?.get(),
+    };
+
+    try {
+      setLoader(true);
+      const response = await lamination_set_order_complete(body);
+      console.log('response?.dat', response?.data);
+      setLoader(false);
+    } catch (err) {
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [ItemData]);
+
   return (
     <View style={styles.root}>
       <CommonHeader title="Lamination Orders" />
@@ -64,28 +113,28 @@ const LaminationAddCompletedOrder = () => {
               </View>
             </View>
           </View>
-          <Input
-            config={{placeholder: 'Machine 1'}}
+          <DropDown
+            ref={machine}
             rootStyle={styles.inputContainer}
+            data={machineListing}
             label="Machine"
           />
           <Input
-            config={{placeholder: '09/05/2024'}}
+            ref={date}
+            config={{value: moment().format('DD-MM-YYYY'), editable: false}}
             rootStyle={styles.inputContainer}
-            label="Date"
+            label="Date (DD-MM-YYYY)"
           />
           <Input
-            config={{placeholder: '2'}}
-            rootStyle={styles.inputContainer}
-            label="Rolls"
-          />
-          <Input
-            config={{placeholder: '100 KG'}}
+            ref={meter}
+            config={{placeholder: '100'}}
             rootStyle={styles.inputContainer}
             label="Meter"
           />
         </View>
         <Button
+          loader={loader}
+          onPress={onCompleteOrderHandler}
           icon={images.complete}
           iconStyle={styles.buttonIcon}
           buttonTextStyle={styles.buttonText}

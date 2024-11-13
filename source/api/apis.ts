@@ -1,6 +1,7 @@
 import {
   extruder_order_history_body,
   extruder_set_order_complete_body,
+  lamination_set_order_complete_body,
   login_body,
   otp_verification_body,
 } from './BodyTypes';
@@ -45,6 +46,20 @@ export const lamination_complete_orders = async () => {
       {
         status: 'completed',
       },
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const lamination_set_order_complete = async (
+  data: lamination_set_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'lamination/orders/setOrderCompleted',
+      data,
     );
     return response;
   } catch (error) {

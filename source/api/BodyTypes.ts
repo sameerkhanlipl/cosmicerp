@@ -9,6 +9,13 @@ export type otp_verification_body = {
   device_token: string;
 };
 
+export type lamination_set_order_complete_body = {
+  lamination_production_order_id: number | string | undefined;
+  machine: string | undefined;
+  date: string | undefined;
+  meter: number | string | undefined;
+};
+
 export type extruder_set_order_complete_body = {
   extruder_production_order_id: number | string | undefined;
   machine: string | undefined;
