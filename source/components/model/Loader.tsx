@@ -1,7 +1,7 @@
 import React, {FC, memo} from 'react';
 import {ActivityIndicator, Modal, StyleSheet, View} from 'react-native';
 
-import {colors} from '../../constant/colors';
+import {colors} from '../../constants/colors';
 
 type LoaderProps = {
   loader: boolean;

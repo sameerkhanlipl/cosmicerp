@@ -1,18 +1,20 @@
-import React, {memo, useCallback, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import PackingItems, {PackingItemType} from './PackingItems';
-import {AppNavigationProp} from '../../stacks/StackTypes';
 import {useNavigation} from '@react-navigation/native';
-import EmptyList from '../../components/styles/EmptyList';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {packing_order_listing_response} from '../../api/ResponseTypes';
 import {packing_complete_orders} from '../../api/apis';
+import EmptyList from '../../components/styles/EmptyList';
+import {AppNavigationProp} from '../../stacks/StackTypes';
 import {error} from '../../utils/ErrorHandler';
+import {colors} from '../../constants/colors';
+import PackingItems, {PackingItemType} from './PackingItems';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 const PackingCompleteOrders = () => {
   const [list, setList] = useState<PackingItemType[]>([]);
   const [loader, setLoader] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
@@ -34,6 +36,21 @@ const PackingCompleteOrders = () => {
   useEffect(() => {
     getList();
   }, [getList]);
+
+  const refreshList = useCallback(async () => {
+    try {
+      setRefresh(true);
+      const response: {data: packing_order_listing_response} =
+        await packing_complete_orders();
+      setList(response?.data?.data);
+      setRefresh(false);
+    } catch (err: any) {
+      error(err);
+      setRefresh(false);
+    } finally {
+      setRefresh(false);
+    }
+  }, []);
 
   const onNavigatePackingOrderHistory = useCallback(
     (data: PackingItemType) => {
@@ -62,6 +79,13 @@ const PackingCompleteOrders = () => {
         keyExtractor={(_, index: number): string => index?.toString()}
         ListEmptyComponent={
           <EmptyList loader={loader} message="Not have any completed Orders!" />
+        }
+        refreshControl={
+          <RefreshControl
+            tintColor={colors.color_22534F}
+            refreshing={refresh}
+            onRefresh={refreshList}
+          />
         }
       />
     </View>

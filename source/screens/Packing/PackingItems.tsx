@@ -1,9 +1,9 @@
-import React, {FC, memo, useCallback} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
-import {images} from '../../assets/images';
-import {colors} from '../../constants/colors';
 import moment from 'moment';
+import React, {FC, memo, useCallback} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {images} from '../../assets/images';
+import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
+import {colors} from '../../constants/colors';
 
 export type PackingItemType = {
   packing_production_order_id: number;
@@ -49,7 +49,7 @@ const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
 
   const onPressHandler = useCallback(() => {
     onPress(data);
-  }, []);
+  }, [onPress, data]);
 
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>

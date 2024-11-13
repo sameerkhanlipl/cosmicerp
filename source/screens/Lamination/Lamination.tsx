@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
@@ -7,15 +8,14 @@ import {
   Text,
   View,
 } from 'react-native';
+import {images} from '../../assets/images';
+import Button from '../../components/styles/Button';
 import Header from '../../components/styles/Header';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import LaminationPendingOrders from './LaminationPendingOrders';
-import LaminationCompleteOrders from './LaminationCompleteOrders';
-import Button from '../../components/styles/Button';
-import {useNavigation} from '@react-navigation/native';
 import {AppNavigationProp} from '../../stacks/StackTypes';
-import {images} from '../../assets/images';
+import LaminationCompleteOrders from './LaminationCompleteOrders';
+import LaminationPendingOrders from './LaminationPendingOrders';
 
 const {width} = Dimensions.get('window');
 

@@ -1,4 +1,9 @@
-import {login_body, otp_verification_body} from './BodyTypes';
+import {
+  extruder_order_history_body,
+  extruder_set_order_complete_body,
+  login_body,
+  otp_verification_body,
+} from './BodyTypes';
 import instance from './interceptors';
 
 export const login = async (data: login_body) => {
@@ -58,11 +63,43 @@ export const extruder_pending_orders = async () => {
   }
 };
 
-export const extruder_complete_orders = async () => {
+export const extruder_complete_orders = async (
+  data: extruder_set_order_complete_body,
+) => {
   try {
-    const response = await instance.post('extruder/orders/getOrdersByStatus', {
-      status: 'completed',
-    });
+    const response = await instance.post(
+      'extruder/orders/getOrdersByStatus',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const extruder_order_history = async (
+  data: extruder_order_history_body,
+) => {
+  try {
+    const response = await instance.post(
+      'extruder/orders/getOrderByExtruderOrderId',
+      data,
+    );
+    console.log('response?.data', response?.data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const extruder_set_order_complete = async (
+  data: extruder_set_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'extruder/orders/setOrderCompleted',
+      data,
+    );
     return response;
   } catch (error) {
     throw error;

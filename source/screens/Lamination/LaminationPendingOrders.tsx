@@ -1,18 +1,20 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {lamination_pending_orders} from '../../api/apis';
 import {lamination_order_listing_response} from '../../api/ResponseTypes';
 import EmptyList from '../../components/styles/EmptyList';
-import {error} from '../../utils/ErrorHandler';
-import LaminationItems, {LaminationItemType} from './LaminationItems';
-import {useNavigation} from '@react-navigation/native';
 import {AppNavigationProp} from '../../stacks/StackTypes';
+import {error} from '../../utils/ErrorHandler';
+import {colors} from '../../constants/colors';
+import LaminationItems, {LaminationItemType} from './LaminationItems';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 const LaminationPendingOrders = () => {
   const [list, setList] = useState<LaminationItemType[]>([]);
   const [loader, setLoader] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
@@ -34,6 +36,21 @@ const LaminationPendingOrders = () => {
   useEffect(() => {
     getList();
   }, [getList]);
+
+  const refreshList = useCallback(async () => {
+    try {
+      setRefresh(true);
+      const response: {data: lamination_order_listing_response} =
+        await lamination_pending_orders();
+      setList(response?.data?.data);
+      setRefresh(false);
+    } catch (err: any) {
+      error(err);
+      setRefresh(false);
+    } finally {
+      setRefresh(false);
+    }
+  }, []);
 
   const onNavigateLaminationOrderHistory = useCallback(
     (data: LaminationItemType) => {
@@ -65,6 +82,13 @@ const LaminationPendingOrders = () => {
         keyExtractor={(_, index: number): string => index?.toString()}
         ListEmptyComponent={
           <EmptyList loader={loader} message="Not have any pending Orders!" />
+        }
+        refreshControl={
+          <RefreshControl
+            tintColor={colors.color_22534F}
+            refreshing={refresh}
+            onRefresh={refreshList}
+          />
         }
       />
     </View>

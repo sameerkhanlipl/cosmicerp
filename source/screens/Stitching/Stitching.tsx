@@ -10,8 +10,8 @@ import {
 import Header from '../../components/styles/Header';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import SilaiCompleteOrders from './StitchingiCompleteOrders';
-import SilaiPendingOrders from './StitchingPendingOrders';
+import StitchingPendingOrders from './StitchingPendingOrders';
+import StitchingCompleteOrders from './StitchingCompleteOrders';
 
 const {width} = Dimensions.get('window');
 
@@ -70,8 +70,8 @@ const Stitching = () => {
             transform: [{translateX: Animated.multiply(translateX, -1)}],
           },
         ]}>
-        <SilaiPendingOrders />
-        <SilaiCompleteOrders />
+        <StitchingPendingOrders />
+        <StitchingCompleteOrders />
       </Animated.View>
     </View>
   );

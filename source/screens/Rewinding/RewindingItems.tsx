@@ -49,7 +49,7 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
 
   const onPressHandler = useCallback(() => {
     onPress(data);
-  }, []);
+  }, [onPress, data]);
 
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>

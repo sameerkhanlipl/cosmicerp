@@ -1,8 +1,14 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import React, {memo, useCallback, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
+import {extruder_order_history} from '../../api/apis';
+import {extruder_order_history_body} from '../../api/BodyTypes';
+import {extruder_order_history_listing_response} from '../../api/ResponseTypes';
 import CommonHeader from '../../components/styles/CommonHeader';
+import EmptyList from '../../components/styles/EmptyList';
+import {colors} from '../../constants/colors';
 import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
+import {error} from '../../utils/ErrorHandler';
 import ExtruderOrderHistoryItems, {
   ExtruderOrderHistoryItemType,
 } from './ExtruderOrderHistoryItems';
@@ -20,38 +26,57 @@ const ExtruderOrderHistory = () => {
 
   const route = useRoute<ExtruderOrderHistoryRouteProps>();
 
-  const [list] = useState<ExtruderOrderHistoryItemType[]>([
-    {
-      date: new Date().toString(),
-      machine: 1,
-      shift: 'day',
-      qty: '100',
-      size: '28',
-    },
-    {
-      date: new Date().toString(),
-      machine: 1,
-      shift: 'day',
-      qty: '100',
-      size: '28',
-    },
-    {
-      date: new Date().toString(),
-      machine: 1,
-      shift: 'day',
-      qty: '100',
-      size: '28',
-    },
-    {
-      date: new Date().toString(),
-      machine: 1,
-      shift: 'day',
-      qty: '100',
-      size: '28',
-    },
-  ]);
+  const [list, setList] = useState<ExtruderOrderHistoryItemType[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const ItemData = route?.params?.data;
+
+  const getList = useCallback(async () => {
+    const body: extruder_order_history_body = {
+      extruder_production_order_id: ItemData?.extruder_production_order_id,
+    };
+
+    console.log('body', body);
+
+    try {
+      setLoader(true);
+      const response: {data: extruder_order_history_listing_response} =
+        await extruder_order_history(body);
+      console.log('response?.data data', response?.data);
+      setList(response?.data?.data);
+      setLoader(false);
+    } catch (err: any) {
+      console.log('err?.data', err?.data);
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [ItemData, setLoader]);
+
+  useEffect(() => {
+    getList();
+  }, [getList]);
+
+  const refreshList = useCallback(async () => {
+    const body: extruder_order_history_body = {
+      extruder_production_order_id: ItemData?.extruder_production_order_id,
+    };
+
+    try {
+      setRefresh(true);
+      const response: {data: extruder_order_history_listing_response} =
+        await extruder_order_history(body);
+      setList(response?.data?.data);
+      setRefresh(false);
+    } catch (err: any) {
+      setRefresh(false);
+      error(err);
+    } finally {
+      setRefresh(false);
+    }
+  }, [ItemData, setRefresh]);
 
   const onNavigateExtruderAddCompletedOrder = useCallback(
     (data: ExtrudersItemType) => {
@@ -70,6 +95,7 @@ const ExtruderOrderHistory = () => {
   return (
     <View style={styles.root}>
       <CommonHeader title={'Order History #' + ItemData?.order_id} />
+
       <FlatList
         data={list}
         renderItem={renderItemHandler}
@@ -86,6 +112,19 @@ const ExtruderOrderHistory = () => {
           </>
         }
         ItemSeparatorComponent={ItemSeparatorComponent}
+        ListEmptyComponent={
+          <EmptyList
+            loader={loader}
+            message="Not have any history of this order!"
+          />
+        }
+        refreshControl={
+          <RefreshControl
+            tintColor={colors.color_22534F}
+            refreshing={refresh}
+            onRefresh={refreshList}
+          />
+        }
       />
     </View>
   );

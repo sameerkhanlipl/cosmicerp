@@ -17,7 +17,7 @@ const Header: FC<HeaderProps> = ({title}) => {
 
   const onNavigateProfileDetail = useCallback(() => {
     navigate('ProfileDetail');
-  }, []);
+  }, [navigate]);
 
   return (
     <View

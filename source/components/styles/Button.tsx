@@ -8,8 +8,9 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native';
-import {colors} from '../../constants/colors';
+
 import {Font600} from '../fonts/Fonts';
+import {colors} from '../../constants/colors';
 
 export type ButtonProps = {
   loader?: boolean;

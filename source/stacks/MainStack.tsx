@@ -2,6 +2,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {FC, memo, ReactNode} from 'react';
 import {Image, StyleSheet} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../assets/images';
 import {colors} from '../constants/colors';
 import {fontFamily} from '../constants/fontFamily';
@@ -29,6 +30,8 @@ const TabIcon: FC<TabBarIconProps> = ({color, icon}) => (
 );
 
 const MainStack = () => {
+  const {bottom} = useSafeAreaInsets();
+
   return (
     <BottomStack.Navigator
       screenOptions={{
@@ -36,11 +39,8 @@ const MainStack = () => {
         tabBarInactiveTintColor: colors.transparent_black_4,
         tabBarActiveTintColor: colors.color_22534F,
         tabBarStyle: {
-          height: 70,
-          paddingBottom: 18,
+          height: bottom + 60,
           paddingHorizontal: 14,
-        },
-        tabBarItemStyle: {
           borderTopWidth: 1,
           borderTopColor: colors.lightGray,
         },

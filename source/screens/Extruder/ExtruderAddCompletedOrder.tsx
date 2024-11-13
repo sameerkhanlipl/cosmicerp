@@ -1,14 +1,23 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {memo, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import {extruder_complete_orders} from '../../api/apis';
+import {extruder_set_order_complete_body} from '../../api/BodyTypes';
 import {images} from '../../assets/images';
-import {Font500, Font700} from '../../components/fonts/Fonts';
+import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
 import CommonHeader from '../../components/styles/CommonHeader';
-import Input from '../../components/styles/Input';
+import DropDown, {
+  DropDownRef,
+  DropDownType,
+} from '../../components/styles/DropDown';
+import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import {AppStackParamList} from '../../stacks/StackTypes';
+import {error} from '../../utils/ErrorHandler';
+import moment from 'moment';
+import {checkInput} from '../../utils/CheckInput';
 
 type ExtruderAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -16,16 +25,63 @@ type ExtruderAddCompletedOrderRouteProp = RouteProp<
 >;
 
 enum Sift {
-  DAY = 'Day',
-  NIGHT = 'Night',
+  DAY = 'day',
+  NIGHT = 'night',
 }
 
+const machineListing: DropDownType[] = [
+  {title: 'Machine 1', value: 'machine_1'},
+  {title: 'Machine 2', value: 'machine_2'},
+  {title: 'Machine 3', value: 'machine_3'},
+  {title: 'Machine 4', value: 'machine_4'},
+  {title: 'Machine 5', value: 'machine_5'},
+];
+
 const ExtruderAddCompletedOrder = () => {
-  const [selectedSift, setSelectedSift] = useState<Sift>(Sift.DAY);
-
   const route = useRoute<ExtruderAddCompletedOrderRouteProp>();
-
   const ItemData = route?.params?.data;
+
+  const [selectedSift, setSelectedSift] = useState<Sift>(Sift.DAY);
+  const [loader, setLoader] = useState<boolean>();
+
+  const machine = useRef<DropDownRef>(null);
+  const date = useRef<InputRef>(null);
+  const qty = useRef<InputRef>(null);
+  const size = useRef<InputRef>(null);
+
+  const onCompleteOrderHandler = useCallback(async () => {
+    if (
+      checkInput(qty?.current?.get(), 'Quantity Require for complete order')
+    ) {
+      return;
+    }
+
+    if (checkInput(size?.current?.get(), 'Size Require for complete order')) {
+      return;
+    }
+
+    const body: extruder_set_order_complete_body = {
+      date: date?.current?.get(),
+      extruder_production_order_id: ItemData?.extruder_production_order_id,
+      machine: machine?.current?.get()?.value,
+      qty: qty?.current?.get(),
+      shift: selectedSift,
+      size: size?.current?.get(),
+    };
+
+    try {
+      setLoader(true);
+      const response = await extruder_complete_orders(body);
+      console.log('response?.dat', response?.data);
+      setLoader(false);
+    } catch (err) {
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [selectedSift, ItemData]);
+
   return (
     <View style={styles.root}>
       <CommonHeader title="Extruders orders" />
@@ -68,15 +124,19 @@ const ExtruderAddCompletedOrder = () => {
               source={images.info}
             />
           </View>
-          <Input
-            config={{placeholder: 'Machine 1'}}
+          <DropDown
+            ref={machine}
             rootStyle={styles.inputContainer}
+            data={machineListing}
             label="Machine"
           />
           <Input
-            config={{placeholder: '09/05/2024'}}
+            ref={date}
             rootStyle={styles.inputContainer}
-            label="Date"
+            config={{value: moment().format('DD-MM-YYYY'), editable: false}}
+            label="Date (DD-MM-YYYY)"
+            rightIcon={images.date}
+            rightIconStyle={styles.dateIcon}
           />
 
           <View style={styles.siftContainer}>
@@ -137,18 +197,28 @@ const ExtruderAddCompletedOrder = () => {
 
           <View style={styles.unitContainer}>
             <Input
+              ref={qty}
               config={{placeholder: '100 KG'}}
               rootStyle={[styles.unitInput]}
               label="Qty"
             />
             <Input
+              ref={size}
               config={{placeholder: '28”'}}
               rootStyle={[styles.unitInput]}
               label="Size"
             />
           </View>
+          <View style={styles.pending}>
+            <Font500 style={styles.pendingMedium}>
+              {ItemData?.pending_bundle_qty + ' KG'}
+            </Font500>
+            <Font400 style={styles.pendingRegular}>{' Pending'}</Font400>
+          </View>
         </View>
         <Button
+          loader={loader}
+          onPress={onCompleteOrderHandler}
           icon={images.complete}
           iconStyle={styles.buttonIcon}
           buttonTextStyle={styles.buttonText}
@@ -227,6 +297,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: 16,
   },
+  dateIcon: {
+    height: 24,
+    width: 24,
+  },
   infoIcon: {
     height: 28,
     width: 28,
@@ -284,6 +358,20 @@ const styles = StyleSheet.create({
   unitInput: {
     flex: 1,
     marginRight: 9,
+  },
+  pending: {
+    paddingLeft: 12,
+    paddingTop: 7,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  pendingMedium: {
+    fontSize: 14,
+    color: colors?.color_22534F,
+  },
+  pendingRegular: {
+    fontSize: 14,
+    color: colors?.color_777777,
   },
   button: {
     marginVertical: 46,

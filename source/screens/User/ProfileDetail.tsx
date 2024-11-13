@@ -7,16 +7,16 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
 import {images} from '../../assets/images';
 import {Font400, Font500} from '../../components/fonts/Fonts';
-import CommonHeader from '../../components/styles/CommonHeader';
-import {colors} from '../../constants/colors';
 import GeneralModel, {
   GeneralModelRef,
 } from '../../components/model/GeneralModel';
-import {useDispatch} from 'react-redux';
-import {AppDispatch} from '../../store/store';
+import CommonHeader from '../../components/styles/CommonHeader';
+import {colors} from '../../constants/colors';
 import {logout} from '../../store/appSlice';
+import {AppDispatch} from '../../store/store';
 
 const ProfileDetail = () => {
   const logoutModel = useRef<GeneralModelRef>(null);

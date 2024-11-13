@@ -61,7 +61,7 @@ const PackingOrderHistory = () => {
     (data: PackingItemType) => {
       navigate('PackingAddCompletedOrder', {data: data});
     },
-    [],
+    [navigate],
   );
 
   const renderItemHandler = useCallback(

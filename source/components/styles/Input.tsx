@@ -111,6 +111,7 @@ const Input = forwardRef<InputRef, InputProps>(
             placeholderTextColor={colors.transparent_black_2}
             {...config}
           />
+
           {rightIcon ? (
             <Pressable onPress={rightIconPress}>
               <Image
@@ -140,11 +141,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderColor: colors.color_D5E4E3,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
     flex: 1,
     fontSize: 16,
     paddingHorizontal: 13,
+    includeFontPadding: false,
     fontFamily: fontFamily.Font500,
     color: colors.transparent_black,
   },

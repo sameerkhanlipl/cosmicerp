@@ -2,9 +2,9 @@ import React, {FC, memo} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets/images';
-import {colors} from '../../constants/colors';
 import {Font500} from '../fonts/Fonts';
 import {useNavigation} from '@react-navigation/native';
+import {colors} from '../../constants/colors';
 
 type CommonHeaderProps = {
   title: string;

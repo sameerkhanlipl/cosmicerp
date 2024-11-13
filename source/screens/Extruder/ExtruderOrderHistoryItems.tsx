@@ -5,11 +5,15 @@ import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
 export type ExtruderOrderHistoryItemType = {
-  date: string;
-  machine: string | number;
+  id: number | string;
+  extruder_production_order_id: number | string;
+  machine: string;
   shift: string;
-  qty: string | number;
-  size: string | number;
+  qty: number | string;
+  this_orders_completed_quantity: number | string;
+  size: number | string;
+  created_at: string;
+  updated_at: string;
 };
 
 type ExtruderOrderHistoryItemsProps = {
@@ -19,11 +23,13 @@ type ExtruderOrderHistoryItemsProps = {
 const ExtruderOrderHistoryItems: FC<ExtruderOrderHistoryItemsProps> = ({
   data,
 }) => {
-  const {date, machine, shift, qty, size} = data;
+  const {created_at, machine, shift, qty, size} = data;
 
   return (
     <View style={styles.item}>
-      <Font500 style={styles.date}>{moment(date).format('DD/MM/yyyy')}</Font500>
+      <Font500 style={styles.date}>
+        {moment(created_at).format('DD/MM/YYYY')}
+      </Font500>
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>
