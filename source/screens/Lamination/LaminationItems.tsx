@@ -35,7 +35,7 @@ type LaminationItemsProps = {
 };
 
 const LaminationItems: FC<LaminationItemsProps> = ({data, onPress}) => {
-  const {order_id, product_name, date} = data;
+  const {product_name, date, production_order_id} = data;
 
   const onPressHandler = useCallback(() => {
     onPress(data);
@@ -44,7 +44,7 @@ const LaminationItems: FC<LaminationItemsProps> = ({data, onPress}) => {
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
-        <Font400 style={styles.order_id}>{order_id}</Font400>
+        <Font400 style={styles.order_id}>{'#' + production_order_id}</Font400>
         <Image
           style={styles.goIcon}
           source={images.right_arrow}

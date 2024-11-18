@@ -49,9 +49,9 @@ const LaminationAddCompletedOrder = () => {
     }
 
     const body: lamination_set_order_complete_body = {
+      lamination_production_order_id: ItemData?.production_order_id,
+      machine: machine?.current?.get().value,
       date: date?.current?.get(),
-      lamination_production_order_id: ItemData?.lamination_id,
-      machine: machine?.current?.get()?.value,
       meter: meter?.current?.get(),
     };
 
@@ -75,7 +75,9 @@ const LaminationAddCompletedOrder = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollRoot}>
         <View style={styles.container}>
-          <Font500 style={styles.orderId}>{ItemData.order_id}</Font500>
+          <Font500 style={styles.orderId}>
+            {'#' + ItemData.production_order_id}
+          </Font500>
           <View style={styles.detail}>
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
@@ -121,13 +123,14 @@ const LaminationAddCompletedOrder = () => {
           />
           <Input
             ref={date}
-            config={{value: moment().format('DD-MM-YYYY'), editable: false}}
+            default_value={moment().format('DD-MM-YYYY')}
             rootStyle={styles.inputContainer}
             label="Date (DD-MM-YYYY)"
+            config={{editable: false}}
           />
           <Input
             ref={meter}
-            config={{placeholder: '100'}}
+            config={{placeholder: '100 KG'}}
             rootStyle={styles.inputContainer}
             label="Meter"
           />

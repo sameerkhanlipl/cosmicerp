@@ -66,7 +66,7 @@ const Input = forwardRef<InputRef, InputProps>(
     ref,
   ) => {
     const [input, setInput] = useState<string>(
-      default_value ? default_value : '',
+      default_value && default_value?.length !== 0 ? default_value : '',
     );
 
     useImperativeHandle(

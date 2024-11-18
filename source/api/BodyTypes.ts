@@ -16,6 +16,10 @@ export type lamination_set_order_complete_body = {
   meter: number | string | undefined;
 };
 
+export type lamination_order_history_body = {
+  lamination_production_order_id: number | string | undefined;
+};
+
 export type extruder_set_order_complete_body = {
   extruder_production_order_id: number | string | undefined;
   machine: string | undefined;

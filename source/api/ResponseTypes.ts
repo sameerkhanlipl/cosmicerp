@@ -1,6 +1,7 @@
 import {ExtruderOrderHistoryItemType} from '../screens/Extruder/ExtruderOrderHistoryItems';
 import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 import {LaminationItemType} from '../screens/Lamination/LaminationItems';
+import {LaminationOrderHistoryItemType} from '../screens/Lamination/LaminationOrderHistoryItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
 import {StitchingItemType} from '../screens/Stitching/StitchingItems';
@@ -29,6 +30,11 @@ export type lamination_order_listing_response = {
   requestCode: number;
   message: string;
   data: LaminationItemType[];
+};
+
+export type lamination_order_history_listing_response = {
+  success: string;
+  data: LaminationOrderHistoryItemType[];
 };
 
 export type extruder_order_listing_response = {
