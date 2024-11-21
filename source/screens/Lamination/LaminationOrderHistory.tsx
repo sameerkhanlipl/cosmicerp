@@ -44,7 +44,6 @@ const LaminationOrderHistory = () => {
       setList(response?.data?.data);
       setLoader(false);
     } catch (err: any) {
-      console.log('err?.data', err?.data);
       setLoader(false);
       error(err);
     } finally {

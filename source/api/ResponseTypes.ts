@@ -32,6 +32,12 @@ export type lamination_order_listing_response = {
   data: LaminationItemType[];
 };
 
+export type lamination_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
 export type lamination_order_history_listing_response = {
   success: string;
   data: LaminationOrderHistoryItemType[];
@@ -42,6 +48,12 @@ export type extruder_order_listing_response = {
   requestCode: number;
   message: string;
   data: ExtrudersItemType[];
+};
+
+export type extruder_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
 };
 
 export type extruder_order_history_listing_response = {

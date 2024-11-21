@@ -5,12 +5,14 @@ import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
 export type LaminationOrderHistoryItemType = {
+  created_at: string;
   date: string;
-  contractor: string;
-  rolls: string;
-  color: string;
-  size: {length: string | number; width: string | number};
-  remark: string;
+  id: number | string;
+  lamination_production_order_id: number | string;
+  machine: string;
+  meter: number | string;
+  this_orders_completed_quantity: number | string;
+  updated_at: string;
 };
 
 type LaminationOrderHistoryItemsProps = {
@@ -20,40 +22,32 @@ type LaminationOrderHistoryItemsProps = {
 const LaminationOrderHistoryItems: FC<LaminationOrderHistoryItemsProps> = ({
   data,
 }) => {
-  const {date, contractor, rolls, color, size, remark} = data;
+  const {date, machine, meter, this_orders_completed_quantity} = data;
 
   return (
     <View style={styles.item}>
-      <Font500 style={styles.date}>{moment(date).format('DD/MM/yyyy')}</Font500>
+      <Font500 style={styles.date}>{moment(date).format('DD/MM/YYYY')}</Font500>
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Contractor : '}</Font500>
-          <Font700 style={styles.value}>{contractor}</Font700>
-        </View>
-        <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Rolls : '}</Font500>
-          <Font700 style={styles.value}>{rolls}</Font700>
+          <Font500 style={styles.label}>{'Machine : '}</Font500>
+          <Font700 style={styles.value}>{machine}</Font700>
         </View>
       </View>
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Colors : '}</Font500>
-          <Font700 style={styles.value}>{color}</Font700>
+          <Font500 style={styles.label}>{'Meter : '}</Font500>
+          <Font700 style={styles.value}>{meter}</Font700>
         </View>
+      </View>
+      <View style={styles.line} />
+      <View style={styles.container}>
         <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Size : '}</Font500>
+          <Font500 style={styles.label}>{'Qty : '}</Font500>
           <Font700 style={styles.value}>
-            {size?.length + ' X ' + size?.width}
+            {this_orders_completed_quantity + 'KG'}
           </Font700>
-        </View>
-      </View>
-      <View style={styles.line} />
-      <View style={styles.container}>
-        <View style={[styles.subContainer, {flexDirection: 'column'}]}>
-          <Font500 style={styles.label}>{'Remark'}</Font500>
-          <Font700 style={styles.value}>{remark}</Font700>
         </View>
       </View>
     </View>
@@ -82,12 +76,16 @@ const styles = StyleSheet.create({
     marginVertical: 9,
   },
   container: {
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   subContainer: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   label: {fontSize: 14, color: colors.color_777777},
-  value: {flex: 1, fontSize: 14},
+  value: {fontSize: 14},
 });

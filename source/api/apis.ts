@@ -57,9 +57,10 @@ export const lamination_complete_orders = async () => {
 export const lamination_order_history = async (
   data: lamination_order_history_body,
 ) => {
+  console.log('data', data);
   try {
     const response = await instance.post(
-      'lamination/orders/setOrderCompleted',
+      'lamination/orders/getOrderByLaminationId',
       data,
     );
     return response;
@@ -73,7 +74,7 @@ export const lamination_set_order_complete = async (
 ) => {
   try {
     const response = await instance.post(
-      'lamination/orders/getOrderByLaminationId',
+      'lamination/orders/setOrderCompleted',
       data,
     );
     return response;
@@ -98,7 +99,7 @@ export const extruder_complete_orders = async (
 ) => {
   try {
     const response = await instance.post(
-      'extruder/orders/getOrdersByStatus',
+      'extruder/orders/setOrderCompleted',
       data,
     );
     return response;
@@ -115,7 +116,6 @@ export const extruder_order_history = async (
       'extruder/orders/getOrderByExtruderOrderId',
       data,
     );
-    console.log('response?.data', response?.data);
     return response;
   } catch (error) {
     throw error;

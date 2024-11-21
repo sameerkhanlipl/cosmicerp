@@ -1,4 +1,4 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import React, {memo, useCallback, useRef, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {extruder_complete_orders} from '../../api/apis';
@@ -14,10 +14,11 @@ import DropDown, {
 import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import {AppStackParamList} from '../../stacks/StackTypes';
-import {error} from '../../utils/ErrorHandler';
+import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
+import {error, ShowToast} from '../../utils/ErrorHandler';
 import moment from 'moment';
 import {checkInput} from '../../utils/CheckInput';
+import {extruder_complete_orders_response} from '../../api/ResponseTypes';
 
 type ExtruderAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -40,6 +41,8 @@ const machineListing: DropDownType[] = [
 const ExtruderAddCompletedOrder = () => {
   const route = useRoute<ExtruderAddCompletedOrderRouteProp>();
   const ItemData = route?.params?.data;
+
+  const {goBack} = useNavigation<AppNavigationProp>();
 
   const [selectedSift, setSelectedSift] = useState<Sift>(Sift.DAY);
   const [loader, setLoader] = useState<boolean>();
@@ -69,18 +72,22 @@ const ExtruderAddCompletedOrder = () => {
       size: size?.current?.get(),
     };
 
+    console.log('body', body);
+
     try {
       setLoader(true);
-      const response = await extruder_complete_orders(body);
-      console.log('response?.dat', response?.data);
+      const response: {data: extruder_complete_orders_response} =
+        await extruder_complete_orders(body);
+      ShowToast(response?.data?.message);
       setLoader(false);
+      goBack();
     } catch (err) {
       setLoader(false);
       error(err);
     } finally {
       setLoader(false);
     }
-  }, [selectedSift, ItemData]);
+  }, [selectedSift, ItemData, goBack]);
 
   return (
     <View style={styles.root}>
@@ -132,11 +139,12 @@ const ExtruderAddCompletedOrder = () => {
           />
           <Input
             ref={date}
-            rootStyle={styles.inputContainer}
-            config={{value: moment().format('DD-MM-YYYY'), editable: false}}
-            label="Date (DD-MM-YYYY)"
             rightIcon={images.date}
+            label="Date (DD-MM-YYYY)"
+            config={{editable: false}}
             rightIconStyle={styles.dateIcon}
+            rootStyle={styles.inputContainer}
+            default_value={moment().format('DD-MM-YYYY')}
           />
 
           <View style={styles.siftContainer}>

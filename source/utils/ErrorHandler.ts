@@ -3,8 +3,6 @@ import {logout} from '../store/appSlice';
 import {store} from '../store/store';
 
 export const ShowToast = (tostMessage: string) => {
-  console.log('tostMessage', tostMessage);
-
   Toast.show(tostMessage, 0.4);
 };
 

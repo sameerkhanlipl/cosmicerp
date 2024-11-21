@@ -36,6 +36,9 @@ const ExtruderOrderHistoryItems: FC<ExtruderOrderHistoryItemsProps> = ({
           <Font500 style={styles.label}>{'Machine : '}</Font500>
           <Font700 style={styles.value}>{machine}</Font700>
         </View>
+      </View>
+      <View style={styles.line} />
+      <View style={styles.container}>
         <View style={styles.subContainer}>
           <Font500 style={styles.label}>{'Shift : '}</Font500>
           <Font700 style={styles.value}>{shift}</Font700>

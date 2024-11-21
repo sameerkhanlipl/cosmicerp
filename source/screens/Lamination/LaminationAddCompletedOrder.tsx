@@ -17,7 +17,8 @@ import DropDown, {
 import {checkInput} from '../../utils/CheckInput';
 import {lamination_set_order_complete_body} from '../../api/BodyTypes';
 import {lamination_set_order_complete} from '../../api/apis';
-import {error} from '../../utils/ErrorHandler';
+import {error, ShowToast} from '../../utils/ErrorHandler';
+import {lamination_complete_orders_response} from '../../api/ResponseTypes';
 
 type LaminationAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -57,8 +58,9 @@ const LaminationAddCompletedOrder = () => {
 
     try {
       setLoader(true);
-      const response = await lamination_set_order_complete(body);
-      console.log('response?.dat', response?.data);
+      const response: {data: lamination_complete_orders_response} =
+        await lamination_set_order_complete(body);
+      ShowToast(response?.data?.message);
       setLoader(false);
     } catch (err) {
       setLoader(false);

@@ -37,17 +37,13 @@ const ExtruderOrderHistory = () => {
       extruder_production_order_id: ItemData?.extruder_production_order_id,
     };
 
-    console.log('body', body);
-
     try {
       setLoader(true);
       const response: {data: extruder_order_history_listing_response} =
         await extruder_order_history(body);
-      console.log('response?.data data', response?.data);
       setList(response?.data?.data);
       setLoader(false);
     } catch (err: any) {
-      console.log('err?.data', err?.data);
       setLoader(false);
       error(err);
     } finally {
