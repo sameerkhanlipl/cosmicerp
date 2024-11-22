@@ -17,13 +17,22 @@ import CommonHeader from '../../components/styles/CommonHeader';
 import {colors} from '../../constants/colors';
 import {logout} from '../../store/appSlice';
 import {AppDispatch} from '../../store/store';
+import {signout} from '../../api/apis';
+import {error, ShowToast} from '../../utils/ErrorHandler';
+import {signout_response} from '../../api/ResponseTypes';
 
 const ProfileDetail = () => {
   const logoutModel = useRef<GeneralModelRef>(null);
   const dispatch = useDispatch<AppDispatch>();
 
-  const onLogoutHandler = useCallback(() => {
-    dispatch(logout());
+  const onLogoutHandler = useCallback(async () => {
+    try {
+      const response: {data: signout_response} = await signout();
+      ShowToast(response?.data?.message);
+      dispatch(logout());
+    } catch (err) {
+      error(err);
+    }
   }, [dispatch]);
 
   const onLogoutModelOPen = useCallback(() => {

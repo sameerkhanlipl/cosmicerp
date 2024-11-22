@@ -117,3 +117,5 @@ export type packing_complete_orders_response = {
   requestCode: number;
   message: string;
 };
+
+export type signout_response = {message: string; status: number | string};

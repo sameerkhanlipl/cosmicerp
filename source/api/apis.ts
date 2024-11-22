@@ -290,3 +290,12 @@ export const packing_set_order_complete = async (
     throw error;
   }
 };
+
+export const signout = async () => {
+  try {
+    const response = await instance.post('logout');
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
