@@ -1,12 +1,18 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import React, {memo, useCallback, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import React, {memo, useCallback, useEffect, useState} from 'react';
+import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
+import {packing_order_history_body} from '../../api/BodyTypes';
+import {packing_order_history_listing_response} from '../../api/ResponseTypes';
+import {packing_order_history} from '../../api/apis';
 import CommonHeader from '../../components/styles/CommonHeader';
 import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
 import PackingItems, {PackingItemType} from './PackingItems';
 import PackingOrderHistoryItems, {
   PackingOrderHistoryItemType,
 } from './PackingOrderHistoryItems';
+import {error} from '../../utils/ErrorHandler';
+import EmptyList from '../../components/styles/EmptyList';
+import {colors} from '../../constants/colors';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
@@ -20,42 +26,53 @@ const PackingOrderHistory = () => {
 
   const route = useRoute<PackingOrderHistoryRouteProps>();
 
-  const [list] = useState<PackingOrderHistoryItemType[]>([
-    {
-      date: new Date()?.toString(),
-      labour_name: 'Ramesh',
-      bag_box: '2',
-      pending_qty: '10',
-      size: {length: 14, width: 28},
-      remark: 'This handy tool helps you create dummy text for all',
-    },
-    {
-      date: new Date()?.toString(),
-      labour_name: 'Ramesh',
-      bag_box: '2',
-      pending_qty: '10',
-      size: {length: 14, width: 28},
-      remark: 'This handy tool helps you create dummy text for all',
-    },
-    {
-      date: new Date()?.toString(),
-      labour_name: 'Ramesh',
-      bag_box: '2',
-      pending_qty: '10',
-      size: {length: 14, width: 28},
-      remark: 'This handy tool helps you create dummy text for all',
-    },
-    {
-      date: new Date()?.toString(),
-      labour_name: 'Ramesh',
-      bag_box: '2',
-      pending_qty: '10',
-      size: {length: 14, width: 28},
-      remark: 'This handy tool helps you create dummy text for all',
-    },
-  ]);
+  const [list, setList] = useState<PackingOrderHistoryItemType[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const ItemData = route?.params?.data;
+
+  const getList = useCallback(async () => {
+    const body: packing_order_history_body = {
+      packing_production_order_id: ItemData?.packing_production_order_id,
+    };
+
+    try {
+      setLoader(true);
+      const response: {data: packing_order_history_listing_response} =
+        await packing_order_history(body);
+      setList(response?.data?.data);
+      setLoader(false);
+    } catch (err: any) {
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [ItemData, setLoader]);
+
+  useEffect(() => {
+    getList();
+  }, [getList]);
+
+  const refreshList = useCallback(async () => {
+    const body: packing_order_history_body = {
+      packing_production_order_id: ItemData?.packing_production_order_id,
+    };
+
+    try {
+      setRefresh(true);
+      const response: {data: packing_order_history_listing_response} =
+        await packing_order_history(body);
+      setList(response?.data?.data);
+      setLoader(false);
+    } catch (err: any) {
+      setRefresh(false);
+      error(err);
+    } finally {
+      setRefresh(false);
+    }
+  }, [ItemData, setRefresh]);
 
   const onNavigatePackingAddCompletedOrder = useCallback(
     (data: PackingItemType) => {
@@ -80,7 +97,7 @@ const PackingOrderHistory = () => {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index: number) => index?.toString()}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={
           <>
             <PackingItems
               onPress={onNavigatePackingAddCompletedOrder}
@@ -88,8 +105,21 @@ const PackingOrderHistory = () => {
             />
             <ItemSeparatorComponent />
           </>
-        )}
+        }
         ItemSeparatorComponent={ItemSeparatorComponent}
+        ListEmptyComponent={
+          <EmptyList
+            loader={loader}
+            message="Not have any history of this order!"
+          />
+        }
+        refreshControl={
+          <RefreshControl
+            tintColor={colors.color_22534F}
+            refreshing={refresh}
+            onRefresh={refreshList}
+          />
+        }
       />
     </View>
   );

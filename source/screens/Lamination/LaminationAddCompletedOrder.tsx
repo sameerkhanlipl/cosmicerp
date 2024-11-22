@@ -1,24 +1,24 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import moment from 'moment';
 import React, {memo, useCallback, useRef, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {lamination_set_order_complete_body} from '../../api/BodyTypes';
+import {lamination_complete_orders_response} from '../../api/ResponseTypes';
+import {lamination_set_order_complete} from '../../api/apis';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
 import CommonHeader from '../../components/styles/CommonHeader';
-import Input, {InputRef} from '../../components/styles/Input';
-import {colors} from '../../constants/colors';
-import {fontFamily} from '../../constants/fontFamily';
-import {AppStackParamList} from '../../stacks/StackTypes';
-import moment from 'moment';
 import DropDown, {
   DropDownRef,
   DropDownType,
 } from '../../components/styles/DropDown';
+import Input, {InputRef} from '../../components/styles/Input';
+import {colors} from '../../constants/colors';
+import {fontFamily} from '../../constants/fontFamily';
+import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
 import {checkInput} from '../../utils/CheckInput';
-import {lamination_set_order_complete_body} from '../../api/BodyTypes';
-import {lamination_set_order_complete} from '../../api/apis';
 import {error, ShowToast} from '../../utils/ErrorHandler';
-import {lamination_complete_orders_response} from '../../api/ResponseTypes';
 
 type LaminationAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -35,6 +35,8 @@ const machineListing: DropDownType[] = [
 
 const LaminationAddCompletedOrder = () => {
   const route = useRoute<LaminationAddCompletedOrderRouteProp>();
+
+  const {goBack} = useNavigation<AppNavigationProp>();
 
   const ItemData = route?.params?.data;
 
@@ -62,13 +64,14 @@ const LaminationAddCompletedOrder = () => {
         await lamination_set_order_complete(body);
       ShowToast(response?.data?.message);
       setLoader(false);
+      goBack();
     } catch (err) {
       setLoader(false);
       error(err);
     } finally {
       setLoader(false);
     }
-  }, [ItemData]);
+  }, [ItemData, goBack]);
 
   return (
     <View style={styles.root}>
@@ -159,6 +162,7 @@ const styles = StyleSheet.create({
   },
   scrollRoot: {
     flexGrow: 1,
+    paddingBottom: 100,
   },
   container: {
     padding: 17,

@@ -5,6 +5,8 @@ import {
   lamination_set_order_complete_body,
   login_body,
   otp_verification_body,
+  packing_order_history_body,
+  packing_set_order_complete_body,
   rewinding_order_history_body,
   rewinding_set_order_complete_body,
 } from './BodyTypes';
@@ -226,6 +228,34 @@ export const packing_complete_orders = async () => {
     const response = await instance.post('packing/orders/getOrdersByStatus', {
       status: 'completed',
     });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const packing_order_history = async (
+  data: packing_order_history_body,
+) => {
+  try {
+    const response = await instance.post(
+      'rewinding/orders/getOrderByRewindingOrderId',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const packing_set_order_complete = async (
+  data: packing_set_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'packing/orders/setOrderCompleted',
+      data,
+    );
     return response;
   } catch (error) {
     throw error;

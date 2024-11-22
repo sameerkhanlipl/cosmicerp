@@ -24,7 +24,7 @@ const ProfileDetail = () => {
 
   const onLogoutHandler = useCallback(() => {
     dispatch(logout());
-  }, []);
+  }, [dispatch]);
 
   const onLogoutModelOPen = useCallback(() => {
     logoutModel?.current?.open();
@@ -222,5 +222,6 @@ const styles = StyleSheet.create({
   },
   logout: {
     fontSize: 14,
+    paddingHorizontal: 10,
   },
 });

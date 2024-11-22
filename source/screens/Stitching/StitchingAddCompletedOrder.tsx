@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   },
   scrollRoot: {
     flexGrow: 1,
+    paddingBottom: 100,
   },
   container: {
     padding: 17,

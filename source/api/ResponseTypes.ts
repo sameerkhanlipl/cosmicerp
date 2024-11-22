@@ -3,6 +3,7 @@ import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 import {LaminationItemType} from '../screens/Lamination/LaminationItems';
 import {LaminationOrderHistoryItemType} from '../screens/Lamination/LaminationOrderHistoryItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
+import {PackingOrderHistoryItemType} from '../screens/Packing/PackingOrderHistoryItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
 import {RewindingOrderHistoryItemType} from '../screens/Rewinding/RewindingOrderHistoryItems';
 import {StitchingItemType} from '../screens/Stitching/StitchingItems';
@@ -75,6 +76,8 @@ export type rewinding_complete_orders_response = {
   message: string;
 };
 
+
+
 export type rewinding_order_history_listing_response = {
   success: string;
   data: RewindingOrderHistoryItemType[];
@@ -92,4 +95,15 @@ export type packing_order_listing_response = {
   requestCode: number;
   message: string;
   data: PackingItemType[];
+};
+
+export type packing_order_history_listing_response = {
+  success: string;
+  data: PackingOrderHistoryItemType[];
+};
+
+export type packing_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
 };

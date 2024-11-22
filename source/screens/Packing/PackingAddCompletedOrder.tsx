@@ -1,14 +1,20 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {memo, useState} from 'react';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import moment from 'moment';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import {packing_set_order_complete} from '../../api/apis';
+import {packing_set_order_complete_body} from '../../api/BodyTypes';
+import {packing_complete_orders_response} from '../../api/ResponseTypes';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
 import CommonHeader from '../../components/styles/CommonHeader';
-import Input from '../../components/styles/Input';
+import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import {AppStackParamList} from '../../stacks/StackTypes';
+import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
+import {checkInput} from '../../utils/CheckInput';
+import {error, ShowToast} from '../../utils/ErrorHandler';
 
 type PackingAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -23,9 +29,61 @@ enum Step {
 const PackingAddCompletedOrder = () => {
   const route = useRoute<PackingAddCompletedOrderRouteProp>();
 
-  const [selectedStep, setSelectedStep] = useState<Step>(Step.YES);
-
   const ItemData = route?.params?.data;
+
+  const {goBack} = useNavigation<AppNavigationProp>();
+
+  const [selectedStep, setSelectedStep] = useState<Step>(Step.YES);
+  const [loader, setLoader] = useState(false);
+
+  const labour = useRef<InputRef>(null);
+  const date = useRef<InputRef>(null);
+  const bags = useRef<InputRef>(null);
+  const steping_required = useRef<InputRef>(null);
+
+  const onCompleteOrderHandler = useCallback(async () => {
+    if (
+      checkInput(labour?.current?.get(), 'Labour Require for complete order')
+    ) {
+      return;
+    }
+
+    if (checkInput(bags?.current?.get(), 'Bags Require for complete order')) {
+      return;
+    }
+
+    if (
+      checkInput(
+        steping_required?.current?.get(),
+        'Steping Require for complete order',
+      )
+    ) {
+      return;
+    }
+
+    const body: packing_set_order_complete_body = {
+      packing_production_order_id: ItemData?.packing_production_order_id,
+      labour_name: labour?.current?.get(),
+      date: date?.current?.get(),
+      steping_required: steping_required?.current?.get(),
+      bags_per_box_qty: bags?.current?.get(),
+    };
+
+    try {
+      setLoader(true);
+      const response: {data: packing_complete_orders_response} =
+        await packing_set_order_complete(body);
+      ShowToast(response?.data?.message);
+      goBack();
+      setLoader(false);
+    } catch (err) {
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [ItemData, goBack]);
+
   return (
     <View style={styles.root}>
       <CommonHeader title="Packing Orders" />
@@ -105,16 +163,20 @@ const PackingAddCompletedOrder = () => {
             </Button>
           </View>
           <Input
+            ref={labour}
             config={{placeholder: 'Labour Name'}}
             rootStyle={styles.inputContainer}
             label="Labour Name"
           />
           <Input
-            config={{placeholder: '09/05/2024'}}
+            ref={date}
+            default_value={moment().format('DD-MM-YYYY')}
             rootStyle={styles.inputContainer}
-            label="Date"
+            label="Date (DD-MM-YYYY)"
+            config={{editable: false}}
           />
           <Input
+            ref={bags}
             config={{placeholder: '2'}}
             rootStyle={styles.inputContainer}
             label="Bags/Box Qty"
@@ -155,14 +217,17 @@ const PackingAddCompletedOrder = () => {
           </View>
 
           <Input
-            config={{placeholder: 'Remarks'}}
+            ref={steping_required}
+            config={{placeholder: 'Steping Required'}}
             rootStyle={styles.inputContainer}
             label="Remarks"
           />
         </View>
         <Button
+          loader={loader}
           icon={images.complete}
-          iconStyle={{height: 28, width: 28}}
+          iconStyle={styles.buttonIcon}
+          onPress={onCompleteOrderHandler}
           buttonTextStyle={styles.buttonText}
           buttonContainerStyle={styles.button}>
           {'Make it Complete'}
@@ -180,6 +245,7 @@ const styles = StyleSheet.create({
   },
   scrollRoot: {
     flexGrow: 1,
+    paddingBottom: 100,
   },
   container: {
     padding: 17,
@@ -287,6 +353,7 @@ const styles = StyleSheet.create({
     marginVertical: 46,
     marginHorizontal: 24,
   },
+  buttonIcon: {height: 28, width: 28},
   buttonText: {
     fontSize: 16,
     paddingHorizontal: 6,

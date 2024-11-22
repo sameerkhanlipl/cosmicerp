@@ -72,8 +72,6 @@ const ExtruderAddCompletedOrder = () => {
       size: size?.current?.get(),
     };
 
-    console.log('body', body);
-
     try {
       setLoader(true);
       const response: {data: extruder_complete_orders_response} =
@@ -246,6 +244,7 @@ const styles = StyleSheet.create({
   },
   scrollRoot: {
     flexGrow: 1,
+    paddingBottom: 100,
   },
   container: {
     padding: 17,

@@ -44,3 +44,15 @@ export type rewinding_set_order_complete_body = {
   rolls: number | string | undefined;
   remark: string | undefined;
 };
+
+export type packing_order_history_body = {
+  packing_production_order_id: number | string | undefined;
+};
+
+export type packing_set_order_complete_body = {
+  packing_production_order_id: number | string | undefined;
+  labour_name: string | undefined;
+  date: string | undefined;
+  bags_per_box_qty: number | string | undefined;
+  steping_required: string | undefined;
+};
