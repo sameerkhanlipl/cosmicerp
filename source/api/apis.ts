@@ -5,6 +5,8 @@ import {
   lamination_set_order_complete_body,
   login_body,
   otp_verification_body,
+  rewinding_order_history_body,
+  rewinding_set_order_complete_body,
 } from './BodyTypes';
 import instance from './interceptors';
 
@@ -152,6 +154,34 @@ export const rewinding_complete_orders = async () => {
     const response = await instance.post('rewinding/orders/getOrdersByStatus', {
       status: 'completed',
     });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const rewinding_order_history = async (
+  data: rewinding_order_history_body,
+) => {
+  try {
+    const response = await instance.post(
+      'rewinding/orders/getOrderByRewindingOrderId',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const rewinding_set_order_complete = async (
+  data: rewinding_set_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'rewinding/orders/setOrderCompleted',
+      data,
+    );
     return response;
   } catch (error) {
     throw error;

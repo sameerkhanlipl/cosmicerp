@@ -1,14 +1,20 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {memo} from 'react';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import moment from 'moment';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {rewinding_set_order_complete_body} from '../../api/BodyTypes';
+import {rewinding_complete_orders_response} from '../../api/ResponseTypes';
+import {rewinding_set_order_complete} from '../../api/apis';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
 import CommonHeader from '../../components/styles/CommonHeader';
-import Input from '../../components/styles/Input';
+import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import {AppStackParamList} from '../../stacks/StackTypes';
+import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
+import {checkInput} from '../../utils/CheckInput';
+import {error, ShowToast} from '../../utils/ErrorHandler';
 
 type RewindingAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -16,9 +22,62 @@ type RewindingAddCompletedOrderRouteProp = RouteProp<
 >;
 
 const RewindingAddCompletedOrder = () => {
+  const {goBack} = useNavigation<AppNavigationProp>();
+
   const route = useRoute<RewindingAddCompletedOrderRouteProp>();
 
   const ItemData = route?.params?.data;
+
+  const [loader, setLoader] = useState(false);
+
+  const contractor = useRef<InputRef>(null);
+  const date = useRef<InputRef>(null);
+  const rolls = useRef<InputRef>(null);
+  const remark = useRef<InputRef>(null);
+
+  const onCompleteOrderHandler = useCallback(async () => {
+    if (
+      checkInput(
+        contractor?.current?.get(),
+        'Contractor Require for complete order',
+      )
+    ) {
+      return;
+    }
+
+    if (checkInput(rolls?.current?.get(), 'Rolls Require for complete order')) {
+      return;
+    }
+
+    if (
+      checkInput(remark?.current?.get(), 'Remark Require for complete order')
+    ) {
+      return;
+    }
+
+    const body: rewinding_set_order_complete_body = {
+      rewinding_production_order_id: ItemData?.rewinding_production_order_id,
+      contractor: contractor?.current?.get(),
+      date: date?.current?.get(),
+      rolls: rolls?.current?.get(),
+      remark: remark?.current?.get(),
+    };
+
+    try {
+      setLoader(true);
+      const response: {data: rewinding_complete_orders_response} =
+        await rewinding_set_order_complete(body);
+      ShowToast(response?.data?.message);
+      goBack();
+      setLoader(false);
+    } catch (err) {
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [ItemData, goBack]);
+
   return (
     <View style={styles.root}>
       <CommonHeader title="Rewinding Orders" />
@@ -75,29 +134,36 @@ const RewindingAddCompletedOrder = () => {
             </View>
           </View>
           <Input
+            ref={contractor}
             config={{placeholder: 'Contractor'}}
             rootStyle={styles.inputContainer}
             label="Contractor"
           />
           <Input
-            config={{placeholder: '09/05/2024'}}
+            ref={date}
+            default_value={moment().format('DD-MM-YYYY')}
             rootStyle={styles.inputContainer}
-            label="Date"
+            label="Date (DD-MM-YYYY)"
+            config={{editable: false}}
           />
           <Input
+            ref={rolls}
             config={{placeholder: '2'}}
             rootStyle={styles.inputContainer}
             label="Rolls"
           />
           <Input
-            config={{placeholder: 'Remarks'}}
+            ref={remark}
+            config={{placeholder: 'Remarks', keyboardType: 'number-pad'}}
             rootStyle={styles.inputContainer}
             label="Remarks"
           />
         </View>
         <Button
+          loader={loader}
           icon={images.complete}
           iconStyle={styles.buttonIcon}
+          onPress={onCompleteOrderHandler}
           buttonTextStyle={styles.buttonText}
           buttonContainerStyle={styles.button}>
           {'Make it Complete'}

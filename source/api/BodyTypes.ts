@@ -32,3 +32,15 @@ export type extruder_set_order_complete_body = {
 export type extruder_order_history_body = {
   extruder_production_order_id: number | string | undefined;
 };
+
+export type rewinding_order_history_body = {
+  rewinding_production_order_id: number | string | undefined;
+};
+
+export type rewinding_set_order_complete_body = {
+  rewinding_production_order_id: number | string | undefined;
+  contractor: string | undefined;
+  date: string | undefined;
+  rolls: number | string | undefined;
+  remark: string | undefined;
+};

@@ -4,6 +4,7 @@ import {LaminationItemType} from '../screens/Lamination/LaminationItems';
 import {LaminationOrderHistoryItemType} from '../screens/Lamination/LaminationOrderHistoryItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
+import {RewindingOrderHistoryItemType} from '../screens/Rewinding/RewindingOrderHistoryItems';
 import {StitchingItemType} from '../screens/Stitching/StitchingItems';
 
 export type login_response = {
@@ -66,6 +67,17 @@ export type rewinding_order_listing_response = {
   requestCode: number;
   message: string;
   data: RewindingItemType[];
+};
+
+export type rewinding_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+export type rewinding_order_history_listing_response = {
+  success: string;
+  data: RewindingOrderHistoryItemType[];
 };
 
 export type stitching_order_listing_response = {

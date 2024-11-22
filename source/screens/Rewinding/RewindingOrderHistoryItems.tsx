@@ -6,11 +6,14 @@ import {colors} from '../../constants/colors';
 
 export type RewindingOrderHistoryItemType = {
   date: string;
-  contractor: string;
-  rolls: string;
-  color: string;
-  size: {length: string | number; width: string | number};
   remark: string;
+  contractor: string;
+  created_at: string;
+  id: number | string;
+  updated_at: string;
+  rolls: number | string;
+  rewinding_production_order_id: number | string;
+  this_orders_completed_quantity: number | string;
 };
 
 type RewindingOrderHistoryItemsProps = {
@@ -20,11 +23,11 @@ type RewindingOrderHistoryItemsProps = {
 const RewindingOrderHistoryItems: FC<RewindingOrderHistoryItemsProps> = ({
   data,
 }) => {
-  const {date, contractor, rolls, color, size, remark} = data;
+  const {date, contractor, rolls, remark} = data;
 
   return (
     <View style={styles.item}>
-      <Font500 style={styles.date}>{moment(date).format('DD/MM/yyyy')}</Font500>
+      <Font500 style={styles.date}>{moment(date).format('DD/MM/YYYY')}</Font500>
       <View style={styles.line} />
       <View style={styles.container}>
         <View style={styles.subContainer}>
@@ -38,20 +41,7 @@ const RewindingOrderHistoryItems: FC<RewindingOrderHistoryItemsProps> = ({
       </View>
       <View style={styles.line} />
       <View style={styles.container}>
-        <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Colors : '}</Font500>
-          <Font700 style={styles.value}>{color}</Font700>
-        </View>
-        <View style={styles.subContainer}>
-          <Font500 style={styles.label}>{'Size : '}</Font500>
-          <Font700 style={styles.value}>
-            {size?.length + ' X ' + size?.width}
-          </Font700>
-        </View>
-      </View>
-      <View style={styles.line} />
-      <View style={styles.container}>
-        <View style={[styles.subContainer, {flexDirection: 'column'}]}>
+        <View style={styles.remarkSubContainer}>
           <Font500 style={styles.label}>{'Remark'}</Font500>
           <Font700 style={styles.value}>{remark}</Font700>
         </View>
@@ -87,6 +77,10 @@ const styles = StyleSheet.create({
   subContainer: {
     flex: 1,
     flexDirection: 'row',
+  },
+  remarkSubContainer: {
+    flex: 1,
+    flexDirection: 'column',
   },
   label: {fontSize: 14, color: colors.color_777777},
   value: {flex: 1, fontSize: 14},
