@@ -7,6 +7,7 @@ import {PackingOrderHistoryItemType} from '../screens/Packing/PackingOrderHistor
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
 import {RewindingOrderHistoryItemType} from '../screens/Rewinding/RewindingOrderHistoryItems';
 import {StitchingItemType} from '../screens/Stitching/StitchingItems';
+import {StitchingOrderHistoryItemType} from '../screens/Stitching/StitchingOrderHistoryItems';
 
 export type login_response = {
   requestCode: number;
@@ -76,8 +77,6 @@ export type rewinding_complete_orders_response = {
   message: string;
 };
 
-
-
 export type rewinding_order_history_listing_response = {
   success: string;
   data: RewindingOrderHistoryItemType[];
@@ -88,6 +87,17 @@ export type stitching_order_listing_response = {
   requestCode: number;
   message: string;
   data: StitchingItemType[];
+};
+
+export type stitching_order_history_listing_response = {
+  success: string;
+  data: StitchingOrderHistoryItemType[];
+};
+
+export type stitching_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
 };
 
 export type packing_order_listing_response = {

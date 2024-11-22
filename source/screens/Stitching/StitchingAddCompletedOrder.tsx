@@ -1,14 +1,20 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {memo} from 'react';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {stitching_set_order_complete_body} from '../../api/BodyTypes';
+import {stitching_complete_orders_response} from '../../api/ResponseTypes';
 import {images} from '../../assets/images';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import Button from '../../components/styles/Button';
 import CommonHeader from '../../components/styles/CommonHeader';
-import Input from '../../components/styles/Input';
+import Input, {InputRef} from '../../components/styles/Input';
 import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
-import {AppStackParamList} from '../../stacks/StackTypes';
+import {AppNavigationProp, AppStackParamList} from '../../stacks/StackTypes';
+import {checkInput} from '../../utils/CheckInput';
+import {stitching_set_order_complete} from '../../api/apis';
+import {error, ShowToast} from '../../utils/ErrorHandler';
+import moment from 'moment';
 
 type StitchingAddCompletedOrderRouteProp = RouteProp<
   AppStackParamList,
@@ -16,9 +22,68 @@ type StitchingAddCompletedOrderRouteProp = RouteProp<
 >;
 
 const StitchingAddCompletedOrder = () => {
+  const {goBack} = useNavigation<AppNavigationProp>();
+
   const route = useRoute<StitchingAddCompletedOrderRouteProp>();
 
   const ItemData = route?.params?.data;
+
+  const [loader, setLoader] = useState(false);
+
+  const labour = useRef<InputRef>(null);
+  const date = useRef<InputRef>(null);
+  const bundle = useRef<InputRef>(null);
+  const qty = useRef<InputRef>(null);
+  const remark = useRef<InputRef>(null);
+
+  const onCompleteOrderHandler = useCallback(async () => {
+    if (
+      checkInput(labour?.current?.get(), 'Labour Require for complete order')
+    ) {
+      return;
+    }
+
+    if (
+      checkInput(bundle?.current?.get(), 'Bundle Require for complete order')
+    ) {
+      return;
+    }
+
+    if (
+      checkInput(qty?.current?.get(), 'Qty per Bdl Require for complete order')
+    ) {
+      return;
+    }
+    if (
+      checkInput(remark?.current?.get(), 'Remark Require for complete order')
+    ) {
+      return;
+    }
+
+    const body: stitching_set_order_complete_body = {
+      stitching_production_order_id: ItemData?.stitching_production_order_id,
+      labour_name: labour?.current?.get(),
+      date: date?.current?.get(),
+      qty_per_bdl: qty?.current?.get(),
+      bdl_qty: bundle?.current?.get(),
+      remark: remark?.current?.get(),
+    };
+
+    try {
+      setLoader(true);
+      const response: {data: stitching_complete_orders_response} =
+        await stitching_set_order_complete(body);
+      ShowToast(response?.data?.message);
+      goBack();
+      setLoader(false);
+    } catch (err) {
+      setLoader(false);
+      error(err);
+    } finally {
+      setLoader(false);
+    }
+  }, [ItemData, goBack]);
+
   return (
     <View style={styles.root}>
       <CommonHeader title="Stitching Orders" />
@@ -58,34 +123,42 @@ const StitchingAddCompletedOrder = () => {
             </View>
           </View>
           <Input
+            ref={labour}
             config={{placeholder: 'Labour Name'}}
             rootStyle={styles.inputContainer}
             label="Labour Name"
           />
           <Input
-            config={{placeholder: '09/05/2024'}}
+            ref={date}
+            default_value={moment().format('DD-MM-YYYY')}
             rootStyle={styles.inputContainer}
-            label="Date"
+            label="Date (DD-MM-YYYY)"
+            config={{editable: false}}
           />
           <View style={styles.unitContainer}>
             <Input
+              ref={bundle}
               config={{placeholder: '100 KG'}}
               rootStyle={[styles.unitInput]}
               label="Bundle Qty"
             />
             <Input
+              ref={qty}
               config={{placeholder: '28”'}}
               rootStyle={[styles.unitInput]}
               label="Qty Per Bdl"
             />
           </View>
           <Input
+            ref={remark}
             config={{placeholder: 'Remark'}}
             rootStyle={styles.inputContainer}
             label="Remark"
           />
         </View>
         <Button
+          loader={loader}
+          onPress={onCompleteOrderHandler}
           icon={images.complete}
           iconStyle={styles.buttonIcon}
           buttonTextStyle={styles.buttonText}
@@ -156,6 +229,7 @@ const styles = StyleSheet.create({
   },
   unitInput: {
     flex: 1,
+    marginRight: 9,
   },
   button: {
     marginVertical: 46,

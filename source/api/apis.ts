@@ -9,6 +9,7 @@ import {
   packing_set_order_complete_body,
   rewinding_order_history_body,
   rewinding_set_order_complete_body,
+  stitching_set_order_complete_body,
 } from './BodyTypes';
 import instance from './interceptors';
 
@@ -206,6 +207,34 @@ export const stitching_complete_orders = async () => {
     const response = await instance.post('stitching/orders/getOrdersByStatus', {
       status: 'completed',
     });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const stitching_order_history = async (
+  data: rewinding_order_history_body,
+) => {
+  try {
+    const response = await instance.post(
+      'rewinding/orders/getOrderByRewindingOrderId',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const stitching_set_order_complete = async (
+  data: stitching_set_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'stitching/orders/setOrderCompleted',
+      data,
+    );
     return response;
   } catch (error) {
     throw error;

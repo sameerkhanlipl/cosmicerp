@@ -6,27 +6,26 @@ import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
 export type StitchingItemType = {
-  extruder_production_order_id?: number;
-  customer_id?: string;
-  customer_order_id?: number;
-  order_id?: string;
-  product_name?: string;
-  date?: string;
-  gage?: string;
-  color?: string;
-  production_order_id?: number;
-  production_qty?: string;
-  pending_bundle_qty?: number;
-  lamination_id?: string;
-  alias_sku?: string;
-  length?: string;
-  width?: string;
-  bags_per_bdl?: string;
-  material_name?: null | string;
-  pipe_size?: string;
-  machine?: string;
-  status?: string;
-  total_order_qty?: string;
+  stitching_production_order_id: number;
+  customer_id: string;
+  customer_order_id: number;
+  order_id: string;
+  product_name: string;
+  date: string;
+  bags_per_bdl: string;
+  color: string;
+  total_order_qty: string;
+  gage: string;
+  pending_bundle_qty: string;
+  production_order_id: number;
+  production_qty: number;
+  packing_id: string;
+  alias_sku: string;
+  length: string;
+  width: string;
+  material_name: string | null;
+  pipe_size: string;
+  status: string;
 };
 
 type StitchingItemProps = {
