@@ -85,7 +85,7 @@ const LaminationMaterialOut = () => {
           </View>
           <Button
             icon={images.complete}
-            iconStyle={{height: 28, width: 28}}
+            iconStyle={styles.buttonIcon}
             buttonTextStyle={styles.buttonText}
             buttonContainerStyle={styles.button}>
             {'Make it Complete'}
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 36,
   },
+  buttonIcon: {height: 28, width: 28},
   buttonText: {
     fontSize: 16,
     paddingHorizontal: 6,

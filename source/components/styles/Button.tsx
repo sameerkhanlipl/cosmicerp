@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: colors.color_22534F,
+    backgroundColor: colors.color_42958F,
   },
   buttonText: {
     fontSize: 18,

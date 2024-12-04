@@ -24,6 +24,7 @@ export type MainParamList = {
 export type AppStackParamList = {
   MainStack: NavigatorScreenParams<MainParamList>;
   ProfileDetail: undefined;
+  LaminationMaterialIn: undefined;
   LaminationMaterialOut: undefined;
   LaminationOrderHistory: {data: LaminationItemType};
   LaminationAddCompletedOrder: {data: LaminationItemType};

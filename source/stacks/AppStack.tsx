@@ -17,6 +17,7 @@ import LaminationOrderHistory from '../screens/Lamination/LaminationOrderHistory
 import LaminationAddCompletedOrder from '../screens/Lamination/LaminationAddCompletedOrder';
 import StitchingOrderHistory from '../screens/Stitching/StitchingOrderHistory';
 import StitchingAddCompletedOrder from '../screens/Stitching/StitchingAddCompletedOrder';
+import LaminationMaterialIn from '../screens/Lamination/LaminationMaterialIn';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -32,6 +33,10 @@ const AppStack = () => {
         <NativeStack.Screen
           component={LaminationMaterialOut}
           name="LaminationMaterialOut"
+        />
+        <NativeStack.Screen
+          component={LaminationMaterialIn}
+          name="LaminationMaterialIn"
         />
         <NativeStack.Screen
           component={LaminationOrderHistory}

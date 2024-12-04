@@ -1,9 +1,12 @@
 import {
   extruder_order_history_body,
   extruder_set_order_complete_body,
+  get_material_name_body,
+  get_material_sub_categories_listing_body,
   lamination_order_history_body,
   lamination_set_order_complete_body,
   login_body,
+  material_in_body,
   otp_verification_body,
   packing_order_history_body,
   packing_set_order_complete_body,
@@ -80,6 +83,61 @@ export const lamination_set_order_complete = async (
   try {
     const response = await instance.post(
       'lamination/orders/setOrderCompleted',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const material_in = async (data: material_in_body) => {
+  try {
+    const response = await instance.post('materialin/store', data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const material_in_listing = async () => {
+  try {
+    const response = await instance.post('materialin/get');
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const get_material_type_listing = async () => {
+  try {
+    const response = await instance.post('getMaterialCategories');
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const get_material_sub_categories_listing = async (
+  data: get_material_sub_categories_listing_body,
+) => {
+  try {
+    const response = await instance.post(
+      'getMaterialSubCategoriesByCategoryId',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const get_material_name_listing = async (
+  data: get_material_name_body,
+) => {
+  try {
+    const response = await instance.post(
+      'getMaterialByCategoryAndSubCategoryId',
       data,
     );
     return response;

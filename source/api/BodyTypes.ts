@@ -20,6 +20,17 @@ export type lamination_order_history_body = {
   lamination_production_order_id: number | string | undefined;
 };
 
+export type material_in_body = {
+  date: string | undefined;
+  machine: string | undefined;
+  material_category_type: number | string | undefined;
+  material_sub_category: number | string | undefined;
+  material_name: number | string | undefined;
+  unit1: string | undefined;
+  unit2: string | undefined;
+  quantity: number | string | undefined;
+};
+
 export type extruder_set_order_complete_body = {
   extruder_production_order_id: number | string | undefined;
   machine: string | undefined;
@@ -69,3 +80,27 @@ export type packing_set_order_complete_body = {
   bags_per_box_qty: number | string | undefined;
   steping_required: string | undefined;
 };
+
+export type material_type_listing_body = {
+  data: [
+    {
+      created_at: string;
+      id: number | string;
+      name: string;
+      status: string;
+      updated_at: string;
+    },
+  ];
+  success: boolean | string;
+};
+
+
+export type get_material_sub_categories_listing_body = {
+  parent_category_id: number | string | undefined;
+};
+
+export type get_material_name_body = {
+  sub_category_id: number | string | undefined;
+  parent_category_id: number | string | undefined;
+};
+

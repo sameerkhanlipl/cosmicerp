@@ -31,11 +31,11 @@ export type DropDownType = {
 
 export type DropDownRef = {
   set: (value: DropDownType) => void;
-  get: () => DropDownType;
+  get: () => DropDownType | undefined;
 };
 
 type DropDownProps = {
-  data: DropDownType[];
+  data: DropDownType[] | [];
   onSelect?: (value: DropDownType) => void;
   config?: Partial<SelectDropdownProps>;
   label?: string;
@@ -71,7 +71,9 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>(
     },
     ref,
   ) => {
-    const [selectedOption, setSelectedOption] = useState<DropDownType>(data[0]);
+    const [selectedOption, setSelectedOption] = useState<
+      DropDownType | undefined
+    >();
 
     useImperativeHandle(
       ref,
@@ -80,7 +82,7 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>(
           set: (value: DropDownType) => {
             setSelectedOption(value);
           },
-          get: (): DropDownType => selectedOption,
+          get: (): DropDownType | undefined => selectedOption,
         };
       },
       [selectedOption],
@@ -89,8 +91,10 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>(
     useEffect(() => {
       if (data?.[0]) {
         setSelectedOption(data[0]);
+      } else {
+        setSelectedOption(undefined);
       }
-    }, [data]);
+    }, [data, setSelectedOption]);
 
     useEffect(() => {
       if (onSelect && selectedOption) {

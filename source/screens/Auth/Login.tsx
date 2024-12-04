@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, memo, useCallback, useRef, useState} from 'react';
+import React, {FC, memo, useCallback, useEffect, useRef, useState} from 'react';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {login} from '../../api/apis';
@@ -22,8 +22,11 @@ const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
 
   const {top} = useSafeAreaInsets();
 
+  useEffect(() => {
+    phone_number?.current?.set(__DEV__ ? '8866222412' : '');
+  }, []);
+
   const onNavigateOtpVerification = useCallback(async () => {
-    phone_number?.current?.set('7896541236');
     if (
       checkInput(phone_number?.current?.get(), 'Phone Number Require for Login')
     ) {

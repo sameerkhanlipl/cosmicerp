@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, memo, useCallback, useState} from 'react';
+import React, {FC, memo, useCallback, useEffect, useState} from 'react';
 import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
@@ -75,6 +75,12 @@ const OtpVerification: FC<OtpVerificationProps> = ({
       setLoader(false);
     }
   }, [otp, dispatch, phone_number]);
+
+  useEffect(() => {
+    if (otp?.toString()?.trim()?.length === 6) {
+      onVerificationCode();
+    }
+  }, [otp, onVerificationCode]);
 
   return (
     <View style={[styles.root, {paddingTop: top}]}>

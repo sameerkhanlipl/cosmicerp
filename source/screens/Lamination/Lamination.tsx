@@ -38,6 +38,10 @@ const Lamination = () => {
   const onNavigateLaminationMaterialOut = useCallback(() => {
     navigate('LaminationMaterialOut');
   }, [navigate]);
+  
+  const onNavigateLaminationMaterialIn = useCallback(() => {
+    navigate('LaminationMaterialIn');
+  }, [navigate]);
 
   return (
     <View style={styles.root}>
@@ -71,15 +75,24 @@ const Lamination = () => {
           </Text>
         </Pressable>
       </View>
-
-      <Button
-        onPress={onNavigateLaminationMaterialOut}
-        icon={images.material_out}
-        buttonContainerStyle={styles.button}
-        iconStyle={styles.iconStyle}
-        buttonTextStyle={styles.buttonText}>
-        {'Material Out'}
-      </Button>
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={onNavigateLaminationMaterialOut}
+          icon={images.material_out}
+          buttonContainerStyle={styles.materialOutButton}
+          iconStyle={styles.materialOutIconStyle}
+          buttonTextStyle={styles.materialOutButtonText}>
+          {'Material Out'}
+        </Button>
+        <Button
+          onPress={onNavigateLaminationMaterialIn}
+          icon={images.material_out}
+          buttonContainerStyle={styles.materialInButton}
+          iconStyle={styles.materialInIconStyle}
+          buttonTextStyle={styles.materialInButtonText}>
+          {'Material In'}
+        </Button>
+      </View>
 
       <Animated.View
         style={[
@@ -146,28 +159,48 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
   },
-  button: {
+  buttonContainer: {
     zIndex: 1,
     right: 22,
-    bottom: 17,
-    height: 42,
-    elevation: 4,
-    shadowRadius: 4,
-    borderRadius: 29,
-    shadowOpacity: 0.2,
+    flexDirection: 'row',
     position: 'absolute',
-    paddingHorizontal: 20,
-    shadowColor: colors.black,
-    shadowOffset: {height: 2, width: 0},
+    bottom: 10,
+  },
+  materialOutButton: {
+    height: 32,
+    marginRight: 2,
+    borderRadius: 0,
+    paddingHorizontal: 10,
+    borderTopLeftRadius: 29,
+    borderBottomLeftRadius: 29,
     backgroundColor: colors.color_42958F,
   },
-  iconStyle: {
+  materialOutIconStyle: {
     height: 22,
     width: 22,
   },
-  buttonText: {
-    fontSize: 14,
+  materialOutButtonText: {
+    fontSize: 10,
     paddingLeft: 6,
+    fontFamily: fontFamily.Font500,
+  },
+  materialInButton: {
+    height: 32,
+    borderRadius: 0,
+    paddingHorizontal: 10,
+    borderTopRightRadius: 29,
+    borderBottomRightRadius: 29,
+    flexDirection: 'row-reverse',
+    backgroundColor: colors.color_42958F,
+  },
+  materialInIconStyle: {
+    height: 22,
+    width: 22,
+    transform: [{scaleX: -1}],
+  },
+  materialInButtonText: {
+    fontSize: 10,
+    paddingRight: 6,
     fontFamily: fontFamily.Font500,
   },
 });

@@ -18,7 +18,6 @@
 		2EA17FCE6A5C47DF98A5B839 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 427BC0FC79404CF29AF8C7D2 /* Poppins-Medium.ttf */; };
 		376541CF0C9D44FEA9E49284 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E51C5D3A3E64F5C94CCE11B /* Poppins-Regular.ttf */; };
 		58E8925606874A0E99488E65 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA1CAED356484D86AB15218E /* Poppins-Bold.ttf */; };
-		6102F93E9831275E586D48EC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		7699B88040F8A987B510C191 /* libPods-cosmicerp-cosmicerpTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-cosmicerp-cosmicerpTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8628119D03CE4BB49147C6E7 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4CF5456324C42B4A5BF8B1A /* Poppins-SemiBold.ttf */; };
@@ -281,7 +280,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				6102F93E9831275E586D48EC /* PrivacyInfo.xcprivacy in Resources */,
 				1D5BB648AF564898B5C8E9DA /* Poppins-Black.ttf in Resources */,
 				58E8925606874A0E99488E65 /* Poppins-Bold.ttf in Resources */,
 				0258F51CE78E49F2A74F2B7B /* Poppins-ExtraBold.ttf in Resources */,
@@ -632,10 +630,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -704,10 +699,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
