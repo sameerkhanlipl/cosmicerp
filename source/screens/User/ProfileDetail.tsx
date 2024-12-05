@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {images} from '../../assets/images';
 import {Font400, Font500} from '../../components/fonts/Fonts';
 import GeneralModel, {
@@ -16,14 +16,17 @@ import GeneralModel, {
 import CommonHeader from '../../components/styles/CommonHeader';
 import {colors} from '../../constants/colors';
 import {logout} from '../../store/appSlice';
-import {AppDispatch} from '../../store/store';
+import {AppDispatch, RootState} from '../../store/store';
 import {signout} from '../../api/apis';
 import {error, ShowToast} from '../../utils/ErrorHandler';
 import {signout_response} from '../../api/ResponseTypes';
+import moment from 'moment';
 
 const ProfileDetail = () => {
   const logoutModel = useRef<GeneralModelRef>(null);
   const dispatch = useDispatch<AppDispatch>();
+
+  const user = useSelector((state: RootState) => state?.app?.user);
 
   const onLogoutHandler = useCallback(async () => {
     try {
@@ -59,7 +62,7 @@ const ProfileDetail = () => {
           />
         </View>
         <View style={styles.userDetails}>
-          <Font500 style={styles.name}>{'Aaftab shekh'}</Font500>
+          <Font500 style={styles.name}>{user?.name}</Font500>
           <Font400 style={styles.role}>{'supervisor'}</Font400>
         </View>
       </View>
@@ -78,7 +81,7 @@ const ProfileDetail = () => {
           <View style={styles.detail}>
             <Font400 style={styles.label}>{'Phone Number'}</Font400>
             <Font500 config={{numberOfLines: 1}} style={styles.value}>
-              {'7383770936'}
+              {user?.mobile}
             </Font500>
           </View>
         </View>
@@ -94,7 +97,7 @@ const ProfileDetail = () => {
           <View style={styles.detail}>
             <Font400 style={styles.label}>{'Email'}</Font400>
             <Font500 config={{numberOfLines: 1}} style={styles.value}>
-              {'aaftabshekhdeveloper@gmail,com'}
+              {'Not Available'}
             </Font500>
           </View>
         </View>
@@ -110,7 +113,7 @@ const ProfileDetail = () => {
           <View style={styles.detail}>
             <Font400 style={styles.label}>{'Joining Date'}</Font400>
             <Font500 config={{numberOfLines: 1}} style={styles.value}>
-              {'14 Sep 2013'}
+              {'Not Available'}
             </Font500>
           </View>
         </View>
@@ -126,7 +129,7 @@ const ProfileDetail = () => {
           <View style={styles.detail}>
             <Font400 style={styles.label}>{'Last Login'}</Font400>
             <Font500 config={{numberOfLines: 1}} style={styles.value}>
-              {'Today, 21:10'}
+              {moment()?.format('lll')}
             </Font500>
           </View>
         </View>
