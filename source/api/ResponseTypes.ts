@@ -2,6 +2,7 @@ import {ExtruderOrderHistoryItemType} from '../screens/Extruder/ExtruderOrderHis
 import {ExtrudersItemType} from '../screens/Extruder/ExtrudersItems';
 import {LaminationItemType} from '../screens/Lamination/LaminationItems';
 import {LaminationMaterialInItemType} from '../screens/Lamination/LaminationMaterialInItems';
+import {LaminationMaterialOutItemType} from '../screens/Lamination/LaminationMaterialOutItems';
 import {LaminationOrderHistoryItemType} from '../screens/Lamination/LaminationOrderHistoryItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
 import {PackingOrderHistoryItemType} from '../screens/Packing/PackingOrderHistoryItems';
@@ -54,9 +55,21 @@ export type material_in_response = {
   status: number;
 };
 
+export type material_out_response = {
+  success: string;
+  message: string;
+  data: {material_in: LaminationMaterialOutItemType[]};
+  status: number;
+};
+
 export type material_in_listing_response = {
   success: boolean | string;
   data: LaminationMaterialInItemType[] | [];
+};
+
+export type material_out_listing_response = {
+  success: boolean | string;
+  data: LaminationMaterialOutItemType[] | [];
 };
 
 export type material_type_listing_response = {
@@ -102,6 +115,12 @@ export type material_name_listing_response = {
     },
   ];
   success: boolean | string;
+};
+
+export type get_unit_label_response = {
+  success: boolean | string;
+  unit1Label: string;
+  unit2Label: string;
 };
 
 export type extruder_order_listing_response = {

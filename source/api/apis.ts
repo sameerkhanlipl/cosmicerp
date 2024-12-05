@@ -3,10 +3,12 @@ import {
   extruder_set_order_complete_body,
   get_material_name_body,
   get_material_sub_categories_listing_body,
+  get_unit_label_body,
   lamination_order_history_body,
   lamination_set_order_complete_body,
   login_body,
   material_in_body,
+  material_out_body,
   otp_verification_body,
   packing_order_history_body,
   packing_set_order_complete_body,
@@ -65,7 +67,6 @@ export const lamination_complete_orders = async () => {
 export const lamination_order_history = async (
   data: lamination_order_history_body,
 ) => {
-  console.log('data', data);
   try {
     const response = await instance.post(
       'lamination/orders/getOrderByLaminationId',
@@ -100,9 +101,27 @@ export const material_in = async (data: material_in_body) => {
   }
 };
 
+export const material_out = async (data: material_out_body) => {
+  try {
+    const response = await instance.post('materialout/store', data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const material_in_listing = async () => {
   try {
     const response = await instance.post('materialin/get');
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const material_out_listing = async () => {
+  try {
+    const response = await instance.post('materialout/get');
     return response;
   } catch (error) {
     throw error;
@@ -140,6 +159,15 @@ export const get_material_name_listing = async (
       'getMaterialByCategoryAndSubCategoryId',
       data,
     );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const get_unit_label = async (data: get_unit_label_body) => {
+  try {
+    const response = await instance.post('getUnitsByMaterialId', data);
     return response;
   } catch (error) {
     throw error;

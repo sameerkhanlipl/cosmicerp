@@ -22,13 +22,28 @@ export type lamination_order_history_body = {
 
 export type material_in_body = {
   date: string | undefined;
-  machine: string | undefined;
+  machine: number | string | undefined;
   material_category_type: number | string | undefined;
   material_sub_category: number | string | undefined;
   material_name: number | string | undefined;
   unit1: string | undefined;
-  unit2: string | undefined;
-  quantity: number | string | undefined;
+  unit1_value: number | string | undefined;
+  unit2?: string | undefined;
+  unit2_value?: number | string | undefined;
+  user_id: number | string | undefined;
+};
+
+export type material_out_body = {
+  date: string | undefined;
+  machine: number | string | undefined;
+  material_category_type: number | string | undefined;
+  material_sub_category: number | string | undefined;
+  material_name: number | string | undefined;
+  unit1: string | undefined;
+  unit1_value: number | string | undefined;
+  unit2?: string | undefined;
+  unit2_value?: number | string | undefined;
+  user_id: number | string | undefined;
 };
 
 export type extruder_set_order_complete_body = {
@@ -94,7 +109,6 @@ export type material_type_listing_body = {
   success: boolean | string;
 };
 
-
 export type get_material_sub_categories_listing_body = {
   parent_category_id: number | string | undefined;
 };
@@ -104,3 +118,6 @@ export type get_material_name_body = {
   parent_category_id: number | string | undefined;
 };
 
+export type get_unit_label_body = {
+  material_id: number | string | undefined;
+};

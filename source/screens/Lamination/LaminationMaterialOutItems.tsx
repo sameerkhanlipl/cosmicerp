@@ -5,10 +5,19 @@ import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
 
 export type LaminationMaterialOutItemType = {
+  id: number | string;
+  user_id: number | string;
   date: string;
-  category: string;
-  product: string;
-  bags: number;
+  machine: string;
+  material_category_type: number | string;
+  material_sub_category: number | string;
+  material_name: number | string;
+  unit1: string;
+  unit1_value: number | string;
+  unit2: number | string | null;
+  unit2_value: number | string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 type LaminationMaterialOutItemsProps = {
@@ -18,7 +27,7 @@ type LaminationMaterialOutItemsProps = {
 const LaminationMaterialOutItems: FC<LaminationMaterialOutItemsProps> = ({
   data,
 }: LaminationMaterialOutItemsProps) => {
-  const {date, category, product, bags} = data;
+  const {date, unit1, id, unit1_value, unit2, unit2_value, machine} = data;
 
   return (
     <View style={styles.item}>
@@ -29,24 +38,26 @@ const LaminationMaterialOutItems: FC<LaminationMaterialOutItemsProps> = ({
       <View style={styles.mainContainer}>
         <View style={styles.container}>
           <View style={styles.subContainer}>
-            <Font500 style={styles.label}>{'Category : '}</Font500>
-            <Font700 style={styles.value}>{category}</Font700>
+            <Font500 style={styles.label}>{'Id : '}</Font500>
+            <Font700 style={styles.value}>{id}</Font700>
           </View>
           <View style={styles.subContainer}>
-            <Font500 style={styles.label}>{'Product : '}</Font500>
-            <Font700 style={styles.value}>{product}</Font700>
+            <Font500 style={styles.label}>{'Machine : '}</Font500>
+            <Font700 style={styles.value}>{machine}</Font700>
           </View>
         </View>
 
         <View style={styles.container}>
           <View style={styles.subContainer}>
-            <Font500 style={styles.label}>{'Bags : '}</Font500>
-            <Font700 style={styles.value}>{bags}</Font700>
+            <Font500 style={styles.label}>{unit1 + ' : '}</Font500>
+            <Font700 style={styles.value}>{unit1_value}</Font700>
           </View>
-          <View style={styles.subContainer}>
-            <Font500 style={styles.label}>{'Bags : '}</Font500>
-            <Font700 style={styles.value}>{bags}</Font700>
-          </View>
+          {unit2 && unit2 !== null ? (
+            <View style={styles.subContainer}>
+              <Font500 style={styles.label}>{unit2 + ' : '}</Font500>
+              <Font700 style={styles.value}>{unit2_value}</Font700>
+            </View>
+          ) : null}
         </View>
       </View>
     </View>

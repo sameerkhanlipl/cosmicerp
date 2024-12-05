@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {
   Dimensions,
@@ -24,23 +25,27 @@ import LaminationMaterialInItems, {
 } from './LaminationMaterialInItems';
 
 import moment from 'moment';
+import {useSelector} from 'react-redux';
 import {
   get_material_name_listing,
   get_material_sub_categories_listing,
   get_material_type_listing,
+  get_unit_label,
   material_in,
   material_in_listing,
 } from '../../api/apis';
 import {material_in_body} from '../../api/BodyTypes';
 import {
+  get_unit_label_response,
   material_in_listing_response,
   material_in_response,
   material_name_listing_response,
   material_type_listing_response,
   sub_categories_listing_response,
 } from '../../api/ResponseTypes';
-import {checkInput} from '../../utils/CheckInput';
 import EmptyList from '../../components/styles/EmptyList';
+import {RootState} from '../../store/store';
+import {checkInput} from '../../utils/CheckInput';
 
 const ListHeaderComponent = () => (
   <Font500 style={styles.listHeaderTitle}>{'List of Material Out'}</Font500>
@@ -57,6 +62,8 @@ const machineListing: DropDownType[] = [
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
 const LaminationMaterialIn = () => {
+  const user = useSelector((state: RootState) => state?.app?.user);
+
   const date = useRef<InputRef>(null);
   const machine = useRef<DropDownRef>(null);
   const materialType = useRef<DropDownRef>(null);
@@ -64,7 +71,6 @@ const LaminationMaterialIn = () => {
   const materialName = useRef<DropDownRef>(null);
   const unit_1 = useRef<InputRef>(null);
   const unit_2 = useRef<InputRef>(null);
-  const quantity = useRef<InputRef>(null);
 
   const [list, setList] = useState<LaminationMaterialInItemType[]>([]);
 
@@ -87,6 +93,15 @@ const LaminationMaterialIn = () => {
   const [listOfMaterialName, setListOfMaterialName] = useState<
     DropDownType[] | []
   >([]);
+
+  const [selectedMaterialName, setSelectedMaterialName] = useState<
+    DropDownType | undefined
+  >();
+
+  const [unit1Label, setUnit1Label] = useState<string | undefined>('');
+  const [unit2Label, setUnit2Label] = useState<string | undefined>('');
+
+  console.log(unit1Label, unit2Label);
 
   const [loader, setLoader] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -178,6 +193,32 @@ const LaminationMaterialIn = () => {
     }
   }, [getListOfMaterialName, selectedMaterialTypes, selectedSubCategory]);
 
+  const getUnitsLabel = useCallback(async () => {
+    try {
+      setLoader(true);
+      const response: {
+        data: get_unit_label_response;
+      } = await get_unit_label({
+        material_id: selectedMaterialName?.value?.toString(),
+      });
+
+      setUnit1Label(response?.data?.unit1Label?.toString());
+      setUnit2Label(response?.data?.unit2Label?.toString());
+      setLoader(false);
+    } catch (err: any) {
+      setListOfMaterialName([]);
+      setLoader(false);
+    } finally {
+      setLoader(false);
+    }
+  }, [selectedMaterialName]);
+
+  useEffect(() => {
+    if (selectedMaterialName) {
+      getUnitsLabel();
+    }
+  }, [getUnitsLabel, selectedMaterialName]);
+
   const getList = useCallback(async () => {
     try {
       setLoader(true);
@@ -239,32 +280,37 @@ const LaminationMaterialIn = () => {
     if (checkInput(unit_1?.current?.get(), 'Unit 1 is Require ')) {
       return;
     }
-    if (checkInput(unit_2?.current?.get(), 'Unit 2 is Require ')) {
-      return;
-    }
-    if (checkInput(unit_2?.current?.get(), 'Quantity is Require ')) {
+    if (
+      unit1Label &&
+      unit2Label?.toString()?.length !== 0 &&
+      checkInput(unit_2?.current?.get(), 'Unit 2 is Require ')
+    ) {
       return;
     }
 
     setLoader(true);
 
-    const body: material_in_body = {
+    let body: material_in_body = {
       date: date?.current?.get(),
       machine: machine?.current?.get()?.value,
       material_category_type: materialType?.current?.get()?.value,
       material_sub_category: subCategory?.current?.get()?.value,
       material_name: materialName?.current?.get()?.value,
-      quantity: quantity?.current?.get(),
-      unit1: unit_1?.current?.get(),
-      unit2: unit_2?.current?.get(),
+      unit1: unit1Label,
+      unit1_value: unit_1?.current?.get(),
+      user_id: user?.id,
     };
+
+    if (unit2Label && unit2Label?.toString()?.length !== 0) {
+      body = {...body, unit2: unit2Label, unit2_value: unit_2?.current?.get()};
+    }
 
     try {
       const response: {data: material_in_response} = await material_in(body);
       ShowToast(response?.data?.message);
       unit_1?.current?.set('');
       unit_2?.current?.set('');
-      quantity?.current?.set('');
+      refreshList();
       setLoader(false);
     } catch (err: any) {
       setLoader(false);
@@ -272,7 +318,7 @@ const LaminationMaterialIn = () => {
     } finally {
       setLoader(false);
     }
-  }, []);
+  }, [user, unit1Label, unit2Label, refreshList]);
 
   return (
     <View style={styles.root}>
@@ -313,26 +359,49 @@ const LaminationMaterialIn = () => {
             label="Material Name"
             rootStyle={styles.input}
             data={listOfMaterialName}
+            onSelect={setSelectedMaterialName}
           />
-          <View style={styles.inputContainer}>
-            <Input
-              ref={unit_1}
-              label="Unit 1"
-              rootStyle={[
-                styles.input,
-                {width: Dimensions.get('window').width / 2 - 34},
-              ]}
-            />
-            <Input
-              ref={unit_2}
-              label="Unit 2"
-              rootStyle={[
-                styles.input,
-                {width: Dimensions.get('window').width / 2 - 34},
-              ]}
-            />
-          </View>
-          <Input ref={quantity} label="quantity" rootStyle={styles.input} />
+          {(unit1Label && unit1Label?.toString().length !== 0) ||
+          (unit2Label && unit2Label?.toString().length !== 0) ? (
+            <View style={styles.inputContainer}>
+              {unit1Label && unit1Label?.toString().length !== 0 ? (
+                <Input
+                  ref={unit_1}
+                  label={unit1Label}
+                  rootStyle={[
+                    styles.input,
+                    {
+                      width: Dimensions.get('window').width / 2 - 34,
+                      marginRight:
+                        unit2Label &&
+                        unit2Label?.toString().length !== 0 &&
+                        unit1Label &&
+                        unit1Label?.toString().length !== 0
+                          ? 10
+                          : 0,
+                    },
+                  ]}
+                />
+              ) : null}
+              {unit2Label && unit2Label?.toString().length !== 0 ? (
+                <Input
+                  ref={unit_2}
+                  label={unit2Label}
+                  rootStyle={[
+                    styles.input,
+                    {
+                      width: Dimensions.get('window').width / 2 - 34,
+                      marginLeft:
+                        unit2Label && unit2Label?.toString().length !== 0
+                          ? 10
+                          : 0,
+                    },
+                  ]}
+                />
+              ) : null}
+            </View>
+          ) : null}
+
           <Button
             loader={loader}
             icon={images.complete}
@@ -384,6 +453,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.color_F4F8F7,
   },
   input: {
+    flex: 1,
     marginTop: 20,
   },
   inputContainer: {

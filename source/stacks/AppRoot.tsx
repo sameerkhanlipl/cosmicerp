@@ -7,6 +7,8 @@ import AppStack from './AppStack';
 const AppRoot = () => {
   const user = useSelector((state: RootState) => state?.app?.user);
 
+  console.log('user', user?.token);
+
   return user ? <AppStack /> : <AuthStack />;
 };
 
