@@ -38,14 +38,21 @@ const Lamination = () => {
   const onNavigateLaminationMaterialOut = useCallback(() => {
     navigate('LaminationMaterialOut');
   }, [navigate]);
-  
+
   const onNavigateLaminationMaterialIn = useCallback(() => {
     navigate('LaminationMaterialIn');
   }, [navigate]);
 
+  const onNavigateSearchOrders = useCallback(() => {
+    navigate('LaminationSearchOrders');
+  }, [navigate]);
+
   return (
     <View style={styles.root}>
-      <Header title="Lamination Order" />
+      <Header
+        title="Lamination Order"
+        onSearchIconPress={onNavigateSearchOrders}
+      />
       <View style={styles.tabContainer}>
         <Animated.View
           style={[

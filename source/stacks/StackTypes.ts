@@ -22,6 +22,11 @@ export type MainParamList = {
 };
 
 export type AppStackParamList = {
+  ExtruderSearchOrders: undefined;
+  PackingSearchOrders: undefined;
+  StitchingSearchOrders: undefined;
+  RewindingSearchOrders: undefined;
+  LaminationSearchOrders: undefined;
   MainStack: NavigatorScreenParams<MainParamList>;
   ProfileDetail: undefined;
   LaminationMaterialIn: undefined;

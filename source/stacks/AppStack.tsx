@@ -18,6 +18,7 @@ import LaminationAddCompletedOrder from '../screens/Lamination/LaminationAddComp
 import StitchingOrderHistory from '../screens/Stitching/StitchingOrderHistory';
 import StitchingAddCompletedOrder from '../screens/Stitching/StitchingAddCompletedOrder';
 import LaminationMaterialIn from '../screens/Lamination/LaminationMaterialIn';
+import LaminationSearchOrders from '../screens/Lamination/LaminationSearchOrders';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -30,6 +31,11 @@ const AppStack = () => {
           contentStyle: {backgroundColor: colors.white},
         }}>
         <NativeStack.Screen component={MainStack} name="MainStack" />
+        <NativeStack.Screen
+          options={{animation: 'slide_from_bottom'}}
+          component={LaminationSearchOrders}
+          name="LaminationSearchOrders"
+        />
         <NativeStack.Screen
           component={LaminationMaterialOut}
           name="LaminationMaterialOut"

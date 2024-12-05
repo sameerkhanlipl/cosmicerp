@@ -9,9 +9,10 @@ import {AppNavigationProp} from '../../stacks/StackTypes';
 
 type HeaderProps = {
   title: string;
+  onSearchIconPress: () => void;
 };
 
-const Header: FC<HeaderProps> = ({title}) => {
+const Header: FC<HeaderProps> = ({title, onSearchIconPress = () => {}}) => {
   const {top} = useSafeAreaInsets();
   const {navigate} = useNavigation<AppNavigationProp>();
 
@@ -39,11 +40,13 @@ const Header: FC<HeaderProps> = ({title}) => {
         />
       </Pressable>
       <Font500 style={styles.title}>{title}</Font500>
-      <Image
-        source={images.search}
-        resizeMode="contain"
-        style={styles.searchIcon}
-      />
+      <Pressable onPress={onSearchIconPress}>
+        <Image
+          source={images.search}
+          resizeMode="contain"
+          style={styles.searchIcon}
+        />
+      </Pressable>
     </View>
   );
 };

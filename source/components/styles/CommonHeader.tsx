@@ -1,5 +1,11 @@
 import React, {FC, memo} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {
+  Image,
+  ImageRequireSource,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets/images';
 import {Font500} from '../fonts/Fonts';
@@ -8,9 +14,10 @@ import {colors} from '../../constants/colors';
 
 type CommonHeaderProps = {
   title: string;
+  icon?: ImageRequireSource;
 };
 
-const CommonHeader: FC<CommonHeaderProps> = ({title}) => {
+const CommonHeader: FC<CommonHeaderProps> = ({title, icon}) => {
   const {top} = useSafeAreaInsets();
   const {goBack} = useNavigation();
 
@@ -20,7 +27,7 @@ const CommonHeader: FC<CommonHeaderProps> = ({title}) => {
         onPress={goBack}
         style={[styles.backIconContainer, {top: top + 10}]}>
         <Image
-          source={images.back}
+          source={icon ? icon : images.back}
           resizeMode="contain"
           style={styles.backIcon}
           tintColor={colors.white}

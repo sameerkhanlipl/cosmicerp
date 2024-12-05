@@ -8,6 +8,7 @@ export const images: {[key: string]: ImageRequireSource} = {
   date: require('./date.png'),
   mail: require('./mail.png'),
   night: require('./night.png'),
+  close: require('./close.png'),
   print: require('./print.png'),
   silai: require('./silai.png'),
   empty: require('./empty.png'),
