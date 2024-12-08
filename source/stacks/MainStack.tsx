@@ -52,7 +52,7 @@ const MainStack = () => {
       sceneContainerStyle={{backgroundColor: colors.color_F3FAF9}}>
       <BottomStack.Screen
         component={Lamination}
-        name="Lamination"
+        name="Lamination" 
         options={{
           tabBarIcon: ({color}): ReactNode => (
             <TabIcon color={color} icon={images.lamination} />
@@ -78,20 +78,20 @@ const MainStack = () => {
         }}
       />
       <BottomStack.Screen
-        component={Stitching}
-        name="Stitching"
-        options={{
-          tabBarIcon: ({color}): ReactNode => (
-            <TabIcon color={color} icon={images.silai} />
-          ),
-        }}
-      />
-      <BottomStack.Screen
         component={Packing}
         name="Packing"
         options={{
           tabBarIcon: ({color}): ReactNode => (
             <TabIcon color={color} icon={images.packing} />
+          ),
+        }}
+      />
+      <BottomStack.Screen
+        component={Stitching}
+        name="Stitching"
+        options={{
+          tabBarIcon: ({color}): ReactNode => (
+            <TabIcon color={color} icon={images.silai} />
           ),
         }}
       />

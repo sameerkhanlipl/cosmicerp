@@ -56,7 +56,7 @@ const Login: FC<LoginProps> = ({navigation}: LoginProps) => {
         verification_code: response?.data?.verification_code,
       });
 
-      ShowToast('Your Otp is ' + response?.data?.verification_code);
+      ShowToast('Your Otp is ' + response?.data?.verification_code);  
 
       setLoader(false);
     } catch (err: any) {

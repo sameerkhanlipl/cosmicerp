@@ -99,7 +99,7 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Stickers : '}</Font500>
-            <Font700 style={styles.value}>{'Yes'}</Font700>
+            <Font700 style={styles.value}>{}</Font700>
           </View>
         </View>
       </View>

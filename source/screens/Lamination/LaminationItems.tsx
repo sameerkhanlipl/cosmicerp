@@ -35,7 +35,7 @@ type LaminationItemsProps = {
 };
 
 const LaminationItems: FC<LaminationItemsProps> = ({data, onPress}) => {
-  const {product_name, date, production_order_id} = data;
+  const {product_name, date, order_id, lamination_id, pipe_size} = data;
 
   const onPressHandler = useCallback(() => {
     onPress(data);
@@ -44,7 +44,7 @@ const LaminationItems: FC<LaminationItemsProps> = ({data, onPress}) => {
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
-        <Font400 style={styles.order_id}>{'#' + production_order_id}</Font400>
+        <Font400 style={styles.order_id}>{'# ' + order_id}</Font400>
         <Image
           style={styles.goIcon}
           source={images.right_arrow}
@@ -68,29 +68,29 @@ const LaminationItems: FC<LaminationItemsProps> = ({data, onPress}) => {
         <View style={styles.subContainer}>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Laminationa Type : '}</Font500>
-            <Font700 style={styles.value}>{'Cutter'}</Font700>
+            <Font700 style={styles.value}>{lamination_id}</Font700>
           </View>
         </View>
         <View style={styles.line} />
         <View style={styles.subContainer}>
           <View style={styles.detail}>
-            <Font500 style={styles.label}>{'Paper Mill : '}</Font500>
-            <Font700 style={styles.value}>{'10'}</Font700>
+            <Font500 style={styles.label}>{'Paper Name : '}</Font500>
+            <Font700 style={styles.value}>{pipe_size}</Font700>
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Reel Size : '}</Font500>
-            <Font700 style={styles.value}>{2}</Font700>
+            <Font700 style={styles.value}>{}</Font700>
           </View>
         </View>
         <View style={styles.line} />
         <View style={styles.subContainer}>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Meter : '}</Font500>
-            <Font700 style={styles.value}>{'2'}</Font700>
+            <Font700 style={styles.value}>{}</Font700>
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'KG : '}</Font500>
-            <Font700 style={styles.value}>{2}</Font700>
+            <Font700 style={styles.value}>{}</Font700>
           </View>
         </View>
       </View>

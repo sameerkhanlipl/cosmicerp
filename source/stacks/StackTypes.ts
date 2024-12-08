@@ -18,7 +18,7 @@ export type MainParamList = {
   Packing: undefined;
   Stitching: undefined;
   Rewinding: undefined;
-  Lamination: undefined;
+Lamination: undefined;
 };
 
 export type AppStackParamList = {

@@ -48,7 +48,7 @@ import {RootState} from '../../store/store';
 import {checkInput} from '../../utils/CheckInput';
 
 const ListHeaderComponent = () => (
-  <Font500 style={styles.listHeaderTitle}>{'List of Material Out'}</Font500>
+  <Font500 style={styles.listHeaderTitle}>{'List of Material In'}</Font500>
 );
 
 const machineListing: DropDownType[] = [
@@ -202,6 +202,8 @@ const LaminationMaterialIn = () => {
         material_id: selectedMaterialName?.value?.toString(),
       });
 
+      console.log('response?.data', response?.data);
+
       setUnit1Label(response?.data?.unit1Label?.toString());
       setUnit2Label(response?.data?.unit2Label?.toString());
       setLoader(false);
@@ -322,7 +324,7 @@ const LaminationMaterialIn = () => {
 
   return (
     <View style={styles.root}>
-      <CommonHeader title={'Lamination - Material Type'} />
+      <CommonHeader title={'Material In'} />
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Input
