@@ -11,7 +11,7 @@ export type otp_verification_body = {
 
 export type lamination_set_order_complete_body = {
   lamination_production_order_id: number | string | undefined;
-  machine: string | undefined;
+  machine?: string | undefined;
   date: string | undefined;
   meter: number | string | undefined;
 };
@@ -72,7 +72,7 @@ export type rewinding_set_order_complete_body = {
 };
 
 export type stitching_order_history_body = {
-  rewinding_production_order_id: number | string | undefined;
+  order_id: number | string | undefined;
 };
 
 export type stitching_set_order_complete_body = {

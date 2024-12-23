@@ -35,6 +35,7 @@ const machineListing: DropDownType[] = [
 
 const LaminationAddCompletedOrder = () => {
   const route = useRoute<LaminationAddCompletedOrderRouteProp>();
+  const route_data = route?.params?.data;
 
   const {goBack} = useNavigation<AppNavigationProp>();
 
@@ -50,10 +51,18 @@ const LaminationAddCompletedOrder = () => {
     if (checkInput(meter?.current?.get(), 'Meter Require for complete order')) {
       return;
     }
+    if (
+      checkInput(
+        machine?.current?.get()?.value,
+        'Please Select Machine, Machine is Require for complete order',
+      )
+    ) {
+      return;
+    }
 
     const body: lamination_set_order_complete_body = {
       lamination_production_order_id: ItemData?.production_order_id,
-      machine: machine?.current?.get().value,
+      machine: machine?.current?.get()?.value,
       date: date?.current?.get(),
       meter: meter?.current?.get(),
     };
@@ -87,36 +96,42 @@ const LaminationAddCompletedOrder = () => {
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
                 <Font500 style={styles.label}>{'Lamination Type : '}</Font500>
-                <Font700 style={styles.value}>{'Cutter'}</Font700>
+                <Font700 style={styles.value}>
+                  {route_data?.lamination_type}
+                </Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Paper Mill : '}</Font500>
-                <Font700 style={styles.value}>{'2'}</Font700>
+                <Font500 style={styles.label}>{'Paper Name : '}</Font500>
+                <Font700 style={styles.value}>
+                  {route_data?.lamination_material_name}
+                </Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
                 <Font500 style={styles.label}>{'GSM : '}</Font500>
-                <Font700 style={styles.value}>{'2'}</Font700>
+                <Font700 style={styles.value}>{route_data?.gsm}</Font700>
               </View>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'Reel Size : '}</Font500>
-                <Font700 style={styles.value}>{'2'}</Font700>
+                <Font500 style={styles.label}>{'Width : '}</Font500>
+                <Font700 style={styles.value}>{route_data?.width}</Font700>
               </View>
             </View>
             <View style={styles.line} />
             <View style={styles.detailContainer}>
               <View style={styles.detailSubContainer}>
                 <Font500 style={styles.label}>{'Meter : '}</Font500>
-                <Font700 style={styles.value}>{'2'}</Font700>
+                <Font700 style={styles.value}>{route_data?.meter}</Font700>
               </View>
               <View style={styles.detailSubContainer}>
-                <Font500 style={styles.label}>{'KG : '}</Font500>
-                <Font700 style={styles.value}>{'2'}</Font700>
+                <Font500 style={styles.label}>{'Paper KG : '}</Font500>
+                <Font700 style={styles.value}>
+                  {Number(route_data?.paper_kg)?.toFixed(2)}
+                </Font700>
               </View>
             </View>
           </View>
@@ -135,10 +150,13 @@ const LaminationAddCompletedOrder = () => {
           />
           <Input
             ref={meter}
-            config={{placeholder: '100 KG'}}
+            config={{placeholder: '100 Meter'}}
             rootStyle={styles.inputContainer}
             label="Meter"
           />
+          {/* <Font500 style={styles.pending_qty}>
+            {'pending quantity : ' + route_data?.production_qty}
+          </Font500> */}
         </View>
         <Button
           loader={loader}
@@ -223,5 +241,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 6,
     fontFamily: fontFamily.Font500,
+  },
+  pending_qty: {
+    fontSize: 12,
+    paddingTop: 10,
+    color: colors.darkGray,
   },
 });

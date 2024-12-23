@@ -24,6 +24,8 @@ const LaminationPendingOrders = () => {
       const response: {data: lamination_order_listing_response} =
         await lamination_pending_orders();
       setList(response?.data?.data);
+
+      console.log('response?.data?.data', response?.data?.data);
       setLoader(false);
     } catch (err: any) {
       error(err);

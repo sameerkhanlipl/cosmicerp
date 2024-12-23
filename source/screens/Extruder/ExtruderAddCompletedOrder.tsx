@@ -122,7 +122,7 @@ const ExtruderAddCompletedOrder = () => {
           </View>
           <View style={styles.recipeContainer}>
             <Font500 style={styles.recipeLabel}>{'Recipe Name :  '}</Font500>
-            <Font700 style={styles.recipeValue}>{'50 KG Fillers'}</Font700>
+            <Font700 style={styles.recipeValue}>{''}</Font700>
             <Image
               style={styles.infoIcon}
               resizeMode="contain"

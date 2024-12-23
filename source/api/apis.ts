@@ -14,6 +14,7 @@ import {
   packing_set_order_complete_body,
   rewinding_order_history_body,
   rewinding_set_order_complete_body,
+  stitching_order_history_body,
   stitching_set_order_complete_body,
 } from './BodyTypes';
 import instance from './interceptors';
@@ -300,11 +301,11 @@ export const stitching_complete_orders = async () => {
 };
 
 export const stitching_order_history = async (
-  data: rewinding_order_history_body,
+  data: stitching_order_history_body,
 ) => {
   try {
     const response = await instance.post(
-      'rewinding/orders/getOrderByRewindingOrderId',
+      'stitching/orders/getOrderByStitchingId',
       data,
     );
     return response;
