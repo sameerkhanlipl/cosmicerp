@@ -88,7 +88,7 @@ const MainStack = () => {
       />
       <BottomStack.Screen
         component={Stitching}
-        name="Stitching"
+        name="Silai"
         options={{
           tabBarIcon: ({color}): ReactNode => (
             <TabIcon color={color} icon={images.silai} />

@@ -1,14 +1,48 @@
-import moment from "moment";
-import React, { FC, memo, useCallback } from "react";
-import { Image, Pressable, StyleSheet, View } from "react-native";
-import { images } from "../../assets/images";
-import { Font400, Font500, Font700 } from "../../components/fonts/Fonts";
+import React, { FC, useCallback, memo } from "react";
+import { Text, View, Pressable, Image, StyleSheet } from "react-native";
 import { colors } from "../../constants/colors";
+import { Font400, Font500, Font700 } from "../../components/fonts/Fonts";
+import moment from "moment";
+import { images } from "../../assets/images";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-export type StitchingItemType = {
+
+export type StitchingProductionOrderType = {
+  alias_sku: string;
+  bags_per_bdl: string;
+  color: string;
+  customer_id: string;
+  customer_order_id: number;
+  date: string;
+  film_kg: string | number;
+  film_name: string;
+  film_weight: string;
+  gage: string;
+  gsm: string;
+  lamination_material_name: string;
+  lamination_material_weight: string;
+  lamination_production_order_id: number;
+  lamination_type: string;
+  length: string;
+  machine: string;
+  meter: number;
+  order_id: string;
+  paper_kg: number;
+  pending_bundle_qty: string;
+  pipe_size: string;
+  product_name: string;
+  production_order_id: number;
+  production_qty: number;
+  rolls_in_1_bdl: string;
+  status: string;
+  total_order_qty: string;
+  width: string;
+  serial_number: string;
+};
+
+export type StitchingSearchOrderItemType = {
   stitching_production_order_id: number;
   customer_id: string;
   customer_order_id: number;
@@ -30,19 +64,21 @@ export type StitchingItemType = {
   pipe_size: string;
   status: string;
   serial_number: string;
-  stitching_internal_notes: string;
-  packing_material_name: string;
   sticching_bharti: string;
   sticching_bag: string;
+  packing_material_name: string;
   sticker: string;
 };
 
-type StitchingItemProps = {
-  data: StitchingItemType;
-  onPress: (value: StitchingItemType) => void;
+type StitchingSearchOrderItemProps = {
+  data: StitchingSearchOrderItemType;
+  onPress: (value: StitchingSearchOrderItemType) => void;
 };
 
-const StitchingItems: FC<StitchingItemProps> = ({ data, onPress }) => {
+const StitchingSearchOrderItem: FC<StitchingSearchOrderItemProps> = ({
+  data,
+  onPress
+}) => {
   const {
     order_id,
     product_name,
@@ -54,17 +90,16 @@ const StitchingItems: FC<StitchingItemProps> = ({ data, onPress }) => {
     pending_bundle_qty,
     bags_per_bdl,
     serial_number,
-    stitching_internal_notes,
-    packing_material_name,
+    //
     sticching_bharti,
     sticching_bag,
-    sticker
+    sticker,
+    packing_material_name
   } = data;
 
   const onPressHandler = useCallback(() => {
     onPress(data);
-  }, [onPress, data]);
-
+  }, [data, onPress]);
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
@@ -88,7 +123,7 @@ const StitchingItems: FC<StitchingItemProps> = ({ data, onPress }) => {
             </Font700>
           </View>
           <View style={styles.detail}>
-            <Font500 style={styles.label}>{"Bag/Box Per Bdl : "}</Font500>
+            <Font500 style={styles.label}>{"Bags Per Bdl : "}</Font500>
             <Font700 style={styles.value}>{bags_per_bdl}</Font700>
           </View>
         </View>
@@ -96,7 +131,7 @@ const StitchingItems: FC<StitchingItemProps> = ({ data, onPress }) => {
         <View style={styles.subContainer}>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{"Bundle : "}</Font500>
-            <Font700 style={styles.value}>{production_qty}</Font700>
+            <Font700 style={styles.value}>{pending_bundle_qty}</Font700>
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{"Color : "}</Font500>
@@ -121,7 +156,6 @@ const StitchingItems: FC<StitchingItemProps> = ({ data, onPress }) => {
             </Font700>
           </View>
         </View>
-
         <View style={styles.line} />
         <View style={styles.subContainer}>
           <View style={styles.detail}>
@@ -139,7 +173,7 @@ const StitchingItems: FC<StitchingItemProps> = ({ data, onPress }) => {
   );
 };
 
-export default memo(StitchingItems);
+export default memo(StitchingSearchOrderItem);
 
 const styles = StyleSheet.create({
   item: {

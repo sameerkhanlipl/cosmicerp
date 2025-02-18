@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {packing_order_listing_response} from '../../api/ResponseTypes';
@@ -18,12 +18,15 @@ const PackingCompleteOrders = () => {
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
+  const focus = useIsFocused();
+
   const getList = useCallback(async () => {
     try {
       setLoader(true);
       const response: {data: packing_order_listing_response} =
         await packing_complete_orders();
       setList(response?.data?.data);
+    
       setLoader(false);
     } catch (err: any) {
       error(err);
@@ -34,8 +37,10 @@ const PackingCompleteOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
@@ -52,12 +57,19 @@ const PackingCompleteOrders = () => {
     }
   }, []);
 
-  const onNavigatePackingOrderHistory = useCallback(
-    (data: PackingItemType) => {
-      navigate('PackingOrderHistory', {data: data});
-    },
-    [navigate],
-  );
+  // const onNavigatePackingOrderHistory = useCallback(
+  //   (data: PackingItemType) => {
+  //     navigate('PackingOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
+   const onNavigatePackingOrderHistory = useCallback(
+      (data: PackingItemType) => {
+        navigate("PackingAddCompletedOrder", { data: data });
+      },
+      [navigate]
+    );
 
   const renderItemHandler = useCallback(
     ({item}: {item: PackingItemType}) => {

@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {extruder_pending_orders} from '../../api/apis';
@@ -18,12 +18,15 @@ const ExtruderPendingOrders = () => {
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
+  const focus = useIsFocused();
+
   const getList = useCallback(async () => {
     try {
       setLoader(true);
       const response: {data: extruder_order_listing_response} =
         await extruder_pending_orders();
       setList(response?.data?.data);
+   console.log("exxx--list",response?.data?.data)
       setLoader(false);
     } catch (err: any) {
       error(err);
@@ -34,8 +37,10 @@ const ExtruderPendingOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
@@ -52,12 +57,20 @@ const ExtruderPendingOrders = () => {
     }
   }, []);
 
+  // const onNavigateExtruderOrderHistory = useCallback(
+  //   (data: ExtrudersItemType) => {
+  //     navigate('ExtruderOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
   const onNavigateExtruderOrderHistory = useCallback(
     (data: ExtrudersItemType) => {
-      navigate('ExtruderOrderHistory', {data: data});
+      navigate('ExtruderAddCompletedOrder', {data: data});
     },
     [navigate],
   );
+
 
   const renderItemHandler = useCallback(
     ({item}: {item: ExtrudersItemType}) => {

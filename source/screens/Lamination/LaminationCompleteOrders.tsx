@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {lamination_order_listing_response} from '../../api/ResponseTypes';
@@ -16,6 +16,8 @@ const LaminationCompleteOrders = () => {
   const [loader, setLoader] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
+  const focus = useIsFocused();
+
   const {navigate} = useNavigation<AppNavigationProp>();
 
   const getList = useCallback(async () => {
@@ -24,6 +26,7 @@ const LaminationCompleteOrders = () => {
       const response: {data: lamination_order_listing_response} =
         await lamination_complete_orders();
       setList(response?.data?.data);
+    
       setLoader(false);
     } catch (err: any) {
       error(err);
@@ -34,8 +37,10 @@ const LaminationCompleteOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
@@ -52,12 +57,20 @@ const LaminationCompleteOrders = () => {
     }
   }, []);
 
+  // const onNavigateLaminationOrderHistory = useCallback(
+  //   (data: LaminationItemType) => {
+  //     navigate('LaminationOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
   const onNavigateLaminationOrderHistory = useCallback(
     (data: LaminationItemType) => {
-      navigate('LaminationOrderHistory', {data: data});
+      navigate('LaminationAddCompletedOrder', {data: data});
     },
     [navigate],
   );
+
 
   const renderItemHandler = useCallback(
     ({item}: {item: LaminationItemType}) => {

@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -12,13 +12,15 @@ import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import PackingCompleteOrders from './PackingCompleteOrders';
 import PackingPendingOrders from './PackingPendingOrders';
+import { useNavigation } from '@react-navigation/native';
+import { AppNavigationProp } from '../../stacks/StackTypes';
 
 const {width} = Dimensions.get('window');
 
 const Packing = () => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
-
+  const { navigate } = useNavigation<AppNavigationProp>();
   const switchTab = (tabIndex: number) => {
     setActiveTab(tabIndex);
 
@@ -29,9 +31,14 @@ const Packing = () => {
     }).start();
   };
 
+
+  const onNavigateSearchOrders = useCallback(() => {
+    navigate("PackingSearchOrders");
+  }, [navigate]);
+
   return (
     <View style={styles.root}>
-      <Header title="Packing Order" />
+      <Header  onSearchIconPress={onNavigateSearchOrders} title="Packing Order" />
       <View style={styles.tabContainer}>
         <Animated.View
           style={[
@@ -57,7 +64,7 @@ const Packing = () => {
         <Pressable style={styles.tab} onPress={() => switchTab(1)}>
           <Text
             style={[styles.tabLabel, activeTab === 1 && styles.activeLabel]}>
-            {'Complete Orders'}
+            {'Completed Orders'}
           </Text>
         </Pressable>
       </View>

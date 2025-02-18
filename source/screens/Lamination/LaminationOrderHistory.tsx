@@ -1,4 +1,9 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import CommonHeader from '../../components/styles/CommonHeader';
@@ -32,6 +37,8 @@ const LaminationOrderHistory = () => {
 
   const ItemData = route?.params?.data;
 
+  const focus = useIsFocused();
+
   const getList = useCallback(async () => {
     const body: lamination_order_history_body = {
       lamination_production_order_id: ItemData?.production_order_id,
@@ -42,6 +49,7 @@ const LaminationOrderHistory = () => {
       const response: {data: lamination_order_history_listing_response} =
         await lamination_order_history(body);
       setList(response?.data?.data);
+    
       setLoader(false);
     } catch (err: any) {
       setLoader(false);
@@ -52,8 +60,10 @@ const LaminationOrderHistory = () => {
   }, [ItemData, setLoader]);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     const body: lamination_order_history_body = {

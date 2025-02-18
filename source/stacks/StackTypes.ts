@@ -4,6 +4,7 @@ import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
 import {PackingItemType} from '../screens/Packing/PackingItems';
 import {LaminationItemType} from '../screens/Lamination/LaminationItems';
 import {StitchingItemType} from '../screens/Stitching/StitchingItems';
+import {LaminationSearchOrderItemType} from '../screens/Lamination/LaminationSearchOrderItem';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -18,7 +19,7 @@ export type MainParamList = {
   Packing: undefined;
   Stitching: undefined;
   Rewinding: undefined;
-Lamination: undefined;
+  Lamination: undefined;
 };
 
 export type AppStackParamList = {
@@ -31,7 +32,9 @@ export type AppStackParamList = {
   ProfileDetail: undefined;
   LaminationMaterialIn: undefined;
   LaminationMaterialOut: undefined;
-  LaminationOrderHistory: {data: LaminationItemType};
+  LaminationOrderHistory: {
+    data: LaminationItemType | LaminationSearchOrderItemType;
+  };
   LaminationAddCompletedOrder: {data: LaminationItemType};
   ExtruderMaterialOut: undefined;
   ExtruderOrderHistory: {data: ExtrudersItemType};

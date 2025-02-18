@@ -50,6 +50,7 @@ type DropDownProps = {
   rightIcon?: ImageRequireSource;
   inputContainerStyle?: ViewStyle;
   rootStyle?: ViewStyle | ViewStyle[];
+  search?: boolean;
 };
 
 const DropDown = forwardRef<DropDownRef, DropDownProps>(
@@ -68,6 +69,7 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>(
       rightIcon,
       inputContainerStyle,
       rootStyle,
+      search
     },
     ref,
   ) => {
@@ -120,7 +122,8 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>(
 
           <SelectDropdown
             data={data}
-            defaultValue={data[0]}
+            search={search}
+           // defaultValue={data[0]}
             searchInputTxtColor={colors.black}
             searchInputTxtStyle={{
               fontFamily: fontFamily.Font500,

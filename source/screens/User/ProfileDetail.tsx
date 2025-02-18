@@ -25,13 +25,12 @@ import moment from 'moment';
 const ProfileDetail = () => {
   const logoutModel = useRef<GeneralModelRef>(null);
   const dispatch = useDispatch<AppDispatch>();
-
   const user = useSelector((state: RootState) => state?.app?.user);
 
   const onLogoutHandler = useCallback(async () => {
     try {
-      const response: {data: signout_response} = await signout();
-      ShowToast(response?.data?.message);
+      // const response: {data: signout_response} = await signout();
+      // ShowToast(response?.data?.message);
       dispatch(logout());
     } catch (err) {
       error(err);

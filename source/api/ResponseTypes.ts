@@ -4,6 +4,7 @@ import {LaminationItemType} from '../screens/Lamination/LaminationItems';
 import {LaminationMaterialInItemType} from '../screens/Lamination/LaminationMaterialInItems';
 import {LaminationMaterialOutItemType} from '../screens/Lamination/LaminationMaterialOutItems';
 import {LaminationOrderHistoryItemType} from '../screens/Lamination/LaminationOrderHistoryItems';
+import {LaminationSearchOrderItemType} from '../screens/Lamination/LaminationSearchOrderItem';
 import {PackingItemType} from '../screens/Packing/PackingItems';
 import {PackingOrderHistoryItemType} from '../screens/Packing/PackingOrderHistoryItems';
 import {RewindingItemType} from '../screens/Rewinding/RewindingItems';
@@ -43,9 +44,26 @@ export type lamination_complete_orders_response = {
   message: string;
 };
 
+export type lamination_make_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+export type lamination_delete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
 export type lamination_order_history_listing_response = {
   success: string;
   data: LaminationOrderHistoryItemType[];
+};
+
+export type lamination_search_order_listing_response = {
+  success: boolean;
+  orders: LaminationSearchOrderItemType[];
 };
 
 export type material_in_response = {
@@ -130,15 +148,40 @@ export type extruder_order_listing_response = {
   data: ExtrudersItemType[];
 };
 
+export type extruder_search_order_listing_response = {
+  success: boolean;
+  orders: LaminationSearchOrderItemType[];
+};
+
 export type extruder_complete_orders_response = {
   status: number;
   requestCode: number;
   message: string;
 };
 
+export type extruder_make_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+
 export type extruder_order_history_listing_response = {
   success: string;
   data: ExtruderOrderHistoryItemType[];
+};
+
+
+export type extruder_delete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+
+export type rewinding_search_order_listing_response = {
+  success: boolean;
+  orders: LaminationSearchOrderItemType[];
 };
 
 export type rewinding_order_listing_response = {
@@ -159,6 +202,19 @@ export type rewinding_order_history_listing_response = {
   data: RewindingOrderHistoryItemType[];
 };
 
+export type rewinding_make_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+
+export type rewinding_delete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
 export type stitching_order_listing_response = {
   status: number;
   requestCode: number;
@@ -177,11 +233,31 @@ export type stitching_complete_orders_response = {
   message: string;
 };
 
+export type stitching_make_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+
+export type stitching_delete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+
 export type packing_order_listing_response = {
   status: number;
   requestCode: number;
   message: string;
   data: PackingItemType[];
+};
+
+
+export type packing_search_order_listing_response = {
+  success: boolean;
+  orders: LaminationSearchOrderItemType[];
 };
 
 export type packing_order_history_listing_response = {
@@ -190,6 +266,19 @@ export type packing_order_history_listing_response = {
 };
 
 export type packing_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+export type packing_make_complete_orders_response = {
+  status: number;
+  requestCode: number;
+  message: string;
+};
+
+
+export type packing_delete_orders_response = {
   status: number;
   requestCode: number;
   message: string;

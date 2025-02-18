@@ -4,7 +4,7 @@ import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 export type RewindingItemType = {
   rewinding_production_order_id: number;
   customer_id: string;
@@ -28,6 +28,13 @@ export type RewindingItemType = {
   pipe_size: string;
   status: string;
   total_order_qty: string;
+  rewinding_sticker_name :string;
+  rewinding_qty_in_rolls:string|number;
+  serial_number:string,
+  rewinding_internal_notes:string,
+  
+
+
 };
 
 type RewindingItemProps = {
@@ -45,16 +52,25 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
     width,
     pending_bundle_qty,
     pipe_size,
+    rewinding_sticker_name,
+    serial_number,
+    alias_sku,
+    rewinding_sticker,
+    rewinding_internal_notes,
+    rewinding_pipe,
+    production_qty
   } = data;
 
   const onPressHandler = useCallback(() => {
     onPress(data);
   }, [onPress, data]);
 
+  
+
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
-        <Font400 style={styles.order_id}>{order_id}</Font400>
+        <Font400 style={styles.order_id}>{serial_number}</Font400>
         <Image
           style={styles.goIcon}
           source={images.right_arrow}
@@ -67,6 +83,7 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
         </Font700>
         <View style={styles.line} />
         <View style={styles.subContainer}>
+      
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Date : '}</Font500>
             <Font700 style={styles.value}>
@@ -74,34 +91,46 @@ const RewindingItems: FC<RewindingItemProps> = ({data, onPress}) => {
             </Font700>
           </View>
           <View style={styles.detail}>
-            <Font500 style={styles.label}>{'Size : '}</Font500>
-            <Font700 style={styles.value}>{length + ' X ' + width}</Font700>
+            <Font500 style={styles.label}>{'Alias : '}</Font500>
+            <Font700 style={styles.value}>{alias_sku}</Font700>
           </View>
+       
         </View>
         <View style={styles.line} />
         <View style={styles.subContainer}>
+        <View style={styles.detail}>
+            <Font500 style={styles.label}>{'Size : '}</Font500>
+            <Font700 style={styles.value}>{length + ' X ' + width}</Font700>
+          </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Colors : '}</Font500>
             <Font700 style={styles.value}>{color}</Font700>
           </View>
-          <View style={styles.detail}>
-            <Font500 style={styles.label}>{'Pending : '}</Font500>
-            <Font700 style={styles.value}>{pending_bundle_qty + 'KG'}</Font700>
-          </View>
+       
         </View>
         <View style={styles.line} />
         <View style={styles.subContainer}>
+        <View style={styles.detail}>
+            {/* <Font500 style={styles.label}>{'Pending : '}</Font500> */}
+            <Font500 style={styles.label}>{'QTY : '}</Font500>
+            {/* <Font700 style={styles.value}>{pending_bundle_qty + 'KG'}</Font700> */}
+            <Font700 style={styles.value}>{production_qty + ''}</Font700>
+          </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Pipe : '}</Font500>
             <Font700 style={styles.value}>
-              {pipe_size ? pipe_size + ' MM' : ''}
+              {rewinding_pipe + ' MM'}
             </Font700>
           </View>
-          <View style={styles.detail}>
-            <Font500 style={styles.label}>{'Stickers : '}</Font500>
-            <Font700 style={styles.value}>{}</Font700>
-          </View>
+     
         </View>
+        <View style={styles.line} />
+        <View style={styles.subContainer}>
+        <View style={styles.detail}>
+            <Font500 style={styles.label}>{'Stickers : '}</Font500>
+            <Font700 style={[styles.value,{}]}>{rewinding_sticker_name}</Font700>
+          </View>
+          </View>
       </View>
     </Pressable>
   );

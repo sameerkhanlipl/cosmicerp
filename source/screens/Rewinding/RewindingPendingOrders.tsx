@@ -1,13 +1,13 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {memo, useCallback, useEffect, useState} from 'react';
-import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
-import {rewinding_order_listing_response} from '../../api/ResponseTypes';
-import {rewinding_pending_orders} from '../../api/apis';
-import EmptyList from '../../components/styles/EmptyList';
-import {AppNavigationProp} from '../../stacks/StackTypes';
-import {error} from '../../utils/ErrorHandler';
-import RewindingItems, {RewindingItemType} from './RewindingItems';
-import {colors} from '../../constants/colors';
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
+import { rewinding_order_listing_response } from "../../api/ResponseTypes";
+import { rewinding_pending_orders } from "../../api/apis";
+import EmptyList from "../../components/styles/EmptyList";
+import { AppNavigationProp } from "../../stacks/StackTypes";
+import { error } from "../../utils/ErrorHandler";
+import RewindingItems, { RewindingItemType } from "./RewindingItems";
+import { colors } from "../../constants/colors";
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
@@ -16,14 +16,18 @@ const RewindingPendingOrders = () => {
   const [loader, setLoader] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  const {navigate} = useNavigation<AppNavigationProp>();
+  const { navigate } = useNavigation<AppNavigationProp>();
+
+  const focus = useIsFocused();
 
   const getList = useCallback(async () => {
     try {
       setLoader(true);
-      const response: {data: rewinding_order_listing_response} =
+      const response: { data: rewinding_order_listing_response } =
         await rewinding_pending_orders();
       setList(response?.data?.data);
+    
+     
       setLoader(false);
     } catch (err: any) {
       error(err);
@@ -34,13 +38,15 @@ const RewindingPendingOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
       setRefresh(true);
-      const response: {data: rewinding_order_listing_response} =
+      const response: { data: rewinding_order_listing_response } =
         await rewinding_pending_orders();
       setList(response?.data?.data);
       setRefresh(false);
@@ -52,20 +58,27 @@ const RewindingPendingOrders = () => {
     }
   }, []);
 
+  // const onNavigateRewindingOrderHistory = useCallback(
+  //   (data: RewindingItemType) => {
+  //     navigate('RewindingOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
   const onNavigateRewindingOrderHistory = useCallback(
     (data: RewindingItemType) => {
-      navigate('RewindingOrderHistory', {data: data});
+      navigate("RewindingAddCompletedOrder", { data: data });
     },
-    [navigate],
+    [navigate]
   );
 
   const renderItemHandler = useCallback(
-    ({item}: {item: RewindingItemType}) => {
+    ({ item }: { item: RewindingItemType }) => {
       return (
         <RewindingItems onPress={onNavigateRewindingOrderHistory} data={item} />
       );
     },
-    [onNavigateRewindingOrderHistory],
+    [onNavigateRewindingOrderHistory]
   );
 
   return (
@@ -95,13 +108,13 @@ const RewindingPendingOrders = () => {
 export default memo(RewindingPendingOrders);
 
 const styles = StyleSheet.create({
-  root: {flex: 1, paddingTop: 4},
+  root: { flex: 1, paddingTop: 4 },
   list: {
     flexGrow: 1,
     padding: 25,
-    paddingBottom: 200,
+    paddingBottom: 200
   },
   itemSeparator: {
-    height: 20,
-  },
+    height: 20
+  }
 });

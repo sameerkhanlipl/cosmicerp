@@ -1,7 +1,7 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {memo} from 'react';
-import {colors} from '../constants/colors';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { memo } from 'react';
+import { colors } from '../constants/colors';
 import ExtruderAddCompletedOrder from '../screens/Extruder/ExtruderAddCompletedOrder';
 import ExtruderMaterialOut from '../screens/Extruder/ExtruderMaterialOut';
 import ExtruderOrderHistory from '../screens/Extruder/ExtruderOrderHistory';
@@ -12,13 +12,17 @@ import RewindingAddCompletedOrder from '../screens/Rewinding/RewindingAddComplet
 import RewindingOrderHistory from '../screens/Rewinding/RewindingOrderHistory';
 import ProfileDetail from '../screens/User/ProfileDetail';
 import MainStack from './MainStack';
-import {AppStackParamList} from './StackTypes';
+import { AppStackParamList } from './StackTypes';
 import LaminationOrderHistory from '../screens/Lamination/LaminationOrderHistory';
 import LaminationAddCompletedOrder from '../screens/Lamination/LaminationAddCompletedOrder';
 import StitchingOrderHistory from '../screens/Stitching/StitchingOrderHistory';
 import StitchingAddCompletedOrder from '../screens/Stitching/StitchingAddCompletedOrder';
 import LaminationMaterialIn from '../screens/Lamination/LaminationMaterialIn';
 import LaminationSearchOrders from '../screens/Lamination/LaminationSearchOrders';
+import ExtruderSearchOrders from '../screens/Extruder/ExtruderSearchOrders';
+import RewindingSearchOrders from '../screens/Rewinding/RewindingSearchOrders';
+import StitchinggSearchOrders from '../screens/Stitching/StitchingSearchOrders';
+import PackingSearchOrders from '../screens/Packing/PackingSearchOrders';
 
 const NativeStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -28,11 +32,11 @@ const AppStack = () => {
       <NativeStack.Navigator
         screenOptions={{
           headerShown: false,
-          contentStyle: {backgroundColor: colors.white},
+          contentStyle: { backgroundColor: colors.white },
         }}>
         <NativeStack.Screen component={MainStack} name="MainStack" />
         <NativeStack.Screen
-          options={{animation: 'slide_from_bottom'}}
+          options={{ animation: 'slide_from_bottom' }}
           component={LaminationSearchOrders}
           name="LaminationSearchOrders"
         />
@@ -51,6 +55,11 @@ const AppStack = () => {
         <NativeStack.Screen
           component={LaminationAddCompletedOrder}
           name="LaminationAddCompletedOrder"
+        />
+        <NativeStack.Screen
+          options={{ animation: 'slide_from_bottom' }}
+          component={ExtruderSearchOrders}
+          name="ExtruderSearchOrders"
         />
         <NativeStack.Screen
           component={ExtruderOrderHistory}
@@ -73,6 +82,19 @@ const AppStack = () => {
           component={PackingAddCompletedOrder}
           name="PackingAddCompletedOrder"
         />
+
+<NativeStack.Screen
+          options={{ animation: 'slide_from_bottom' }}
+          component={PackingSearchOrders}
+          name="PackingSearchOrders"
+        />
+
+        <NativeStack.Screen
+          options={{ animation: 'slide_from_bottom' }}
+          component={RewindingSearchOrders}
+          name="RewindingSearchOrders"
+        />
+
         <NativeStack.Screen
           component={RewindingOrderHistory}
           name="RewindingOrderHistory"
@@ -80,6 +102,13 @@ const AppStack = () => {
         <NativeStack.Screen
           component={RewindingAddCompletedOrder}
           name="RewindingAddCompletedOrder"
+        />
+
+
+        <NativeStack.Screen
+          options={{ animation: 'slide_from_bottom' }}
+          component={StitchinggSearchOrders}
+          name="StitchingSearchOrders"
         />
         <NativeStack.Screen
           component={StitchingOrderHistory}

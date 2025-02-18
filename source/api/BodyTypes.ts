@@ -9,11 +9,24 @@ export type otp_verification_body = {
   device_token: string;
 };
 
+export type lamination_search_order_body = {
+  search: number | string;
+};
+
 export type lamination_set_order_complete_body = {
   lamination_production_order_id: number | string | undefined;
   machine?: string | undefined;
   date: string | undefined;
   meter: number | string | undefined;
+};
+
+export type lamination_set_make_order_complete_body = {
+  lamination_production_order_id: number | string | undefined;
+};
+
+
+export type lamination_delete_order_body = {
+  id: number | string | undefined;
 };
 
 export type lamination_order_history_body = {
@@ -55,12 +68,30 @@ export type extruder_set_order_complete_body = {
   size: number | string | undefined;
 };
 
+
+export type extruder_set_make_order_complete_body = {
+  extruder_production_order_id: number | string | undefined;
+};
+
 export type extruder_order_history_body = {
   extruder_production_order_id: number | string | undefined;
 };
 
+export type exruder_search_order_body = {
+  search: number | string;
+};
+
+export type extruder_delete_order_body = {
+  id: number | string | undefined;
+};
+
+
 export type rewinding_order_history_body = {
   rewinding_production_order_id: number | string | undefined;
+};
+
+export type rewinding_search_order_body = {
+  search: number | string;
 };
 
 export type rewinding_set_order_complete_body = {
@@ -70,9 +101,22 @@ export type rewinding_set_order_complete_body = {
   rolls: number | string | undefined;
   remark: string | undefined;
 };
+export type rewinding_set_make_order_complete_body = {
+  rewinding_production_order_id: number | string | undefined;
+};
+
+export type rewinding_delete_order_body = {
+  id: number | string | undefined;
+};
+
+
+
+export type stitching_search_order_body = {
+  search: number | string;
+};
 
 export type stitching_order_history_body = {
-  order_id: number | string | undefined;
+  stitching_production_order_id: number | string | undefined;
 };
 
 export type stitching_set_order_complete_body = {
@@ -82,6 +126,20 @@ export type stitching_set_order_complete_body = {
   bdl_qty: number | string | undefined;
   qty_per_bdl: number | string | undefined;
   remark: string | undefined;
+};
+
+export type stitching_set_make_order_complete_body = {
+  stitching_production_order_id: number | string | undefined;
+};
+
+export type stitching_delete_order_body = {
+  id: number | string | undefined;
+};
+
+
+
+export type packing_search_order_body = {
+  search: number | string;
 };
 
 export type packing_order_history_body = {
@@ -94,6 +152,15 @@ export type packing_set_order_complete_body = {
   date: string | undefined;
   bags_per_box_qty: number | string | undefined;
   steping_required: string | undefined;
+  remark: string | undefined;
+};
+
+export type packing_set_make_order_complete_body = {
+  packing_production_order_id: number | string | undefined;
+};
+
+export type packing_delete_order_body = {
+  id: number | string | undefined;
 };
 
 export type material_type_listing_body = {

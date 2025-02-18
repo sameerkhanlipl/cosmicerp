@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -12,12 +12,16 @@ import {colors} from '../../constants/colors';
 import {fontFamily} from '../../constants/fontFamily';
 import RewindingCompleteOrders from './RewindingCompleteOrders';
 import RewindingPendingOrders from './RewindingPendingOrders';
+import { AppNavigationProp } from '../../stacks/StackTypes';
+import { useNavigation } from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 const Rewinding = () => {
   const [activeTab, setActiveTab] = useState(0);
   const translateX = useRef(new Animated.Value(0)).current;
+
+    const { navigate } = useNavigation<AppNavigationProp>();
 
   const switchTab = (tabIndex: number) => {
     setActiveTab(tabIndex);
@@ -29,9 +33,13 @@ const Rewinding = () => {
     }).start();
   };
 
+    const onNavigateSearchOrders = useCallback(() => {
+      navigate("RewindingSearchOrders");
+    }, [navigate]);
+
   return (
     <View style={styles.root}>
-      <Header title="Rewinding Orders" />
+      <Header onSearchIconPress={onNavigateSearchOrders}  title="Rewinding Orders" />
       <View style={styles.tabContainer}>
         <Animated.View
           style={[
@@ -57,7 +65,7 @@ const Rewinding = () => {
         <Pressable style={styles.tab} onPress={() => switchTab(1)}>
           <Text
             style={[styles.tabLabel, activeTab === 1 && styles.activeLabel]}>
-            {'Complete Orders'}
+            {'Completed Orders'}
           </Text>
         </Pressable>
       </View>

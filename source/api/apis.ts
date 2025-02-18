@@ -1,20 +1,36 @@
 import {
+  exruder_delete_order_body,
+  exruder_search_order_body,
+  extruder_delete_order_body,
   extruder_order_history_body,
+  extruder_set_make_order_complete_body,
   extruder_set_order_complete_body,
   get_material_name_body,
   get_material_sub_categories_listing_body,
   get_unit_label_body,
+  lamination_delete_order_body,
   lamination_order_history_body,
+  lamination_search_order_body,
+  lamination_set_make_order_complete_body,
   lamination_set_order_complete_body,
   login_body,
   material_in_body,
   material_out_body,
   otp_verification_body,
+  packing_delete_order_body,
   packing_order_history_body,
+  packing_search_order_body,
+  packing_set_make_order_complete_body,
   packing_set_order_complete_body,
+  rewinding_delete_order_body,
   rewinding_order_history_body,
+  rewinding_search_order_body,
+  rewinding_set_make_order_complete_body,
   rewinding_set_order_complete_body,
+  stitching_delete_order_body,
   stitching_order_history_body,
+  stitching_search_order_body,
+  stitching_set_make_order_complete_body,
   stitching_set_order_complete_body,
 } from './BodyTypes';
 import instance from './interceptors';
@@ -31,6 +47,18 @@ export const login = async (data: login_body) => {
 export const otp_verification = async (data: otp_verification_body) => {
   try {
     const response = await instance.post('login/mobile/verify', data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const lamination_search_orders = async (data:any) => {
+  try {
+    const response = await instance.post(
+      '/lamination/orders/searchOrder',
+      data,
+    );
     return response;
   } catch (error) {
     throw error;
@@ -78,6 +106,36 @@ export const lamination_order_history = async (
     throw error;
   }
 };
+
+export const lamination_set_make_order_complete = async (
+  data: lamination_set_make_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'lamination/orders/makeItComplete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const lamination_delete_order = async (
+  data: lamination_delete_order_body,
+) => {
+  try {
+    const response = await instance.post(
+      'lamination/orders/laminationOrderHistoryDelete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const lamination_set_order_complete = async (
   data: lamination_set_order_complete_body,
@@ -186,12 +244,36 @@ export const extruder_pending_orders = async () => {
   }
 };
 
-export const extruder_complete_orders = async (
-  data: extruder_set_order_complete_body,
+export const extruder_search_orders = async (data : exruder_search_order_body) => {
+  try {
+    const response = await instance.post(
+      '/extruder/orders/searchOrder',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const extruder_complete_orders = async () => {
+  try {
+    const response = await instance.post('extruder/orders/getOrdersByStatus', {
+      status: 'completed',
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const extruder_set_make_order_complete = async (
+  data: extruder_set_make_order_complete_body,
 ) => {
   try {
     const response = await instance.post(
-      'extruder/orders/setOrderCompleted',
+      'extruder/orders/makeItComplete',
       data,
     );
     return response;
@@ -227,6 +309,35 @@ export const extruder_set_order_complete = async (
     throw error;
   }
 };
+
+
+export const extruder_delete_order = async (
+  data: extruder_delete_order_body,
+) => {
+  try {
+    const response = await instance.post(
+      'extruder/orders/extruderOrderHistoryDelete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const rewinding_search_orders = async (data : rewinding_search_order_body) => {
+  try {
+    const response = await instance.post(
+      '/rewinding/orders/searchOrder',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const rewinding_pending_orders = async () => {
   try {
@@ -278,6 +389,47 @@ export const rewinding_set_order_complete = async (
   }
 };
 
+export const rewinding_set_make_order_complete = async (
+  data: rewinding_set_make_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'rewinding/orders/makeItComplete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const rewinding_delete_order = async (
+  data: rewinding_delete_order_body,
+) => {
+  try {
+    const response = await instance.post(
+      'rewinding/orders/rewindingOrderHistoryDelete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const stitching_search_orders = async (data : stitching_search_order_body) => {
+  try {
+    const response = await instance.post(
+      '/stitching/orders/searchOrder',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const stitching_pending_orders = async () => {
   try {
     const response = await instance.post('stitching/orders/getOrdersByStatus', {
@@ -305,7 +457,7 @@ export const stitching_order_history = async (
 ) => {
   try {
     const response = await instance.post(
-      'stitching/orders/getOrderByStitchingId',
+      'stitching/orders/getOrderByStitchingOrderId',
       data,
     );
     return response;
@@ -320,6 +472,49 @@ export const stitching_set_order_complete = async (
   try {
     const response = await instance.post(
       'stitching/orders/setOrderCompleted',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const stitching_set_make_order_complete = async (
+  data: stitching_set_make_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'stitching/orders/makeItComplete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const stitching_delete_order = async (
+  data: stitching_delete_order_body,
+) => {
+  try {
+    const response = await instance.post(
+      'stitching/orders/stitchingOrderHistoryDelete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+export const packing_search_orders = async (data : packing_search_order_body) => {
+  try {
+    const response = await instance.post(
+      '/packing/orders/searchOrder',
       data,
     );
     return response;
@@ -355,7 +550,7 @@ export const packing_order_history = async (
 ) => {
   try {
     const response = await instance.post(
-      'rewinding/orders/getOrderByRewindingOrderId',
+      'packing/orders/getOrderByPackingOrderId',
       data,
     );
     return response;
@@ -377,6 +572,35 @@ export const packing_set_order_complete = async (
     throw error;
   }
 };
+
+export const packing_set_make_order_complete = async (
+  data: packing_set_make_order_complete_body,
+) => {
+  try {
+    const response = await instance.post(
+      'packing/orders/makeItComplete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const packing_delete_order = async (
+  data: packing_delete_order_body,
+) => {
+  try {
+    const response = await instance.post(
+      'packing/orders/packingOrderHistoryDelete',
+      data,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const signout = async () => {
   try {

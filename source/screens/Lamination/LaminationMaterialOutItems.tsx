@@ -3,6 +3,7 @@ import React, {FC, memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
+import DeleteButton from '../../components/styles/DeleteButton';
 
 export type LaminationMaterialOutItemType = {
   id: number | string;
@@ -31,9 +32,15 @@ const LaminationMaterialOutItems: FC<LaminationMaterialOutItemsProps> = ({
 
   return (
     <View style={styles.item}>
-      <Font500 style={styles.date}>
-        {moment(date)?.format('DD/MM/YYYY')}
-      </Font500>
+     <View style={styles.delContainer}>
+          {/* <Font500 style={styles.date}>
+            {moment(date)?.format('DD/MM/YYYY')}
+          </Font500> */}
+          <Font500 style={styles.date}>
+            {date}
+          </Font500>
+          <DeleteButton />
+          </View>
       <View style={styles.line} />
       <View style={styles.mainContainer}>
         <View style={styles.container}>
@@ -98,4 +105,10 @@ const styles = StyleSheet.create({
   },
   label: {fontSize: 14, color: colors.color_777777},
   value: {fontSize: 14, color: colors.color_0B2624},
+  delContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 2,
+    alignItems: "center"
+  },
 });

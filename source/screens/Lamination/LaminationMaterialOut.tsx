@@ -139,13 +139,24 @@ const LaminationMaterialOut = () => {
       } = await get_material_sub_categories_listing({
         parent_category_id: selectedMaterialTypes?.value,
       });
+
+      // setListOfSubCategory(
+      //   response?.data?.data?.map(
+      //     (ele: {id: number | string; sub_cat_name: string}) => {
+      //       return {title: ele?.sub_cat_name, value: ele?.id?.toString()};
+      //     },
+      //   ),
+      // );
       setListOfSubCategory(
-        response?.data?.data?.map(
-          (ele: {id: number | string; sub_cat_name: string}) => {
+        response?.data?.data
+          ?.filter((ele: {sub_cat_name: string}) => 
+            ['Paper Reel', 'Lamination Film', 'Gum'].includes(ele.sub_cat_name)
+          )
+          .map((ele: {id: number | string; sub_cat_name: string}) => {
             return {title: ele?.sub_cat_name, value: ele?.id?.toString()};
-          },
-        ),
+          })
       );
+      
       setLoader(false);
     } catch (err: any) {
       setLoader(false);
@@ -260,9 +271,9 @@ const LaminationMaterialOut = () => {
   );
 
   const onMakeItCompleteHandler = useCallback(async () => {
-    if (checkInput(machine?.current?.get()?.value, 'Select Machine')) {
-      return;
-    }
+    // if (checkInput(machine?.current?.get()?.value, 'Select Machine')) {
+    //   return;
+    // }
     if (
       checkInput(materialType?.current?.get()?.value, 'Select Material Type')
     ) {
@@ -291,7 +302,8 @@ const LaminationMaterialOut = () => {
 
     let body: material_out_body = {
       date: date?.current?.get(),
-      machine: machine?.current?.get()?.value,
+      //machine: machine?.current?.get()?.value,
+      machine:"",
       material_category_type: materialType?.current?.get()?.value,
       material_sub_category: subCategory?.current?.get()?.value,
       material_name: materialName?.current?.get()?.value,
@@ -306,7 +318,7 @@ const LaminationMaterialOut = () => {
 
     try {
       const response: {data: material_out_response} = await material_out(body);
-      ShowToast(response?.data?.message);
+     ShowToast(response?.data?.message);
       unit_1?.current?.set('');
       unit_2?.current?.set('');
       refreshList();
@@ -314,10 +326,14 @@ const LaminationMaterialOut = () => {
     } catch (err: any) {
       setLoader(false);
       error(err);
-    } finally {
+       } finally {
       setLoader(false);
     }
   }, [user, unit1Label, unit2Label, refreshList]);
+
+
+
+//console.log("Maerial type",listOfMaterialTypes)
 
   return (
     <View style={styles.root}>
@@ -333,12 +349,12 @@ const LaminationMaterialOut = () => {
             rightIconStyle={styles.dateIcon}
             default_value={moment().format('DD-MM-YYYY')}
           />
-          <DropDown
+          {/* <DropDown
             data={machineListing}
             ref={machine}
             label="Machine"
             rootStyle={styles.input}
-          />
+          /> */}
           <DropDown
             ref={materialType}
             label="Material Type"
@@ -359,6 +375,7 @@ const LaminationMaterialOut = () => {
             rootStyle={styles.input}
             data={listOfMaterialName}
             onSelect={setSelectedMaterialName}
+            search={true}  
           />
           {(unit1Label && unit1Label?.toString().length !== 0) ||
           (unit2Label && unit2Label?.toString().length !== 0) ? (
@@ -408,7 +425,7 @@ const LaminationMaterialOut = () => {
             onPress={onMakeItCompleteHandler}
             buttonTextStyle={styles.buttonText}
             buttonContainerStyle={styles.button}>
-            {'Make it Complete'}
+            {'Save'}
           </Button>
         </View>
         <FlatList

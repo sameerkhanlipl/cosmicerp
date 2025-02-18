@@ -1,4 +1,9 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import CommonHeader from '../../components/styles/CommonHeader';
@@ -32,6 +37,8 @@ const RewindingOrderHistory = () => {
 
   const ItemData = route?.params?.data;
 
+  const focus = useIsFocused();
+
   const getList = useCallback(async () => {
     const body: rewinding_order_history_body = {
       rewinding_production_order_id: ItemData?.rewinding_production_order_id,
@@ -52,8 +59,10 @@ const RewindingOrderHistory = () => {
   }, [ItemData, setLoader]);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     const body: rewinding_order_history_body = {

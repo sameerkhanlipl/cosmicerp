@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {rewinding_complete_orders} from '../../api/apis';
@@ -18,12 +18,15 @@ const RewindingCompleteOrders = () => {
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
+  const focus = useIsFocused();
+
   const getList = useCallback(async () => {
     try {
       setLoader(true);
       const response: {data: rewinding_order_listing_response} =
         await rewinding_complete_orders();
       setList(response?.data?.data);
+   
       setLoader(false);
     } catch (err: any) {
       error(err);
@@ -34,8 +37,10 @@ const RewindingCompleteOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
@@ -43,6 +48,7 @@ const RewindingCompleteOrders = () => {
       const response: {data: rewinding_order_listing_response} =
         await rewinding_complete_orders();
       setList(response?.data?.data);
+     
       setRefresh(false);
     } catch (err: any) {
       error(err);
@@ -52,9 +58,17 @@ const RewindingCompleteOrders = () => {
     }
   }, []);
 
+  // const onNavigateRewindingOrderHistory = useCallback(
+  //   (data: RewindingItemType) => {
+  //     navigate('RewindingOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
+
   const onNavigateRewindingOrderHistory = useCallback(
     (data: RewindingItemType) => {
-      navigate('RewindingOrderHistory', {data: data});
+      navigate('RewindingAddCompletedOrder', {data: data});
     },
     [navigate],
   );

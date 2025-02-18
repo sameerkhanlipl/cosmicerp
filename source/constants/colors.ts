@@ -28,6 +28,7 @@ export enum colors {
   color_EBECEC = '#EBECEC',
   color_E8DBDF = '#E8DBDF',
   color_42958F = '#42958F',
+  red="#FF0000",
 }
 
 export const setOpacity = (rgbaColor: ColorValue, opacity: number) => {

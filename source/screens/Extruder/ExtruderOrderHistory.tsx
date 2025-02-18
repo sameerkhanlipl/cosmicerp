@@ -1,4 +1,9 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {extruder_order_history} from '../../api/apis';
@@ -26,6 +31,8 @@ const ExtruderOrderHistory = () => {
 
   const route = useRoute<ExtruderOrderHistoryRouteProps>();
 
+  const focus = useIsFocused();
+
   const [list, setList] = useState<ExtruderOrderHistoryItemType[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
@@ -33,6 +40,7 @@ const ExtruderOrderHistory = () => {
   const ItemData = route?.params?.data;
 
   const getList = useCallback(async () => {
+   
     const body: extruder_order_history_body = {
       extruder_production_order_id: ItemData?.extruder_production_order_id,
     };
@@ -41,6 +49,7 @@ const ExtruderOrderHistory = () => {
       setLoader(true);
       const response: {data: extruder_order_history_listing_response} =
         await extruder_order_history(body);
+     
       setList(response?.data?.data);
       setLoader(false);
     } catch (err: any) {
@@ -52,9 +61,10 @@ const ExtruderOrderHistory = () => {
   }, [ItemData, setLoader]);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
-
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
   const refreshList = useCallback(async () => {
     const body: extruder_order_history_body = {
       extruder_production_order_id: ItemData?.extruder_production_order_id,
@@ -65,6 +75,7 @@ const ExtruderOrderHistory = () => {
       const response: {data: extruder_order_history_listing_response} =
         await extruder_order_history(body);
       setList(response?.data?.data);
+
       setRefresh(false);
     } catch (err: any) {
       setRefresh(false);

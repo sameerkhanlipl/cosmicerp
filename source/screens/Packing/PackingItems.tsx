@@ -4,7 +4,7 @@ import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {images} from '../../assets/images';
 import {Font400, Font500, Font700} from '../../components/fonts/Fonts';
 import {colors} from '../../constants/colors';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 export type PackingItemType = {
   packing_production_order_id: number;
   customer_id: string;
@@ -27,6 +27,18 @@ export type PackingItemType = {
   alias_sku: string;
   material_name: string | null;
   status: string;
+  rolls_in_1_bdl: string;
+  sticching_packing_type: string;
+  packing_sticker: string;
+  packing_carton: string;
+  packing_bhart: string;
+  packing_bharti:string;
+  serial_number:string;
+  packing_internal_notes:string;
+  outer_name:string;
+  rolls:string;
+  qty_in_bags_per_box :string;
+  sticker_name:string;
 };
 
 type PackingItemsProps = {
@@ -45,6 +57,17 @@ const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
     pending_bundle_qty,
     pipe_size,
     material_name,
+    rolls_in_1_bdl,
+    sticching_packing_type,
+    packing_sticker,
+    packing_carton,
+    packing_bhart,
+    packing_bharti,
+    serial_number,
+    rolls,
+    qty_in_bags_per_box ,
+    sticker_name,
+    production_qty
   } = data;
 
   const onPressHandler = useCallback(() => {
@@ -54,7 +77,7 @@ const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
-        <Font400 style={styles.order_id}>{order_id}</Font400>
+        <Font400 style={styles.order_id}>{serial_number}</Font400>
         <Image
           style={styles.goIcon}
           source={images.right_arrow}
@@ -75,7 +98,7 @@ const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Bundles : '}</Font500>
-            <Font700 style={styles.value}>{pending_bundle_qty}</Font700>
+            <Font700 style={styles.value}>{production_qty}</Font700>
           </View>
         </View>
         <View style={styles.line} />
@@ -96,7 +119,7 @@ const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
             <Font700 style={styles.value}>{length}</Font700>
           </View>
           <View style={styles.detail}>
-            <Font500 style={styles.label}>{'pipe : '}</Font500>
+            <Font500 style={styles.label}>{'Pipe : '}</Font500>
             <Font700 style={styles.value}>{pipe_size}</Font700>
           </View>
         </View>
@@ -104,7 +127,7 @@ const PackingItems: FC<PackingItemsProps> = ({data, onPress}) => {
         <View style={styles.subContainer}>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Packing Marital Name : '}</Font500>
-            <Font700 style={styles.value}>{material_name}</Font700>
+            <Font700 style={[styles.value,{width:wp("40%")}]}>{material_name}</Font700>
           </View>
         </View>
       </View>

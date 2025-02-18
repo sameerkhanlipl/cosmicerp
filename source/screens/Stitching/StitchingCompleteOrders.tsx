@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {stitching_order_listing_response} from '../../api/ResponseTypes';
@@ -18,12 +18,15 @@ const StitchingCompleteOrders = () => {
 
   const {navigate} = useNavigation<AppNavigationProp>();
 
+  const focus = useIsFocused();
+
   const getList = useCallback(async () => {
     try {
       setLoader(true);
       const response: {data: stitching_order_listing_response} =
         await stitching_complete_orders();
       setList(response?.data?.data);
+   
       setLoader(false);
     } catch (err: any) {
       error(err);
@@ -34,8 +37,10 @@ const StitchingCompleteOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
@@ -52,12 +57,20 @@ const StitchingCompleteOrders = () => {
     }
   }, []);
 
-  const onNavigateStitchingOrderHistory = useCallback(
-    (data: StitchingItemType) => {
-      navigate('StitchingOrderHistory', {data: data});
-    },
-    [navigate],
-  );
+  // const onNavigateStitchingOrderHistory = useCallback(
+  //   (data: StitchingItemType) => {
+  //     navigate('StitchingOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
+
+    const onNavigateStitchingOrderHistory = useCallback(
+      (data: StitchingItemType) => {
+        navigate('StitchingAddCompletedOrder', {data: data});
+      },
+      [navigate],
+    );
 
   const renderItemHandler = useCallback(
     ({item}: {item: StitchingItemType}) => {

@@ -11,11 +11,11 @@ import DatePicker, {DatePickerProps} from 'react-native-date-picker';
 import {colors} from '../../constants/colors';
 import {Font800} from '../fonts/Fonts';
 import Button from '../styles/Button';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 type DatePickerModelProps = {
-  onPress: () => void;
-  config: DatePickerProps;
-  title?: string;
+  onConfirm: () => void; // Renamed from onPress for clarity
+  onClose: () => void;   // Renamed from close to avoid conflicts
 };
 
 export type DatePickerModelRef = {
@@ -25,11 +25,11 @@ export type DatePickerModelRef = {
 };
 
 const DatePickerModel = forwardRef<DatePickerModelRef, DatePickerModelProps>(
-  ({onPress, config, title}, ref) => {
-    const [time, setTime] = useState<Date>(new Date('12-12-2012'));
+  ({onConfirm, onClose}, ref) => {
+    const [time, setTime] = useState<Date>(new Date()); // More reliable date initialization
     const [visible, setVisible] = useState<boolean>(false);
 
-    const configWithDate = {...config, date: time};
+    const configWithDate: DatePickerProps = { date: time };
 
     useImperativeHandle(
       ref,
@@ -38,7 +38,7 @@ const DatePickerModel = forwardRef<DatePickerModelRef, DatePickerModelProps>(
           open: (new_date: string | Date | undefined | null) => {
             setVisible(true);
             if (new_date) {
-              setTime(new Date(moment(new_date, 'dd-mm-yyyy')?.toDate()));
+              setTime(moment(new_date, 'DD-MM-YYYY').toDate()); // Corrected date format
             }
           },
           close: () => setVisible(false),
@@ -48,9 +48,10 @@ const DatePickerModel = forwardRef<DatePickerModelRef, DatePickerModelProps>(
       [time],
     );
 
-    const close = useCallback(() => {
+    const handleClose = useCallback(() => {
       setVisible(false);
-    }, []);
+      onClose(); // Call the onClose prop
+    }, [onClose]);
 
     return (
       <Modal
@@ -61,25 +62,28 @@ const DatePickerModel = forwardRef<DatePickerModelRef, DatePickerModelProps>(
         <View style={styles.model}>
           <View style={styles.content}>
             <View style={styles.titleContainer}>
-              <Font800 style={styles.title}>{title}</Font800>
+              <Font800 style={styles.title}>{"Select Date"}</Font800>
             </View>
             <View style={styles.timeContainer}>
               <DatePicker
                 mode="date"
                 theme={'light'}
                 onDateChange={setTime}
+                minimumDate={new Date(2000, 0, 1)}
+                maximumDate={new Date()}
                 {...configWithDate}
               />
             </View>
+            <View style={styles.line} />
             <View style={styles.buttonContainer}>
               <Button
-                onPress={close}
+                onPress={handleClose}
                 buttonContainerStyle={styles.cancelButton}
                 buttonTextStyle={styles.cancelButtonText}>
                 {'Cancel'}
               </Button>
               <Button
-                onPress={onPress}
+                onPress={onConfirm}
                 buttonContainerStyle={styles.confirmButton}>
                 {'Confirm'}
               </Button>
@@ -102,10 +106,10 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: colors.white,
-    padding: 16,
-    paddingVertical: 24,
-    borderRadius: 10,
-    width: '89%',
+    padding: wp("4%"),
+    paddingVertical: hp("2%"),
+    borderRadius: wp("2%"),
+    width: wp("90%"),
   },
   titleContainer: {
     marginBottom: 10,
@@ -113,12 +117,9 @@ const styles = StyleSheet.create({
     borderBlockColor: colors.lightGray,
   },
   title: {
-    fontSize: 22,
+    fontSize: wp("4.5%"),
     marginBottom: 5,
     color: colors.color_22534F,
-  },
-  subTitle: {
-    marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -140,19 +141,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginLeft: 10,
   },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   timeContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: {
-    backgroundColor: colors.black,
-  },
-  buttonText: {
-    color: colors.white,
+  line: {
+    marginVertical: hp("1%"),
+    height: 1,
+    backgroundColor: colors.color_E8DBDF,
   },
 });

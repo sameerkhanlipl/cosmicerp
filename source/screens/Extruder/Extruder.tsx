@@ -39,9 +39,17 @@ const Extruder = () => {
     navigate('ExtruderMaterialOut');
   }, [navigate]);
 
+   const onNavigateSearchOrders = useCallback(() => {
+      navigate("ExtruderSearchOrders");
+    }, [navigate]);
+
   return (
     <View style={styles.root}>
-      <Header title="Extruders Orders" />
+      <Header
+       title="Extruders Orders"
+       onSearchIconPress={onNavigateSearchOrders}
+       
+       />
       <View style={styles.tabContainer}>
         <Animated.View
           style={[
@@ -67,7 +75,7 @@ const Extruder = () => {
         <Pressable style={styles.tab} onPress={() => switchTab(1)}>
           <Text
             style={[styles.tabLabel, activeTab === 1 && styles.activeLabel]}>
-            {'Complete Orders'}
+            {'Completed Orders'}
           </Text>
         </Pressable>
       </View>

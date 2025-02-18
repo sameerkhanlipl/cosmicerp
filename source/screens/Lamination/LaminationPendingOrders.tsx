@@ -1,13 +1,13 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {memo, useCallback, useEffect, useState} from 'react';
-import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
-import {lamination_pending_orders} from '../../api/apis';
-import {lamination_order_listing_response} from '../../api/ResponseTypes';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import React, { memo, useCallback, useEffect, useState } from 'react';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { lamination_pending_orders } from '../../api/apis';
+import { lamination_order_listing_response } from '../../api/ResponseTypes';
 import EmptyList from '../../components/styles/EmptyList';
-import {AppNavigationProp} from '../../stacks/StackTypes';
-import {error} from '../../utils/ErrorHandler';
-import {colors} from '../../constants/colors';
-import LaminationItems, {LaminationItemType} from './LaminationItems';
+import { AppNavigationProp } from '../../stacks/StackTypes';
+import { error } from '../../utils/ErrorHandler';
+import { colors } from '../../constants/colors';
+import LaminationItems, { LaminationItemType } from './LaminationItems';
 
 const ItemSeparatorComponent = () => <View style={styles.itemSeparator} />;
 
@@ -16,17 +16,19 @@ const LaminationPendingOrders = () => {
   const [loader, setLoader] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  const {navigate} = useNavigation<AppNavigationProp>();
+  const { navigate } = useNavigation<AppNavigationProp>();
+
+  const focus = useIsFocused();
 
   const getList = useCallback(async () => {
     try {
       setLoader(true);
-      const response: {data: lamination_order_listing_response} =
+      const response: { data: lamination_order_listing_response } =
         await lamination_pending_orders();
+       
       setList(response?.data?.data);
-
-      console.log('response?.data?.data', response?.data?.data);
-      setLoader(false);
+  
+       setLoader(false);
     } catch (err: any) {
       error(err);
       setLoader(false);
@@ -36,13 +38,15 @@ const LaminationPendingOrders = () => {
   }, []);
 
   useEffect(() => {
-    getList();
-  }, [getList]);
+    if (focus) {
+      getList();
+    }
+  }, [getList, focus]);
 
   const refreshList = useCallback(async () => {
     try {
       setRefresh(true);
-      const response: {data: lamination_order_listing_response} =
+      const response: { data: lamination_order_listing_response } =
         await lamination_pending_orders();
       setList(response?.data?.data);
       setRefresh(false);
@@ -54,15 +58,22 @@ const LaminationPendingOrders = () => {
     }
   }, []);
 
+  // const onNavigateLaminationOrderHistory = useCallback(
+  //   (data: LaminationItemType) => {
+  //     navigate('LaminationOrderHistory', {data: data});
+  //   },
+  //   [navigate],
+  // );
+
   const onNavigateLaminationOrderHistory = useCallback(
     (data: LaminationItemType) => {
-      navigate('LaminationOrderHistory', {data: data});
+      navigate('LaminationAddCompletedOrder', { data: data });
     },
     [navigate],
   );
 
   const renderItemHandler = useCallback(
-    ({item}: {item: LaminationItemType}) => {
+    ({ item }: { item: LaminationItemType }) => {
       return (
         <LaminationItems
           onPress={onNavigateLaminationOrderHistory}
@@ -72,6 +83,8 @@ const LaminationPendingOrders = () => {
     },
     [onNavigateLaminationOrderHistory],
   );
+
+
 
   return (
     <View style={styles.root}>
@@ -100,7 +113,7 @@ const LaminationPendingOrders = () => {
 export default memo(LaminationPendingOrders);
 
 const styles = StyleSheet.create({
-  root: {flex: 1, paddingTop: 4},
+  root: { flex: 1, paddingTop: 4 },
   list: {
     flexGrow: 1,
     padding: 25,

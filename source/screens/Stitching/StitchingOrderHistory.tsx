@@ -34,7 +34,7 @@ const StitchingOrderHistory = () => {
 
   const getList = useCallback(async () => {
     const body: stitching_order_history_body = {
-      order_id: ItemData?.order_id,
+      stitching_production_order_id: ItemData?.stitching_production_order_id,
     };
 
     try {
@@ -57,7 +57,7 @@ const StitchingOrderHistory = () => {
 
   const refreshList = useCallback(async () => {
     const body: stitching_order_history_body = {
-      order_id: ItemData?.order_id,
+      stitching_production_order_id: ItemData?.stitching_production_order_id,
     };
 
     try {

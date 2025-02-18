@@ -27,6 +27,11 @@ export type ExtrudersItemType = {
   machine?: string;
   status?: string;
   total_order_qty?: string;
+  serial_number:string;
+  extrusion_internal_notes:string;
+  recipe_name:string;
+  extrusion_size:string;
+  extrusion_qty_of_packing:string;
 };
 
 type ExtrudersItemsProps = {
@@ -43,16 +48,23 @@ const ExtrudersItems: FC<ExtrudersItemsProps> = ({data, onPress}) => {
     length,
     width,
     pending_bundle_qty,
+    gage,
+    serial_number,
+    extrusion_internal_notes,
+    pipe_size,
+    extrusion_size,
+    extrusion_qty_of_packing,
+    recipe_name
   } = data;
 
-  const onPressHandler = useCallback(() => {
+    const onPressHandler = useCallback(() => {
     onPress(data);
   }, [onPress, data]);
 
   return (
     <Pressable onPress={onPressHandler} style={styles.item}>
       <View style={styles.header}>
-        <Font400 style={styles.order_id}>{order_id}</Font400>
+        <Font400 style={styles.order_id}>{serial_number}</Font400>
         <Image
           style={styles.goIcon}
           source={images.right_arrow}
@@ -73,7 +85,8 @@ const ExtrudersItems: FC<ExtrudersItemsProps> = ({data, onPress}) => {
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Size : '}</Font500>
-            <Font700 style={styles.value}>{length + ' X ' + width}</Font700>
+            {/* <Font700 style={styles.value}>{length + ' X ' + width}</Font700> */}
+            <Font700 style={styles.value}>{extrusion_size + ' X ' + gage}</Font700>
           </View>
         </View>
         <View style={styles.line} />
@@ -84,10 +97,17 @@ const ExtrudersItems: FC<ExtrudersItemsProps> = ({data, onPress}) => {
           </View>
           <View style={styles.detail}>
             <Font500 style={styles.label}>{'Pending : '}</Font500>
-            <Font700 style={styles.value}>{pending_bundle_qty + 'KG'}</Font700>
+            <Font700 style={styles.value}>{pending_bundle_qty + ' KG'}</Font700>
           </View>
         </View>
-      </View>
+        <View style={styles.line} />
+        <View style={styles.subContainer}>
+          <View style={styles.detail}>
+            <Font500 style={styles.label}>{'Recipe Name : '}</Font500>
+            <Font700 style={styles.value}>{recipe_name}</Font700>
+          </View>
+          </View>
+         </View>
     </Pressable>
   );
 };
